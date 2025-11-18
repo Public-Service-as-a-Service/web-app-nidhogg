@@ -5,7 +5,9 @@ import prisma from "../../../../lib/prisma";
 export async function POST(req: NextRequest) {
   const { email, password } = await req.json();
 
-  const user = await prisma.user.findUnique({where: {email: email, password: password}})
+  const user = await prisma.user.findUnique({
+    where: { email: email, password: password },
+  });
 
   if (!user) {
     return new Response("User not found.", { status: 401 });
