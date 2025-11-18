@@ -40,8 +40,8 @@ const Login = () => {
         setError(
           `Inloggningen misslyckades. ${
             error?.response?.data === "Incorrect password"
-              ? "Felaktigt lösenord"
-              : "Kontrollera användarnamn och lösenord"
+              ? "Felaktigt lösenord."
+              : "Kontrollera användarnamn och lösenord."
           }`
         );
       },
@@ -49,11 +49,11 @@ const Login = () => {
   };
 
   return isPending ? (
-    <CircularProgress color='secondary' />
+    <CircularProgress color="secondary" />
   ) : (
     <Box component={"main"} sx={styles.loginMain}>
       <Paper sx={styles.loginMainPaper}>
-        <Typography variant='h1' sx={{ fontSize: "1.5rem" }}>
+        <Typography variant="h1" sx={{ fontSize: "1.5rem" }}>
           Welcome to App
         </Typography>
         <form
@@ -66,27 +66,27 @@ const Login = () => {
           }}
         >
           {error && (
-            <Alert sx={{ border: "1px solid" }} severity='error'>
+            <Alert sx={{ border: "1px solid" }} severity="error">
               {error}
             </Alert>
           )}
           <TextField
-            type='email'
-            variant='outlined'
-            placeholder='Email'
+            type="email"
+            variant="outlined"
+            placeholder="Email"
             onChange={(e) =>
               setCredentials({ ...credentials, email: e.target.value })
             }
           />
           <TextField
-            type='password'
-            variant='outlined'
-            placeholder='Password'
+            type="password"
+            variant="outlined"
+            placeholder="Password"
             onChange={(e) =>
               setCredentials({ ...credentials, password: e.target.value })
             }
           />
-          <Button type='submit' variant='contained'>
+          <Button type="submit" variant="contained">
             Log in
           </Button>
         </form>

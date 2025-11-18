@@ -5,15 +5,11 @@ import { Credentials } from "../page";
 import { SESSION_STORAGE } from "../constants";
 
 export const useLogin = () => {
-  return useMutation<any, AxiosError, any>({
+  return useMutation<unknown, AxiosError, Credentials>({
     mutationFn: async (credentials: Credentials) => {
-      const response = await axios.post(
-        "http://localhost:8080/auth/login",
-        credentials,
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axios.post("/api/login", credentials, {
+        withCredentials: true,
+      });
       if (response) {
         sessionStorage.setItem(SESSION_STORAGE.sessionActive, "true");
       }

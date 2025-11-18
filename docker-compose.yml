@@ -5,8 +5,8 @@ services:
     image: mysql:8
     restart: always
     environment:
-      MYSQL_DATABASE: mydb
-      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: nidhogg-db
+      MYSQL_ROOT_PASSWORD: password
     ports:
       - "3306:3306"
     volumes:
