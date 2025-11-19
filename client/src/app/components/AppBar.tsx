@@ -17,12 +17,14 @@ import { PATHS } from "../constants";
 import { useState } from "react";
 import Link from "next/link";
 import { isProtectedPage } from "@/middleware";
+import { useTranslations } from "next-intl";
 
 const AppBarHeader = () => {
   const router = useRouter();
   const pathname = usePathname();
   const { mutate, isPending } = useLogout();
   const [open, setOpen] = useState(false);
+  const t = useTranslations("AppBar");
 
   const handleLogout = () => {
     mutate(undefined, {
@@ -57,7 +59,7 @@ const AppBarHeader = () => {
             App
           </Typography>
           <Button color='inherit' variant='outlined' onClick={handleLogout}>
-            {isPending ? "Logging out.." : "Log out"}
+            {isPending ? t("loggingOut") : t("logOut")}
           </Button>
         </Toolbar>
         <Drawer open={open} onClose={toggleDrawer(false)}>

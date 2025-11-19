@@ -13,6 +13,7 @@ import { useState } from "react";
 import { useLogin } from "./services/useLogin";
 import { styles } from "./styles";
 import { AxiosError } from "axios";
+import { useTranslations } from "next-intl";
 
 export type Credentials = {
   email: string;
@@ -27,6 +28,7 @@ const Login = () => {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const { mutate, isPending } = useLogin();
+  const t = useTranslations("LogIn");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,11 +39,12 @@ const Login = () => {
         router.push("/dashboard");
       },
       onError: (error: AxiosError) => {
+        console.log(error);
         setError(
           `Inloggningen misslyckades. ${
             error?.response?.data === "Incorrect password"
-              ? "Felaktigt lösenord."
-              : "Kontrollera användarnamn och lösenord."
+              ? t("errors.wrongPassword")
+              : t("errors.wrongCredentials")
           }`
         );
       },
@@ -54,7 +57,7 @@ const Login = () => {
     <Box component={"main"} sx={styles.loginMain}>
       <Paper sx={styles.loginMainPaper}>
         <Typography variant="h1" sx={{ fontSize: "1.5rem" }}>
-          Welcome to App
+          {t("welcomeMessage")}
         </Typography>
         <form
           onSubmit={handleLogin}
@@ -73,7 +76,7 @@ const Login = () => {
           <TextField
             type="email"
             variant="outlined"
-            placeholder="Email"
+            placeholder={t("emailPlaceholder")}
             onChange={(e) =>
               setCredentials({ ...credentials, email: e.target.value })
             }
@@ -81,13 +84,13 @@ const Login = () => {
           <TextField
             type="password"
             variant="outlined"
-            placeholder="Password"
+            placeholder={t("passwordPlaceholder")}
             onChange={(e) =>
               setCredentials({ ...credentials, password: e.target.value })
             }
           />
           <Button type="submit" variant="contained">
-            Log in
+            {t("logInButton")}
           </Button>
         </form>
       </Paper>
