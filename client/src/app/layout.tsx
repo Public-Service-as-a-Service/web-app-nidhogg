@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@mui/material/styles";
 import AppBarHeader from "./components/AppBar";
 import Providers from "./providers";
+import { NextIntlClientProvider } from "next-intl";
 
 export const metadata: Metadata = {
   title: "Nidhogg",
@@ -19,10 +20,12 @@ export default function RootLayout({
     <html>
       <body>
         <Providers>
-          <ThemeProvider theme={theme}>
-            <AppBarHeader />
-            {children}
-          </ThemeProvider>
+          <NextIntlClientProvider>
+            <ThemeProvider theme={theme}>
+              <AppBarHeader />
+              {children}
+            </ThemeProvider>
+          </NextIntlClientProvider>
         </Providers>
       </body>
     </html>

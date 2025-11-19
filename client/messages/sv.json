@@ -1,0 +1,20 @@
+{
+  "Dashboard": {
+    "title": "Dashboard",
+    "welcomeMessage": "Rendera saker här!"
+  },
+  "AppBar": {
+    "signOut": "Logga ut",
+    "signingOut": "Loggar ut..."
+  },
+  "SignIn": {
+    "welcomeMessage": "Välkommen",
+    "signInButton": "Logga in",
+    "emailPlaceholder": "E-postadress",
+    "passwordPlaceholder": "Lösenord",
+    "errors": {
+      "wrongPassword": "Felaktigt lösenord.",
+      "wrongCredentials": "Kontrollera användarnamn och lösenord."
+    }
+  }
+}
