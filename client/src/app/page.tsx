@@ -28,7 +28,7 @@ const Login = () => {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const { mutate, isPending } = useLogin();
-  const t = useTranslations("SignIn");
+  const t = useTranslations("LogIn");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -90,7 +90,7 @@ const Login = () => {
             }
           />
           <Button type="submit" variant="contained">
-            {t("signInButton")}
+            {t("logInButton")}
           </Button>
         </form>
       </Paper>

@@ -4,12 +4,12 @@
     "welcomeMessage": "Rendera saker här!"
   },
   "AppBar": {
-    "signOut": "Logga ut",
-    "signingOut": "Loggar ut..."
+    "logOut": "Logga ut",
+    "loggingOut": "Loggar ut..."
   },
-  "SignIn": {
+  "LogIn": {
     "welcomeMessage": "Välkommen",
-    "signInButton": "Logga in",
+    "logInButton": "Logga in",
     "emailPlaceholder": "E-postadress",
     "passwordPlaceholder": "Lösenord",
     "errors": {

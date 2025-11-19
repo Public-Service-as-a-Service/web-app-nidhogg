@@ -59,7 +59,7 @@ const AppBarHeader = () => {
             App
           </Typography>
           <Button color='inherit' variant='outlined' onClick={handleLogout}>
-            {isPending ? t("signingOut") : t("signOut")}
+            {isPending ? t("loggingOut") : t("logOut")}
           </Button>
         </Toolbar>
         <Drawer open={open} onClose={toggleDrawer(false)}>
