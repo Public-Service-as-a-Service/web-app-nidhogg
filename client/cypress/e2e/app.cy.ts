@@ -29,6 +29,9 @@ describe("Login Page", () => {
     cy.intercept("POST", "/api/login", {
       statusCode: 200,
       body: { token: "logged-in" },
+      headers: {
+        "set-cookie": "token=logged-in; Path=/; HttpOnly",
+      },
     }).as("loginRequest");
 
     cy.get('input[type="email"]').type("test@example.com");
@@ -36,7 +39,6 @@ describe("Login Page", () => {
     cy.get('button[type="submit"]').click();
 
     cy.wait("@loginRequest");
-    cy.setCookie("token", "logged-in");
     cy.location("pathname").should("eq", "/dashboard");
   });
 });
@@ -46,21 +48,26 @@ describe("Sign Out", () => {
     cy.intercept("POST", "/api/logout", {
       statusCode: 200,
       body: { success: true },
-    }).as("logout");
-
-    cy.visit("http://localhost:3000");
+      headers: {
+        "set-cookie": "token=; Path=/; HttpOnly",
+      },
+    }).as("logoutRequest");
 
     cy.intercept("POST", "/api/login", {
       statusCode: 200,
       body: { token: "logged-in" },
+      headers: {
+        "set-cookie": "token=logged-in; Path=/; HttpOnly",
+      },
     }).as("loginRequest");
+
+    cy.visit("http://localhost:3000");
 
     cy.get('input[type="email"]').type("test@example.com");
     cy.get('input[type="password"]').type("password");
     cy.get('button[type="submit"]').click();
 
     cy.wait("@loginRequest");
-    cy.setCookie("token", "logged-in");
     cy.location("pathname").should("eq", "/dashboard");
   });
 
@@ -71,11 +78,7 @@ describe("Sign Out", () => {
 
   it("signs out successfully", () => {
     cy.contains("button", "Logga ut").click();
-    cy.wait("@logout");
-
-    // cy.clearAllSessionStorage();
-    // cy.clearAllCookies();
-
-    // cy.location("pathname").should("eq", "/");
+    cy.wait("@logoutRequest");
+    cy.location("pathname").should("eq", "/");
   });
 });
