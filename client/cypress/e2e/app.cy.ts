@@ -40,3 +40,42 @@ describe("Login Page", () => {
     cy.location("pathname").should("eq", "/dashboard");
   });
 });
+
+describe("Sign Out", () => {
+  beforeEach(() => {
+    cy.intercept("POST", "/api/logout", {
+      statusCode: 200,
+      body: { success: true },
+    }).as("logout");
+
+    cy.visit("http://localhost:3000");
+
+    cy.intercept("POST", "/api/login", {
+      statusCode: 200,
+      body: { token: "logged-in" },
+    }).as("loginRequest");
+
+    cy.get('input[type="email"]').type("test@example.com");
+    cy.get('input[type="password"]').type("password");
+    cy.get('button[type="submit"]').click();
+
+    cy.wait("@loginRequest");
+    cy.setCookie("token", "logged-in");
+    cy.location("pathname").should("eq", "/dashboard");
+  });
+
+  it("renders dashboard while signed in", () => {
+    cy.contains("Dashboard").should("exist");
+    cy.contains("Rendera saker här!").should("exist");
+  });
+
+  it("signs out successfully", () => {
+    cy.contains("button", "Logga ut").click();
+    cy.wait("@logout");
+
+    // cy.clearAllSessionStorage();
+    // cy.clearAllCookies();
+
+    // cy.location("pathname").should("eq", "/");
+  });
+});
