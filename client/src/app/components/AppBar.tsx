@@ -58,7 +58,7 @@ const AppBarHeader = () => {
           <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
             App
           </Typography>
-          <Button color='inherit' variant='outlined' onClick={handleLogout}>
+          <Button color='inherit' variant='outlined' onClick={handleLogout} data-cy="logout-button">
             {isPending ? t("loggingOut") : t("logOut")}
           </Button>
         </Toolbar>

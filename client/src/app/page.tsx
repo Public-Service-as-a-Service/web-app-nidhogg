@@ -54,7 +54,7 @@ const Login = () => {
   return isPending ? (
     <CircularProgress color="secondary" />
   ) : (
-    <Box component={"main"} sx={styles.loginMain}>
+    <Box component={"main"} sx={styles.loginMain} data-cy="login">
       <Paper sx={styles.loginMainPaper}>
         <Typography variant="h1" sx={{ fontSize: "1.5rem" }}>
           {t("welcomeMessage")}
