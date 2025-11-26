@@ -1,0 +1,44 @@
+.tree-view-container {
+  /* min-height: 100vh; */
+  width: 300px;
+  background-color: #2e2e2e;
+  padding: 20px;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  margin-top: 20px;
+}
+
+.menu-list-container {
+  list-style: none;
+  padding-left: 20px;
+  margin: 5px 0;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 8px 0;
+  border-bottom-style: solid;
+  border-color: #ffffff;
+  border-width: 1px;
+}
+
+.menu-item p {
+  margin: 0;
+}
+
+.toggle-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 14px;
+}
+
+.toggle-icon:hover {
+  background-color: #005f82;
+}
