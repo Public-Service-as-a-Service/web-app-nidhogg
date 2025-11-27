@@ -1,5 +1,4 @@
 .tree-view-container {
-  /* min-height: 100vh; */
   width: 300px;
   background-color: #2e2e2e;
   padding: 20px;
@@ -27,6 +26,17 @@
 
 .menu-item p {
   margin: 0;
+}
+
+.menu-item .checkbox {
+  width: 12px;
+  height: 12px;
+  background: red;
+  border-radius: 2px;
+}
+
+.menu-item .checkbox.checked {
+  background: green;
 }
 
 .toggle-icon {
