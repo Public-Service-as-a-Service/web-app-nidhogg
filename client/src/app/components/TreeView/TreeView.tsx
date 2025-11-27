@@ -4,29 +4,30 @@ import menus from "./data";
 import "./styles.css";
 import { TreeMenuItem } from "@/app/interfaces/tree-menu";
 
-type SelectedProps = {
-  name: string;
-};
-
 const TreeView = () => {
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
-  const [selectedItems, setSelectedItems] = useState<SelectedProps[]>([]);
 
   const toggleItem = (item: TreeMenuItem) => {
-    setCheckedItems((prev) => ({
-      ...prev,
-      [item.name]: !prev[item.name],
-    }));
+    setCheckedItems((prev) => {
+      const newState = { ...prev };
 
-    const found = selectedItems.find(({ name }) => name === item.name);
+      newState[item.name] = !prev[item.name];
 
-    let filteredList = { ...selectedItems };
-    filteredList = selectedItems.filter(({ name }) => name !== item.name);
-    
-    setSelectedItems(found ? filteredList : [...selectedItems, { name: item.name }])
+      if (item.children) {
+        item.children.forEach((child) => {
+          newState[child.name] = !prev[child.name];
+        });
+      }
+
+      return newState;
+    });
   };
 
-  console.log(selectedItems);
+  const selectedItems = Object.keys(checkedItems).filter(
+    (key) => checkedItems[key]
+  );
+
+  console.log(checkedItems);
 
   return (
     <div className="tree-view-container">
@@ -37,8 +38,8 @@ const TreeView = () => {
       />
       <div>
         Valda mottagare:
-        {selectedItems.map((item) => (
-          <p key={item.name}>{item.name}</p>
+        {selectedItems.map((name) => (
+          <p key={name}>{name}</p>
         ))}
       </div>
     </div>
