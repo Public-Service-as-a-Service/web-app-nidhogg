@@ -11,11 +11,14 @@ const TreeView = () => {
     setCheckedItems((prev) => {
       const newState = { ...prev };
 
-      newState[item.name] = !prev[item.name];
+      if (!item.children) {
+        newState[item.name] = !prev[item.name];
+      } else {
+        const newValue = !prev[item.name];
+        newState[item.name] = newValue;
 
-      if (item.children) {
         item.children.forEach((child) => {
-          newState[child.name] = !prev[child.name];
+          newState[child.name] = newValue;
         });
       }
 
@@ -27,7 +30,7 @@ const TreeView = () => {
     (key) => checkedItems[key]
   );
 
-  console.log(checkedItems);
+  // console.log(checkedItems);
 
   return (
     <div className="tree-view-container">
