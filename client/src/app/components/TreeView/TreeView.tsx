@@ -32,6 +32,8 @@ const TreeView = () => {
           newState[parent.name] = true;
         } else if (allChildrenUnchecked) {
           newState[parent.name] = false;
+        } else {
+          newState[parent.name] = false;
         }
       }
 
