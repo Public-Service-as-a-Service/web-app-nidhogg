@@ -7,19 +7,32 @@ import { TreeMenuItem } from "@/app/interfaces/tree-menu";
 const TreeView = () => {
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
 
-  const toggleItem = (item: TreeMenuItem) => {
+  const toggleItem = (item: TreeMenuItem, parent?: TreeMenuItem) => {
     setCheckedItems((prev) => {
       const newState = { ...prev };
 
-      if (!item.children) {
-        newState[item.name] = !prev[item.name];
-      } else {
-        const newValue = !prev[item.name];
-        newState[item.name] = newValue;
+      const newValue = !prev[item.name];
+      newState[item.name] = newValue;
 
+      if (item.children) {
         item.children.forEach((child) => {
           newState[child.name] = newValue;
         });
+      }
+
+      if (parent) {
+        const allChildrenUnchecked = parent.children!.every(
+          (child) => newState[child.name] === false
+        );
+        const allChildrenChecked = parent.children!.every(
+          (child) => newState[child.name] === true
+        );
+
+        if (allChildrenChecked) {
+          newState[parent.name] = true;
+        } else if (allChildrenUnchecked) {
+          newState[parent.name] = false;
+        }
       }
 
       return newState;
@@ -30,8 +43,6 @@ const TreeView = () => {
     (key) => checkedItems[key]
   );
 
-  // console.log(checkedItems);
-
   return (
     <div className="tree-view-container">
       <MenuList
@@ -39,7 +50,7 @@ const TreeView = () => {
         checkedItems={checkedItems}
         onToggle={toggleItem}
       />
-      <div>
+      <div className="recipients-container">
         Valda mottagare:
         {selectedItems.map((name) => (
           <p key={name}>{name}</p>

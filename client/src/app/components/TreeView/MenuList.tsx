@@ -5,10 +5,16 @@ import { TreeMenuItem } from "@/app/interfaces/tree-menu";
 interface MenuListProps {
   list?: TreeMenuItem[];
   checkedItems: Record<string, boolean>;
-  onToggle: (item: TreeMenuItem) => void;
+  parent?: TreeMenuItem;
+  onToggle: (item: TreeMenuItem, parent?: TreeMenuItem) => void;
 }
 
-const MenuList = ({ list = [], checkedItems, onToggle }: MenuListProps) => {
+const MenuList = ({
+  list = [],
+  checkedItems,
+  parent,
+  onToggle,
+}: MenuListProps) => {
   return (
     <div>
       <ul className="menu-list-container">
@@ -16,6 +22,7 @@ const MenuList = ({ list = [], checkedItems, onToggle }: MenuListProps) => {
           <MenuItem
             key={item.name}
             item={item}
+            parent={parent}
             checkedItems={checkedItems}
             isChecked={checkedItems[item.name] || false}
             onToggle={onToggle}

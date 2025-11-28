@@ -1,8 +1,8 @@
 .tree-view-container {
   width: 300px;
-  background-color: #2e2e2e;
-  padding: 20px;
-  color: #ffffff;
+  background-color: #cacaca;
+  padding: 40px;
+  color: #0d0d0d;
   font-family: Arial, sans-serif;
   margin-top: 20px;
 }
@@ -15,12 +15,13 @@
 
 .menu-item {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
   padding: 8px 0;
   border-bottom-style: solid;
-  border-color: #ffffff;
+  border-color: #0d0d0d;
   border-width: 1px;
 }
 
@@ -29,14 +30,19 @@
 }
 
 .menu-item .checkbox {
-  width: 12px;
-  height: 12px;
-  background: red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  font-size: large;
+  font-weight: bold;
   border-radius: 2px;
+  color: #0d0d0d;
 }
 
-.menu-item .checkbox.checked {
-  background: green;
+.menu-item .checkbox:hover {
+  color: #0d0d0d75;
 }
 
 .toggle-icon {
@@ -45,10 +51,17 @@
   justify-content: center;
   width: 20px;
   height: 20px;
-  border-radius: 50%;
-  font-size: 14px;
+  font-size: large;
+  font-weight: bold;
+  color: #0d0d0d;
+  border-radius: 2px;
 }
 
 .toggle-icon:hover {
-  background-color: #005f82;
+  color: #0d0d0d75;
+}
+
+.recipients-container {
+  padding: 20px;
+  padding-top: 40px;
 }
