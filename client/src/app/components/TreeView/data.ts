@@ -94,6 +94,13 @@ const menus: TreeMenuItem[] = [
         id: "c9d0ab8b-916a-4abb-8ef0-7d8b95e05e1c",
         name: "Centaur Product Guild",
         parentId: "db30628f-0651-4f35-8931-8e58f2e7c1c2",
+        children: [
+          {
+            id: "c9d0ab8b-2134-4abb-8ef0-7d8b95e05e1c",
+            name: "Centaur Specialist Team",
+            parentId: "c9d0ab8b-916a-4abb-8ef0-7d8b95e05e1c",
+          },
+        ],
       },
     ],
   },

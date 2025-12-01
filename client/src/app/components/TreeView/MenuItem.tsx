@@ -29,15 +29,26 @@ const MenuItem = ({
 
   return (
     <li>
-      <div className="menu-item" tabIndex={0}>
-        <div className="checkbox" onClick={handleOnToggle}>
+      <div className="menu-item">
+        <button
+          className="checkbox"
+          onClick={handleOnToggle}
+          tabIndex={0}
+          role="checkbox"
+          aria-checked={isChecked}
+        >
           {isChecked ? "☒" : "☐"}
-        </div>
+        </button>
         <p>{item.name}</p>
         {hasChildren && (
-          <div className="toggle-icon" onClick={handleExpand}>
+          <button
+            className="toggle-icon"
+            onClick={handleExpand}
+            tabIndex={0}
+            aria-expanded={isExpanded}
+          >
             {isExpanded ? "⯅" : "⯆"}
-          </div>
+          </button>
         )}
       </div>
 
