@@ -6,18 +6,9 @@
 
 html,
 body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-family: "Asap", sans-serif;
+  line-height: 1.5;
   width: 100%;
   padding: 0;
   margin: 0;
-  background: #000000;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(35, 0, 29, 1) 100%
-  );
-  background-repeat: no-repeat;
-  background-attachment: fixed;
 }

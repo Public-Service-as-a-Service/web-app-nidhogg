@@ -1,7 +1,7 @@
 import { styles } from "../styles";
-import { theme } from "@/theme";
 import { ReactNode } from "react";
 import useSessionStatus from "../hooks/useSessionStatus";
+import { Spinner } from "@sk-web-gui/react";
 
 interface MainWrapperProps {
   children: ReactNode;
@@ -13,18 +13,12 @@ const MainWrapper = ({ children, title }: MainWrapperProps) => {
 
   return loggedIn ? (
     <div style={styles.main}>
-      <p color="text.primary">{title}</p>
-      <div
-        style={{
-          width: "100%",
-          background: theme.palette.primary.dark,
-        }}
-      />
+      <p>{title}</p>
       {children}
     </div>
   ) : (
     <div style={styles.main}>
-      <p>Laddar...</p>
+      <Spinner className="self-center" />
     </div>
   );
 };

@@ -6,6 +6,7 @@ import { useLogin } from "./services/useLogin";
 import { styles } from "./styles";
 import { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
+import { Button, Input, Spinner } from "@sk-web-gui/react";
 
 export type Credentials = {
   email: string;
@@ -44,11 +45,13 @@ const Login = () => {
   };
 
   return isPending ? (
-    <p>Laddar...</p>
+    <div className="self-center">
+      <Spinner />
+    </div>
   ) : (
     <div style={styles.loginMain} data-cy="login">
       <div style={styles.loginMainPaper}>
-        <p style={{ fontSize: "1.5rem" }}>{t("welcomeMessage")}</p>
+        <h1>{t("welcomeMessage")}</h1>
         <form
           onSubmit={handleLogin}
           style={{
@@ -59,21 +62,21 @@ const Login = () => {
           }}
         >
           {error && <div>{error}</div>}
-          <input
+          <Input
             type="email"
             placeholder={t("emailPlaceholder")}
             onChange={(e) =>
               setCredentials({ ...credentials, email: e.target.value })
             }
           />
-          <input
+          <Input
             type="password"
             placeholder={t("passwordPlaceholder")}
             onChange={(e) =>
               setCredentials({ ...credentials, password: e.target.value })
             }
           />
-          <button type="submit">{t("logInButton")}</button>
+          <Button type="submit">{t("logInButton")}</Button>
         </form>
       </div>
     </div>

@@ -10,11 +10,6 @@
     "cypress:open": "cypress open"
   },
   "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
-    "@mui/icons-material": "^7.3.5",
-    "@mui/material": "^7.3.5",
-    "@mui/system": "^7.3.5",
     "@prisma/client": "^6.19.0",
     "@sk-web-gui/core": "^4.1.2",
     "@sk-web-gui/react": "^3.0.5",
