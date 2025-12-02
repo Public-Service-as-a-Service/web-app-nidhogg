@@ -2,7 +2,6 @@
 import AppBar from "@mui/material/AppBar";
 import { usePathname, useRouter } from "next/navigation";
 import {
-  Button,
   Drawer,
   IconButton,
   List,
@@ -18,6 +17,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { isProtectedPage } from "@/middleware";
 import { useTranslations } from "next-intl";
+import { Button } from "@sk-web-gui/react";
 
 const AppBarHeader = () => {
   const router = useRouter();
@@ -46,19 +46,26 @@ const AppBarHeader = () => {
       <AppBar>
         <Toolbar>
           <IconButton
-            size='large'
-            edge='start'
-            color='inherit'
-            aria-label='menu'
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
             sx={{ mr: 2 }}
             onClick={toggleDrawer(true)}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
+          <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
             App
           </Typography>
-          <Button color='inherit' variant='outlined' onClick={handleLogout} data-cy="logout-button">
+          <Button
+            type="button"
+            color="primary"
+            variant="secondary"
+            size="lg"
+            onClick={handleLogout}
+            data-cy="logout-button"
+          >
             {isPending ? t("loggingOut") : t("logOut")}
           </Button>
         </Toolbar>

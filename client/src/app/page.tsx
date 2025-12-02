@@ -56,6 +56,10 @@ const Login = () => {
   ) : (
     <Box component={"main"} sx={styles.loginMain} data-cy="login">
       <Paper sx={styles.loginMainPaper}>
+        {/* quick visual test element to verify Tailwind is applied when running locally */}
+        <div className="mb-4 inline-block rounded bg-sky-500 px-3 py-2 text-sm font-semibold text-white">
+          Tailwind test banner — should be blue
+        </div>
         <Typography variant="h1" sx={{ fontSize: "1.5rem" }}>
           {t("welcomeMessage")}
         </Typography>
