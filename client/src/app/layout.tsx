@@ -1,5 +1,3 @@
-// import { theme } from "@/theme";
-// import { ThemeProvider } from "@mui/material/styles";
 import type { Metadata } from "next";
 import "./globals.css";
 import AppBarHeader from "./components/AppBar";
@@ -21,10 +19,8 @@ export default function RootLayout({
       <body>
         <Providers>
           <NextIntlClientProvider>
-            {/* <ThemeProvider theme={theme}> */}
             <AppBarHeader />
             {children}
-            {/* </ThemeProvider> */}
           </NextIntlClientProvider>
         </Providers>
       </body>

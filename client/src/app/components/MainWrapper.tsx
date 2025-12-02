@@ -1,4 +1,3 @@
-import { Box, CircularProgress, Divider, Typography } from "@mui/material";
 import { styles } from "../styles";
 import { theme } from "@/theme";
 import { ReactNode } from "react";
@@ -13,24 +12,20 @@ const MainWrapper = ({ children, title }: MainWrapperProps) => {
   const loggedIn = useSessionStatus();
 
   return loggedIn ? (
-    <Box component='main' sx={styles.main}>
-      <Typography variant='h3' color='text.primary'>
-        {title}
-      </Typography>
-      <Divider
-        sx={{
+    <div style={styles.main}>
+      <p color="text.primary">{title}</p>
+      <div
+        style={{
           width: "100%",
           background: theme.palette.primary.dark,
-          mt: 2,
-          mb: 2,
         }}
       />
       {children}
-    </Box>
+    </div>
   ) : (
-    <Box component='main' sx={styles.main} alignItems={"center"}>
-      <CircularProgress />
-    </Box>
+    <div style={styles.main}>
+      <p>Laddar...</p>
+    </div>
   );
 };
 

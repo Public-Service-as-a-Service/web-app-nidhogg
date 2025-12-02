@@ -1,13 +1,5 @@
 "use client";
-import {
-  Alert,
-  Box,
-  Button,
-  CircularProgress,
-  Paper,
-  TextField,
-  Typography,
-} from "@mui/material";
+
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useLogin } from "./services/useLogin";
@@ -52,17 +44,11 @@ const Login = () => {
   };
 
   return isPending ? (
-    <CircularProgress color="secondary" />
+    <p>Laddar...</p>
   ) : (
-    <Box component={"main"} sx={styles.loginMain} data-cy="login">
-      <Paper sx={styles.loginMainPaper}>
-        {/* quick visual test element to verify Tailwind is applied when running locally */}
-        <div className="mb-4 inline-block rounded bg-sky-500 px-3 py-2 text-sm font-semibold text-white">
-          Tailwind test banner — should be blue
-        </div>
-        <Typography variant="h1" sx={{ fontSize: "1.5rem" }}>
-          {t("welcomeMessage")}
-        </Typography>
+    <div style={styles.loginMain} data-cy="login">
+      <div style={styles.loginMainPaper}>
+        <p style={{ fontSize: "1.5rem" }}>{t("welcomeMessage")}</p>
         <form
           onSubmit={handleLogin}
           style={{
@@ -72,33 +58,25 @@ const Login = () => {
             alignItems: "center",
           }}
         >
-          {error && (
-            <Alert sx={{ border: "1px solid" }} severity="error">
-              {error}
-            </Alert>
-          )}
-          <TextField
+          {error && <div>{error}</div>}
+          <input
             type="email"
-            variant="outlined"
             placeholder={t("emailPlaceholder")}
             onChange={(e) =>
               setCredentials({ ...credentials, email: e.target.value })
             }
           />
-          <TextField
+          <input
             type="password"
-            variant="outlined"
             placeholder={t("passwordPlaceholder")}
             onChange={(e) =>
               setCredentials({ ...credentials, password: e.target.value })
             }
           />
-          <Button type="submit" variant="contained">
-            {t("logInButton")}
-          </Button>
+          <button type="submit">{t("logInButton")}</button>
         </form>
-      </Paper>
-    </Box>
+      </div>
+    </div>
   );
 };
 
