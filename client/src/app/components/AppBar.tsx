@@ -8,7 +8,7 @@ import Link from "next/link";
 import { isProtectedPage } from "@/middleware";
 import { useTranslations } from "next-intl";
 import { Button, List } from "@sk-web-gui/react";
-import { Rows3 } from "lucide-react";
+import { Rows3, LogOut } from "lucide-react";
 
 const AppBarHeader = () => {
   const router = useRouter();
@@ -30,19 +30,16 @@ const AppBarHeader = () => {
     <>
       <header className="w-full top-0 left-0 z-50 shadow">
         <div className="mx-auto p-20 flex items-center align-center justify-between">
-          <button
-            className="text-gray-700 p-2 rounded hover:bg-gray-200"
-            onClick={() => setOpen(true)}
-          >
-            <Rows3 />
-          </button>
+          <Button onClick={() => setOpen(true)}>
+            Meny <Rows3 />
+          </Button>
           <Button
             type="button"
             variant="secondary"
             size="md"
             onClick={handleLogout}
           >
-            {isPending ? t("loggingOut") : t("logOut")}
+            {isPending ? t("loggingOut") : t("logOut")} <LogOut />
           </Button>
         </div>
       </header>
