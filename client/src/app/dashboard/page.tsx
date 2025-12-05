@@ -14,7 +14,7 @@ const Dashboard = () => {
         <Typography variant="h4" color="text.primary">
           {t("welcomeMessage")}
         </Typography>
-        <TreeView />
+        <TreeView itemsDescription="Valda mottagare:" />
       </Box>
     </MainWrapper>
   );

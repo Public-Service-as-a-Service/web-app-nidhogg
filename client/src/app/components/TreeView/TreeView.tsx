@@ -4,7 +4,11 @@ import menus from "./data";
 import "./styles.css";
 import { TreeMenuItem } from "@/app/interfaces/tree-menu";
 
-const TreeView = () => {
+interface TreeViewProps {
+  itemsDescription: string;
+}
+
+const TreeView = ({ itemsDescription }: TreeViewProps) => {
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
 
   const toggleItem = (item: TreeMenuItem, parent?: TreeMenuItem) => {
@@ -52,8 +56,8 @@ const TreeView = () => {
         checkedItems={checkedItems}
         onToggle={toggleItem}
       />
-      <div className="recipients-container">
-        Valda mottagare:
+      <div className="items-container">
+        {itemsDescription}
         {selectedItems.map((name) => (
           <p key={name}>{name}</p>
         ))}
