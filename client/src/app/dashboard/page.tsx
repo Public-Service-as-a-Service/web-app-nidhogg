@@ -1,7 +1,9 @@
 "use client";
+
 import { Box, Typography } from "@mui/material";
 import MainWrapper from "../components/MainWrapper";
 import { useTranslations } from "next-intl";
+import TreeView from "../components/TreeView/TreeView";
 
 const Dashboard = () => {
   const t = useTranslations("Dashboard");
@@ -12,6 +14,7 @@ const Dashboard = () => {
         <Typography variant="h4" color="text.primary">
           {t("welcomeMessage")}
         </Typography>
+        <TreeView itemsDescription="Valda mottagare:" />
       </Box>
     </MainWrapper>
   );
