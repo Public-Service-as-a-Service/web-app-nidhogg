@@ -1,7 +1,7 @@
 {
   "Dashboard": {
-    "title": "Dashboard",
-    "welcomeMessage": "Rendera saker här!"
+    "title": "Krisinformation",
+    "welcomeMessage": "Hantera kriser här!"
   },
   "AppBar": {
     "logOut": "Logga ut",

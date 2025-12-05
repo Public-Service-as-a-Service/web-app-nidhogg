@@ -13,12 +13,11 @@ export const styles: { [key: string]: CSSProperties } = {
     flexDirection: "column",
     gap: 4,
     padding: 4,
-    borderRadius: 4,
   },
   main: {
     display: "flex",
     flexDirection: "column",
-    width: "900px",
+    alignItems: "center",
     height: "100vh",
     margin: "88px auto",
   },

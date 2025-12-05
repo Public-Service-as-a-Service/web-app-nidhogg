@@ -45,8 +45,8 @@ const Login = () => {
   };
 
   return isPending ? (
-    <div className="self-center">
-      <Spinner />
+    <div className="flex flex-col justify-center h-full">
+      <Spinner className="self-center" />
     </div>
   ) : (
     <div style={styles.loginMain} data-cy="login">

@@ -36,9 +36,6 @@ const AppBarHeader = () => {
           >
             <Rows3 />
           </button>
-          <h1 className="text-2xl font-semibold mb-0 text-center md:text-left">
-            App
-          </h1>
           <Button
             type="button"
             variant="secondary"

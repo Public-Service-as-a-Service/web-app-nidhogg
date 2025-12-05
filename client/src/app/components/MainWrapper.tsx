@@ -13,11 +13,11 @@ const MainWrapper = ({ children, title }: MainWrapperProps) => {
 
   return loggedIn ? (
     <div style={styles.main}>
-      <p>{title}</p>
+      <h1>{title}</h1>
       {children}
     </div>
   ) : (
-    <div style={styles.main}>
+    <div className="flex flex-col justify-center h-full">
       <Spinner className="self-center" />
     </div>
   );
