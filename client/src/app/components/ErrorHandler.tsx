@@ -1,5 +1,5 @@
-import { Box, Typography } from "@mui/material";
 import { AxiosError } from "axios";
+import { Card } from "@sk-web-gui/react";
 
 interface ErrorHandlerProps {
   error?: AxiosError;
@@ -7,11 +7,13 @@ interface ErrorHandlerProps {
 
 const ErrorHandler = ({ error }: ErrorHandlerProps) => {
   return (
-    <Box display={"flex"} alignItems={"center"} justifyContent={"center"} m={2}>
-      <Typography variant='h2' color='secondary'>
-        {error ? error.message : "Error"}
-      </Typography>
-    </Box>
+    <Card>
+      <Card.Body>
+        <Card.Text>
+          <p color="secondary">{error ? error.message : "Error"}</p>
+        </Card.Text>
+      </Card.Body>
+    </Card>
   );
 };
 

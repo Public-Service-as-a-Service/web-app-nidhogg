@@ -9,3 +9,11 @@ export const PATHS = [
 export const SESSION_STORAGE = {
   sessionActive: "sessionActive",
 };
+
+export const tailwindBreakPoint = {
+  SM: 640,
+  MD: 768,
+  LG: 1024,
+  XL: 1280,
+  XXL: 1536,
+} as const;

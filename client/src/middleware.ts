@@ -3,10 +3,9 @@ import { PATHS } from "./app/constants";
 
 export function middleware(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
-
   const { pathname } = req.nextUrl;
 
-  if (isProtectedPage(req.nextUrl.pathname) && !token) {
+  if (isProtectedPage(pathname) && !token) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
@@ -20,9 +19,7 @@ export function middleware(req: NextRequest) {
 export const config = {
   matcher: [
     "/",
-    PATHS.map((path) => {
-      return `${path.url}/:path*`;
-    }),
+    "/dashboard/:path*",
   ],
 };
 

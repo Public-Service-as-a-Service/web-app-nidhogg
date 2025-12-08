@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { theme } from "@/theme";
 import "./globals.css";
-import { ThemeProvider } from "@mui/material/styles";
 import AppBarHeader from "./components/AppBar";
 import Providers from "./providers";
 import { NextIntlClientProvider } from "next-intl";
@@ -17,14 +15,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html>
+    <html lang="sv">
       <body>
         <Providers>
           <NextIntlClientProvider>
-            <ThemeProvider theme={theme}>
-              <AppBarHeader />
-              {children}
-            </ThemeProvider>
+            <AppBarHeader />
+            {children}
           </NextIntlClientProvider>
         </Providers>
       </body>

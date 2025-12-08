@@ -1,8 +1,7 @@
-import { Box, CircularProgress, Divider, Typography } from "@mui/material";
 import { styles } from "../styles";
-import { theme } from "@/theme";
 import { ReactNode } from "react";
 import useSessionStatus from "../hooks/useSessionStatus";
+import { Spinner } from "@sk-web-gui/react";
 
 interface MainWrapperProps {
   children: ReactNode;
@@ -13,24 +12,14 @@ const MainWrapper = ({ children, title }: MainWrapperProps) => {
   const loggedIn = useSessionStatus();
 
   return loggedIn ? (
-    <Box component='main' sx={styles.main}>
-      <Typography variant='h3' color='text.primary'>
-        {title}
-      </Typography>
-      <Divider
-        sx={{
-          width: "100%",
-          background: theme.palette.primary.dark,
-          mt: 2,
-          mb: 2,
-        }}
-      />
+    <div style={styles.main}>
+      <h1>{title}</h1>
       {children}
-    </Box>
+    </div>
   ) : (
-    <Box component='main' sx={styles.main} alignItems={"center"}>
-      <CircularProgress />
-    </Box>
+    <div className="flex flex-col justify-center h-full">
+      <Spinner className="self-center" />
+    </div>
   );
 };
 

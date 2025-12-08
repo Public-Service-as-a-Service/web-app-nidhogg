@@ -1,11 +1,13 @@
 {
   "Dashboard": {
-    "title": "Dashboard",
-    "welcomeMessage": "Rendera saker här!"
+    "title": "Krisinformation",
+    "welcomeMessage": "Hantera kriser här!"
   },
   "AppBar": {
     "logOut": "Logga ut",
-    "loggingOut": "Loggar ut..."
+    "loggingOut": "Loggar ut...",
+    "menuButton": "Meny",
+    "closeButton": "Stäng"
   },
   "LogIn": {
     "welcomeMessage": "Välkommen",

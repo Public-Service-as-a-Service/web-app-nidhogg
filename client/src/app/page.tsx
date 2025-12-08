@@ -1,20 +1,12 @@
 "use client";
 
-import {
-  Alert,
-  Box,
-  Button,
-  CircularProgress,
-  Paper,
-  TextField,
-  Typography,
-} from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useLogin } from "./services/useLogin";
 import { styles } from "./styles";
 import { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
+import { Button, Input, Spinner } from "@sk-web-gui/react";
 
 export type Credentials = {
   email: string;
@@ -53,13 +45,13 @@ const Login = () => {
   };
 
   return isPending ? (
-    <CircularProgress color="secondary" />
+    <div className="flex flex-col justify-center h-full">
+      <Spinner className="self-center" />
+    </div>
   ) : (
-    <Box component={"main"} sx={styles.loginMain} data-cy="login">
-      <Paper sx={styles.loginMainPaper}>
-        <Typography variant="h1" sx={{ fontSize: "1.5rem" }}>
-          {t("welcomeMessage")}
-        </Typography>
+    <div style={styles.loginMain} data-cy="login">
+      <div style={styles.loginMainPaper}>
+        <h1>{t("welcomeMessage")}</h1>
         <form
           onSubmit={handleLogin}
           style={{
@@ -69,33 +61,25 @@ const Login = () => {
             alignItems: "center",
           }}
         >
-          {error && (
-            <Alert sx={{ border: "1px solid" }} severity="error">
-              {error}
-            </Alert>
-          )}
-          <TextField
+          {error && <div>{error}</div>}
+          <Input
             type="email"
-            variant="outlined"
             placeholder={t("emailPlaceholder")}
             onChange={(e) =>
               setCredentials({ ...credentials, email: e.target.value })
             }
           />
-          <TextField
+          <Input
             type="password"
-            variant="outlined"
             placeholder={t("passwordPlaceholder")}
             onChange={(e) =>
               setCredentials({ ...credentials, password: e.target.value })
             }
           />
-          <Button type="submit" variant="contained">
-            {t("logInButton")}
-          </Button>
+          <Button type="submit">{t("logInButton")}</Button>
         </form>
-      </Paper>
-    </Box>
+      </div>
+    </div>
   );
 };
 
