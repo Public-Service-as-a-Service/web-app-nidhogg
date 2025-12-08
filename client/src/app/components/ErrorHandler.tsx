@@ -1,4 +1,5 @@
 import { AxiosError } from "axios";
+import { Card } from "@sk-web-gui/react";
 
 interface ErrorHandlerProps {
   error?: AxiosError;
@@ -6,9 +7,13 @@ interface ErrorHandlerProps {
 
 const ErrorHandler = ({ error }: ErrorHandlerProps) => {
   return (
-    <div>
-      <p color="secondary">{error ? error.message : "Error"}</p>
-    </div>
+    <Card>
+      <Card.Body>
+        <Card.Text>
+          <p color="secondary">{error ? error.message : "Error"}</p>
+        </Card.Text>
+      </Card.Body>
+    </Card>
   );
 };
 

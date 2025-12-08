@@ -5,7 +5,9 @@
   },
   "AppBar": {
     "logOut": "Logga ut",
-    "loggingOut": "Loggar ut..."
+    "loggingOut": "Loggar ut...",
+    "menuButton": "Meny",
+    "closeButton": "Stäng"
   },
   "LogIn": {
     "welcomeMessage": "Välkommen",
