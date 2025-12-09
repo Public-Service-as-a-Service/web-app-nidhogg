@@ -41,6 +41,7 @@ const MenuItem = ({
           tabIndex={0}
           role="checkbox"
           aria-checked={isChecked}
+          className="pr-10"
         ></Checkbox>
         {item.name}
 
@@ -52,6 +53,7 @@ const MenuItem = ({
             onClick={handleExpand}
             tabIndex={0}
             aria-expanded={isExpanded}
+            className="pl-10"
           >
             {isExpanded ? <ChevronDown /> : <ChevronRight />}
           </Button>

@@ -11,39 +11,51 @@ interface TreeViewProps {
 const TreeView = ({ itemsDescription }: TreeViewProps) => {
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
 
-  const toggleItem = (item: TreeMenuItem, parent?: TreeMenuItem) => {
+  const toggleItem = (item: TreeMenuItem) => {
     setCheckedItems((prev) => {
       const newState = { ...prev };
 
+      const isChecked = !prev[item.name];
+
       const toggleDescendants = (node: TreeMenuItem, value: boolean) => {
-        if (!node.children) return;
-        node.children.forEach((child) => {
-          newState[child.name] = value;
-          toggleDescendants(child, value);
-        });
+        newState[node.name] = value;
+        node.children?.forEach((child) => toggleDescendants(child, value));
+      };
+      toggleDescendants(item, isChecked);
+
+      const findById = (
+        nodes: TreeMenuItem[],
+        id: string
+      ): TreeMenuItem | undefined => {
+        for (const n of nodes) {
+          if (n.id === id) return n;
+          if (n.children) {
+            const found = findById(n.children, id);
+            if (found) return found;
+          }
+        }
+        return undefined;
       };
 
-      const newValue = !prev[item.name];
-      newState[item.name] = newValue;
+      const updateParents = (node: TreeMenuItem) => {
+        if (!node.parentId) return;
 
-      toggleDescendants(item, newValue);
+        const parent = findById(menus, node.parentId);
+        if (!parent) return;
 
-      if (parent) {
-        const allChildrenUnchecked = parent.children!.every(
-          (child) => newState[child.name] === false
-        );
-        const allChildrenChecked = parent.children!.every(
-          (child) => newState[child.name] === true
+        const childValues = parent.children!.map(
+          (child) => newState[child.name] ?? false
         );
 
-        if (allChildrenChecked) {
-          newState[parent.name] = true;
-        } else if (allChildrenUnchecked) {
-          newState[parent.name] = false;
-        } else {
-          newState[parent.name] = false;
-        }
-      }
+        const allChecked = childValues.every((value) => value === true);
+
+        if (allChecked) newState[parent.name] = true;
+        else newState[parent.name] = false;
+
+        updateParents(parent);
+      };
+
+      updateParents(item);
 
       return newState;
     });

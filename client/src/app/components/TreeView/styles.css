@@ -1,13 +1,18 @@
 .tree-view-container {
-  width: 350px;
-  padding: 40px;
+  width: 375px;
+  padding: 30px;
   font-family: Arial, sans-serif;
   margin-top: 20px;
 }
 
+.menu-list-container .menu-list-container {
+  padding-left: 10px;
+  border-left: 1px #FFFFFF50 solid;
+}
+
 .menu-item {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
   padding: 4px 8px;
@@ -20,6 +25,7 @@
 
 .sk-list-text {
   margin-left: 0;
+  text-align: center;
 }
 
 .sk-list-item::before {
