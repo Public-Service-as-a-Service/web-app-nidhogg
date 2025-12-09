@@ -17,7 +17,7 @@ const MenuList = ({
   onToggle,
 }: MenuListProps) => {
   return (
-    <List className="no-style-list menu-list-container">
+    <List className="menu-list-container">
       {list.map((item) => (
         <MenuItem
           key={item.name}
