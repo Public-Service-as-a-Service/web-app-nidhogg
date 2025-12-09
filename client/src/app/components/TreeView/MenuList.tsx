@@ -1,6 +1,7 @@
 import React from "react";
 import MenuItem from "./MenuItem";
 import { TreeMenuItem } from "@/app/interfaces/tree-menu";
+import { List } from "@sk-web-gui/react";
 
 interface MenuListProps {
   list?: TreeMenuItem[];
@@ -16,20 +17,18 @@ const MenuList = ({
   onToggle,
 }: MenuListProps) => {
   return (
-    <div>
-      <ul className="menu-list-container">
-        {list.map((item) => (
-          <MenuItem
-            key={item.name}
-            item={item}
-            parent={parent}
-            checkedItems={checkedItems}
-            isChecked={checkedItems[item.name] || false}
-            onToggle={onToggle}
-          />
-        ))}
-      </ul>
-    </div>
+    <List className="no-style-list">
+      {list.map((item) => (
+        <MenuItem
+          key={item.name}
+          item={item}
+          parent={parent}
+          checkedItems={checkedItems}
+          isChecked={checkedItems[item.name] || false}
+          onToggle={onToggle}
+        />
+      ))}
+    </List>
   );
 };
 

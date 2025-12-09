@@ -15,14 +15,18 @@ const TreeView = ({ itemsDescription }: TreeViewProps) => {
     setCheckedItems((prev) => {
       const newState = { ...prev };
 
+      const toggleDescendants = (node: TreeMenuItem, value: boolean) => {
+        if (!node.children) return;
+        node.children.forEach((child) => {
+          newState[child.name] = value;
+          toggleDescendants(child, value);
+        });
+      };
+
       const newValue = !prev[item.name];
       newState[item.name] = newValue;
 
-      if (item.children) {
-        item.children.forEach((child) => {
-          newState[child.name] = newValue;
-        });
-      }
+      toggleDescendants(item, newValue);
 
       if (parent) {
         const allChildrenUnchecked = parent.children!.every(

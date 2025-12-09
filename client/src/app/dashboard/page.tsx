@@ -2,6 +2,7 @@
 
 import MainWrapper from "../components/MainWrapper";
 import { useTranslations } from "next-intl";
+import TreeView from "../components/TreeView/TreeView";
 
 const Dashboard = () => {
   const t = useTranslations("Dashboard");
@@ -11,6 +12,7 @@ const Dashboard = () => {
       <div>
         <p color="text.primary">{t("welcomeMessage")}</p>
       </div>
+      <TreeView itemsDescription="Valda mottagare:" />
     </MainWrapper>
   );
 };
