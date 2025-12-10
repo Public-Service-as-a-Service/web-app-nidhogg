@@ -37,9 +37,5 @@
 }
 
 .parent-item {
-  background-color: #005595;
-}
-
-.items-container {
-  padding-top: 40px;
+  background-color: var(--sk-colors-vattjom-surface-accent-DEFAULT);
 }
