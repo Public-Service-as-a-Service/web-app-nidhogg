@@ -28,7 +28,7 @@ const AppBarHeader = () => {
 
   return (
     <>
-      <header className="w-full top-0 left-0 z-50 shadow">
+      <header className="w-full top-0 left-0 z-50">
         <div className="mx-auto p-20 flex items-center align-center justify-between">
           <Button onClick={() => setOpen(true)}>
             {t("menuButton")} <Rows3 />
@@ -45,7 +45,7 @@ const AppBarHeader = () => {
       </header>
       {open && (
         <div className="fixed inset-0 bg-black bg-opacity-40 z-40">
-          <div className="absolute top-0 left-0 w-[300px] h-full shadow-xl p-24">
+          <div className="absolute top-0 left-0 w-[300px] h-full p-24">
             <Button
               type="button"
               variant="secondary"

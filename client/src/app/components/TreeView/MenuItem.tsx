@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import MenuList from "./MenuList";
 import { TreeMenuItem } from "@/app/interfaces/tree-menu";
 import { List, Button, Checkbox } from "@sk-web-gui/react";
-import { ChevronRight, ChevronDown } from "lucide-react";
+import { ChevronRight, ChevronDown, Folder } from "lucide-react";
 
 interface MenuItemProps {
   item: TreeMenuItem;
@@ -31,19 +31,27 @@ const MenuItem = ({
   };
 
   return (
-    <List.Item className="pt-5">
+    <List.Item className="pt-5 [li&::before]:!hidden [&::before]:!hidden [&::before]:!content-none">
       <List.Text
         className={hasChildren ? "menu-item parent-item" : "menu-item"}
       >
-        <Checkbox
-          onClick={handleOnToggle}
-          checked={isChecked}
-          tabIndex={0}
-          role="checkbox"
-          aria-checked={isChecked}
-          className="pr-10"
-        ></Checkbox>
-        {item.name}
+        <span className="menu-item-left">
+          <Checkbox
+            onClick={handleOnToggle}
+            checked={isChecked}
+            tabIndex={0}
+            role="checkbox"
+            aria-checked={isChecked}
+          ></Checkbox>
+
+          {hasChildren && (
+            <Button variant="ghost" size="sm">
+              <Folder />
+            </Button>
+          )}
+        </span>
+
+        <span className="menu-item-center px-5">{item.name}</span>
 
         {hasChildren && (
           <Button
@@ -53,7 +61,7 @@ const MenuItem = ({
             onClick={handleExpand}
             tabIndex={0}
             aria-expanded={isExpanded}
-            className="pl-10"
+            className="menu-item-right"
           >
             {isExpanded ? <ChevronDown /> : <ChevronRight />}
           </Button>
