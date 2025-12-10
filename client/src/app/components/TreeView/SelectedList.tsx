@@ -8,9 +8,11 @@ interface SelectedListProps {
 const SelectedList = ({ listItems }: SelectedListProps) => {
   return (
     <div className="pt-10 flex flex-wrap gap-6">
-      {listItems.map((name) => (
-        <Label key={name}>{name}</Label>
-      ))}
+      {listItems.length >= 1 ? (
+        listItems.map((name) => <Label key={name}>{name}</Label>)
+      ) : (
+        <Label inverted={true}>Inga mottagare valda</Label>
+      )}
     </div>
   );
 };

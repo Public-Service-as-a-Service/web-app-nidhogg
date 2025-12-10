@@ -75,9 +75,7 @@ const TreeView = ({ itemsDescription }: TreeViewProps) => {
       />
       <div className="pt-30">
         {itemsDescription}
-        <SelectedList
-          listItems={selectedItems}
-        />
+        <SelectedList listItems={selectedItems} />
       </div>
     </div>
   );
