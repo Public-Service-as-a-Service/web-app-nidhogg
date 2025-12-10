@@ -1,7 +1,7 @@
 {
   "Dashboard": {
-    "title": "Krisinformation",
-    "welcomeMessage": "Hantera kriser här!"
+    "title": "Nidhogg",
+    "subtitle": "Krisinformation"
   },
   "AppBar": {
     "logOut": "Logga ut",

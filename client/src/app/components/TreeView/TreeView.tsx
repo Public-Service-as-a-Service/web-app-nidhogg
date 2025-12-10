@@ -3,7 +3,7 @@ import MenuList from "./MenuList";
 import menus from "./data";
 import "./styles.css";
 import { TreeMenuItem } from "@/app/interfaces/tree-menu";
-import { Chip } from "@sk-web-gui/react";
+import SelectedList from "./SelectedList";
 
 interface TreeViewProps {
   itemsDescription: string;
@@ -66,8 +66,6 @@ const TreeView = ({ itemsDescription }: TreeViewProps) => {
     (key) => checkedItems[key]
   );
 
-  console.log(selectedItems);
-
   return (
     <div className="tree-view-container">
       <MenuList
@@ -75,15 +73,11 @@ const TreeView = ({ itemsDescription }: TreeViewProps) => {
         checkedItems={checkedItems}
         onToggle={toggleItem}
       />
-      <div className="pt-40">
+      <div className="pt-30">
         {itemsDescription}
-        <div className="pt-10 flex flex-col gap-8">
-          {selectedItems.map((name) => (
-            <Chip key={name} onClick={() => console.log(name)}>
-              {name}
-            </Chip>
-          ))}
-        </div>
+        <SelectedList
+          listItems={selectedItems}
+        />
       </div>
     </div>
   );

@@ -8,10 +8,7 @@ const Dashboard = () => {
   const t = useTranslations("Dashboard");
 
   return (
-    <MainWrapper title={t("title")}>
-      <div>
-        <p color="text.primary">{t("welcomeMessage")}</p>
-      </div>
+    <MainWrapper title={t("title")} subtitle={t("subtitle")}>
       <TreeView itemsDescription="Valda mottagare:" />
     </MainWrapper>
   );
