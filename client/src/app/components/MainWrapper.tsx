@@ -2,18 +2,20 @@ import { styles } from "../styles";
 import { ReactNode } from "react";
 import useSessionStatus from "../hooks/useSessionStatus";
 import { Spinner } from "@sk-web-gui/react";
+import { Logo } from "@sk-web-gui/react";
 
 interface MainWrapperProps {
   children: ReactNode;
   title: string;
+  subtitle: string;
 }
 
-const MainWrapper = ({ children, title }: MainWrapperProps) => {
+const MainWrapper = ({ children, title, subtitle }: MainWrapperProps) => {
   const loggedIn = useSessionStatus();
 
   return loggedIn ? (
     <div style={styles.main}>
-      <h1>{title}</h1>
+      <Logo variant="service" title={title} subtitle={subtitle} />
       {children}
     </div>
   ) : (

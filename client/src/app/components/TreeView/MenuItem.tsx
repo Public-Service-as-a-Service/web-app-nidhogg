@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import MenuList from "./MenuList";
 import { TreeMenuItem } from "@/app/interfaces/tree-menu";
+import { List, Button, Checkbox } from "@sk-web-gui/react";
+import { ChevronRight, ChevronDown, Folder } from "lucide-react";
 
 interface MenuItemProps {
   item: TreeMenuItem;
@@ -19,6 +21,7 @@ const MenuItem = ({
 }: MenuItemProps) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const hasChildren = item.children && item.children.length > 0;
+
   const handleOnToggle = () => {
     onToggle(item, parent);
   };
@@ -28,30 +31,42 @@ const MenuItem = ({
   };
 
   return (
-    <li>
-      <div className="menu-item">
-        <button
-          className="checkbox"
-          onClick={handleOnToggle}
-          tabIndex={0}
-          role="checkbox"
-          aria-checked={isChecked}
-        >
-          {isChecked ? "☒" : "☐"}
-        </button>
-        <p>{item.name}</p>
+    <List.Item className="pt-5 [li&::before]:!hidden [&::before]:!hidden [&::before]:!content-none">
+      <List.Text
+        className={hasChildren ? "menu-item parent-item" : "menu-item"}
+      >
+        <span className="menu-item-left">
+          <Checkbox
+            onClick={handleOnToggle}
+            checked={isChecked}
+            tabIndex={0}
+            role="checkbox"
+            aria-checked={isChecked}
+          ></Checkbox>
+
+          {hasChildren && (
+            <Button variant="ghost" size="sm">
+              <Folder />
+            </Button>
+          )}
+        </span>
+
+        <span className="menu-item-center px-5">{item.name}</span>
+
         {hasChildren && (
-          <button
-            className="toggle-icon"
+          <Button
+            iconButton={true}
+            variant="ghost"
+            size="sm"
             onClick={handleExpand}
             tabIndex={0}
             aria-expanded={isExpanded}
+            className="menu-item-right"
           >
-            {isExpanded ? "⯅" : "⯆"}
-          </button>
+            {isExpanded ? <ChevronDown /> : <ChevronRight />}
+          </Button>
         )}
-      </div>
-
+      </List.Text>
       {hasChildren && isExpanded && (
         <MenuList
           list={item.children}
@@ -60,7 +75,7 @@ const MenuItem = ({
           onToggle={onToggle}
         />
       )}
-    </li>
+    </List.Item>
   );
 };
 
