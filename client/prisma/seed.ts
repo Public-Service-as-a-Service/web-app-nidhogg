@@ -1,18 +1,39 @@
-import { PrismaClient, Prisma } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const userData: Prisma.UserCreateInput[] = [
-  {
-    email: "user@test.se",
-    password: "password",
-  },
-];
+async function main() {
+  const user = await prisma.user.upsert({
+    where: { email: "user@test.se" },
+    update: {},
+    create: {
+      email: "user@test.se",
+      password: "password",
+    },
+  });
 
-export async function main() {
-  for (const u of userData) {
-    await prisma.user.create({ data: u });
-  }
+  await prisma.message.createMany({
+    data: [
+      {
+        title: "Krisarnas kris 1",
+        content:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut dapibus ultricies accumsan.",
+        userId: user.id,
+      },
+      {
+        title: "Krisarnas kris 2",
+        content:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut dapibus ultricies accumsan.",
+        userId: user.id,
+      },
+      {
+        title: "Krisarnas kris 3",
+        content:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut dapibus ultricies accumsan.",
+        userId: user.id,
+      },
+    ],
+  });
 }
 
 main();
