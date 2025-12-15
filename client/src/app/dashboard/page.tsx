@@ -11,7 +11,7 @@ const Dashboard = () => {
   return (
     <MainWrapper title={t("title")} subtitle={t("subtitle")}>
       <div className="py-30">
-        <Button size="lg">Skapa nytt utskick</Button>
+        <Button size="lg">{t("newMessageButton")}</Button>
       </div>
       <MessageList />
     </MainWrapper>
