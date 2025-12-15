@@ -1,31 +1,10 @@
 "use client";
 
 import { Button, Card } from "@sk-web-gui/react";
+import { useMessages } from "../services/useMessages";
 
 const MessageList = () => {
-  const messages = [
-    {
-      id: 1,
-      createDate: "2025-12-12 12:24",
-      title: "Kris 1",
-      content:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, cumque! Asperiores ducimus corporis voluptates delectus nemo, ea aliquid aperiam hic!",
-    },
-    {
-      id: 2,
-      createDate: "2025-12-12 10:26",
-      title: "Kris 2",
-      content:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, cumque! Asperiores ducimus corporis voluptates delectus nemo, ea aliquid aperiam hic!",
-    },
-    {
-      id: 3,
-      createDate: "2025-06-19 08:24",
-      title: "Kris 3",
-      content:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, cumque! Asperiores ducimus corporis voluptates delectus nemo, ea aliquid aperiam hic!",
-    },
-  ];
+  const { data: messages = [] } = useMessages();
 
   return (
     <div className="px-20">
