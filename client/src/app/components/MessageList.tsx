@@ -17,9 +17,9 @@ const MessageList = () => {
           <Card key={item.id}>
             <Card.Body>
               <Card.Header>
-                <div className="flex justify-between">
+                <div className="flex flex-col md:flex-row justify-between">
                   <h3>{item.title}</h3>
-                  <p>{item.createDate}</p>
+                  <p>{new Date(item.createDate).toLocaleString()}</p>
                 </div>
               </Card.Header>
               <Card.Text>
