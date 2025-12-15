@@ -35,7 +35,7 @@ model Group {
   title            String
   description      String?
   createDate       DateTime @default(now())
-  lastModifiedDate DateTime @default(now())
+  lastModifiedDate DateTime @updatedAt
   owner            User     @relation(fields: [ownerId], references: [id])
   ownerId          String
   members          Member[]
