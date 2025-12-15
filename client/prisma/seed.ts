@@ -34,6 +34,26 @@ async function main() {
       },
     ],
   });
+
+  await prisma.group.createMany({
+    data: [
+      {
+        title: "Krisgruppen",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        ownerId: user.id,
+      },
+      {
+        title: "IT-jour",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        ownerId: user.id,
+      },
+      {
+        title: "Testgrupp",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        ownerId: user.id,
+      },
+    ],
+  });
 }
 
 main();

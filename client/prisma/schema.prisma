@@ -18,6 +18,7 @@ model User {
   email    String    @unique
   password String
   messages Message[]
+  groups   Group[]
 }
 
 model Message {
@@ -27,4 +28,22 @@ model Message {
   createDate DateTime @default(now())
   user       User?    @relation(fields: [userId], references: [id])
   userId     String?
+}
+
+model Group {
+  id               String   @id @default(uuid())
+  title            String
+  description      String?
+  createDate       DateTime @default(now())
+  lastModifiedDate DateTime @default(now())
+  owner            User     @relation(fields: [ownerId], references: [id])
+  ownerId          String
+  members          Member[]
+}
+
+model Member {
+  id      String  @id @default(uuid())
+  group   Group   @relation(fields: [groupId], references: [id])
+  groupId String
+  email   String?
 }
