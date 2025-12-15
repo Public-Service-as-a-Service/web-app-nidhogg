@@ -6,7 +6,8 @@ import { useLogin } from "./services/useLogin";
 import { styles } from "./styles";
 import { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
-import { Button, Input, Spinner } from "@sk-web-gui/react";
+import { Button, Input } from "@sk-web-gui/react";
+import Loading from "./components/LoadingSpinner";
 
 export type Credentials = {
   email: string;
@@ -45,9 +46,7 @@ const Login = () => {
   };
 
   return isPending ? (
-    <div className="flex flex-col justify-center h-full">
-      <Spinner className="self-center" />
-    </div>
+    <Loading />
   ) : (
     <div style={styles.loginMain} data-cy="login">
       <div style={styles.loginMainPaper}>

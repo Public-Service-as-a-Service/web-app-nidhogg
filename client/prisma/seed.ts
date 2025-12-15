@@ -15,19 +15,19 @@ async function main() {
   await prisma.message.createMany({
     data: [
       {
-        title: "Krisarnas kris 1",
+        title: "Krisarnas kris",
         content:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut dapibus ultricies accumsan.",
         userId: user.id,
       },
       {
-        title: "Krisarnas kris 2",
+        title: "Nu är det julkris",
         content:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut dapibus ultricies accumsan.",
         userId: user.id,
       },
       {
-        title: "Krisarnas kris 3",
+        title: "Krisen är här",
         content:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut dapibus ultricies accumsan.",
         userId: user.id,

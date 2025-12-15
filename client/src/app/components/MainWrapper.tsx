@@ -1,8 +1,8 @@
 import { styles } from "../styles";
 import { ReactNode } from "react";
 import useSessionStatus from "../hooks/useSessionStatus";
-import { Spinner } from "@sk-web-gui/react";
 import { Logo } from "@sk-web-gui/react";
+import Loading from "./LoadingSpinner";
 
 interface MainWrapperProps {
   children: ReactNode;
@@ -19,9 +19,7 @@ const MainWrapper = ({ children, title, subtitle }: MainWrapperProps) => {
       {children}
     </div>
   ) : (
-    <div className="flex flex-col justify-center h-full">
-      <Spinner className="self-center" />
-    </div>
+    <Loading />
   );
 };
 

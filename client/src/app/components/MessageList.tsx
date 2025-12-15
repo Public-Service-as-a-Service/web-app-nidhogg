@@ -2,9 +2,12 @@
 
 import { Button, Card } from "@sk-web-gui/react";
 import { useMessages } from "../services/useMessages";
+import Loading from "./LoadingSpinner";
 
 const MessageList = () => {
-  const { data: messages = [] } = useMessages();
+  const { data: messages = [], isLoading } = useMessages();
+
+  if (isLoading) return <Loading />;
 
   return (
     <div className="px-20">
