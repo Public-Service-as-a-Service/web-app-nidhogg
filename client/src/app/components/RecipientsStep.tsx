@@ -37,14 +37,14 @@ const RecipientsStep = ({ onNext }: Props) => {
   ];
 
   return (
-    <div className="py-44">
-      <p>Mottagare</p>
-      <div className="flex flex-col md:flex-row gap-18 md:gap-24 py-10">
+    <div className="pt-44">
+      <p className="text-center">Mottagare</p>
+      <div className="flex flex-col md:flex-row gap-18 md:gap-24 py-14">
         {buttons.map((button) => {
           const Icon = button.icon;
           return (
             <div key={button.title} className="flex flex-col gap-4">
-              <Button>
+              <Button variant="secondary">
                 <Icon />
                 {button.title}
               </Button>
