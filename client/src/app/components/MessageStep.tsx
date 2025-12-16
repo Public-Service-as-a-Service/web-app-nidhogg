@@ -13,7 +13,7 @@ const MessageStep = ({ onPrev }: Props) => {
   const isMobile = width < tailwindBreakPoint.MD;
 
   return (
-    <div>
+    <div className="py-44">
       <p>Meddelande</p>
       {isMobile && <Button onClick={onPrev}>Gå tillbaka</Button>}
     </div>
