@@ -1,17 +1,17 @@
 "use client";
 
-import { useScreenWidth } from "@/app/hooks/useScreenWidth";
-import { tailwindBreakPoint } from "@/app/constants";
-import { Button, Chip, Checkbox } from "@sk-web-gui/react";
+import { Button, Chip, Checkbox, Card } from "@sk-web-gui/react";
 import MessageForm from "./MessageForm";
+// import { useScreenWidth } from "@/app/hooks/useScreenWidth";
+// import { tailwindBreakPoint } from "@/app/constants";
 
 interface Props {
   onPrev?: () => void;
 }
 
 const MessageStep = ({ onPrev }: Props) => {
-  const width = useScreenWidth();
-  const isMobile = width < tailwindBreakPoint.MD;
+  // const width = useScreenWidth();
+  // const isMobile = width < tailwindBreakPoint.MD;
 
   const recipients = [
     {
@@ -26,8 +26,8 @@ const MessageStep = ({ onPrev }: Props) => {
   ];
 
   return (
-    <div className="py-44">
-      <p className="text-center">Meddelande</p>
+    <div className="py-44 md:min-w-[525px]">
+      <p className="text-center text-xl">Skriv meddelande</p>
       <div className="py-14">
         <p>Valda mottagare:</p>
         <div className="flex gap-8">
@@ -35,16 +35,42 @@ const MessageStep = ({ onPrev }: Props) => {
             <Chip key={item.title}>{item.title}</Chip>
           ))}
         </div>
-        <div className="py-14">
-          <p>Utskickskanal:</p>
-          <div className="flex flex-row gap-8">
-            <Checkbox>Microsoft Teams</Checkbox>
-            <Checkbox>SMS</Checkbox>
-          </div>
-        </div>
         <MessageForm />
       </div>
-      {isMobile && <Button onClick={onPrev}>Gå tillbaka</Button>}
+
+      <div className="flex flex-col md:flex-row gap-14 pb-28">
+        <Card>
+          <Card.Body>
+            <Card.Text>
+              <div className="pb-4 text-label-medium">
+                <Checkbox className="pr-8" />
+                Microsoft Teams
+              </div>
+              <p>Notifiera alla via Teams</p>
+            </Card.Text>
+          </Card.Body>
+        </Card>
+        <Card>
+          <Card.Body>
+            <Card.Text>
+              <div className="pb-4 text-label-medium">
+                <Checkbox className="pr-8" />
+                SMS
+              </div>
+              <p>Notifiera alla via SMS</p>
+            </Card.Text>
+          </Card.Body>
+        </Card>
+      </div>
+
+      <div className="flex place-content-between">
+        <Button variant="tertiary" onClick={onPrev} className="self-start">
+          Gå tillbaka
+        </Button>
+        <Button variant="primary" className="self-start">
+          Granska
+        </Button>
+      </div>
     </div>
   );
 };
