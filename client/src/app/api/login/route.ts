@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
   }
 
   const cookieStore = await cookies();
-  cookieStore.set("token", "logged-in", {
+  cookieStore.set("userId", user.id, {
     httpOnly: true,
     secure: true,
     path: "/",

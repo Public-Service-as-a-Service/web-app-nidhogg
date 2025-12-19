@@ -18,7 +18,6 @@ export const styles: { [key: string]: CSSProperties } = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    height: "100vh",
-    margin: "88px auto",
+    margin: "30px auto",
   },
 };
