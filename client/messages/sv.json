@@ -1,7 +1,10 @@
 {
   "Dashboard": {
     "title": "Nidhogg",
-    "subtitle": "Krisinformation"
+    "subtitle": "Krisinformation",
+    "newMessageButton": "Skapa nytt utskick",
+    "sentMessages": "Dina senaste utskick",
+    "updateMessageButton": "Skicka nytt meddelande"
   },
   "AppBar": {
     "logOut": "Logga ut",
