@@ -3,6 +3,7 @@
 import React from "react";
 import { Button, Card, Checkbox } from "@sk-web-gui/react";
 import { FormControl, FormLabel, Combobox } from "@sk-web-gui/react";
+import { useRouter } from "next/navigation";
 // import { useScreenWidth } from "@/app/hooks/useScreenWidth";
 // import { tailwindBreakPoint } from "@/app/constants";
 
@@ -13,6 +14,12 @@ interface Props {
 const RecipientsStep = ({ onNext }: Props) => {
   // const width = useScreenWidth();
   // const isMobile = width < tailwindBreakPoint.MD;
+
+  const router = useRouter();
+
+  const handleGoBack = () => {
+    router.push("/dashboard");
+  };
 
   const predefinedGroups = [
     { id: 1, name: "Krisgrupp" },
@@ -81,15 +88,18 @@ const RecipientsStep = ({ onNext }: Props) => {
               ))}
             </Combobox.List>
           </Combobox>
+          <Button variant="secondary" size="sm" className="w-fit">
+            Hantera grupper
+          </Button>
         </FormControl>
       </div>
 
-      <div className="flex place-content-end">
-        <Button onClick={onNext}>
-          Gå vidare
+      <div className="flex place-content-between">
+        <Button variant="tertiary" onClick={handleGoBack}>
+          Gå tillbaka
         </Button>
+        <Button onClick={onNext}>Gå vidare</Button>
       </div>
-      
     </div>
   );
 };

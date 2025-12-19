@@ -26,7 +26,7 @@ const MessageStep = ({ onPrev }: Props) => {
   ];
 
   return (
-    <div className="py-44 md:min-w-[525px]">
+    <div className="py-44">
       <p className="text-center text-xl">Skriv meddelande</p>
       <div className="py-14">
         <p>Valda mottagare:</p>
