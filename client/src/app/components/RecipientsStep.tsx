@@ -25,7 +25,7 @@ const RecipientsStep = ({ onNext }: Props) => {
   ];
 
   return (
-    <div className="pt-44">
+    <div className="py-44">
       <p className="text-center text-xl">Välj mottagare</p>
       <div className="flex flex-col md:flex-row gap-14 py-14">
         <Card>
