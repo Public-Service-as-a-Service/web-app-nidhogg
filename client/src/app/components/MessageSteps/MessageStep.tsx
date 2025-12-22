@@ -7,9 +7,10 @@ import MessageForm from "./MessageForm";
 
 interface Props {
   onPrev?: () => void;
+  onNext?: () => void;
 }
 
-const MessageStep = ({ onPrev }: Props) => {
+const MessageStep = ({ onPrev, onNext }: Props) => {
   // const width = useScreenWidth();
   // const isMobile = width < tailwindBreakPoint.MD;
 
@@ -26,11 +27,11 @@ const MessageStep = ({ onPrev }: Props) => {
   ];
 
   return (
-    <div className="py-44">
+    <div className="py-44 px-20">
       <p className="text-center text-xl">Skriv meddelande</p>
       <div className="py-14">
         <p>Valda mottagare:</p>
-        <div className="flex gap-8">
+        <div className="flex flex-wrap gap-8">
           {recipients.map((item) => (
             <Chip key={item.title}>{item.title}</Chip>
           ))}
@@ -67,7 +68,7 @@ const MessageStep = ({ onPrev }: Props) => {
         <Button variant="tertiary" onClick={onPrev} className="self-start">
           Gå tillbaka
         </Button>
-        <Button variant="primary" className="self-start">
+        <Button variant="primary" onClick={onNext} className="self-start">
           Granska
         </Button>
       </div>
