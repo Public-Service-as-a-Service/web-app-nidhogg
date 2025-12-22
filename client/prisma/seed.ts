@@ -59,18 +59,34 @@ async function main() {
   const createdGroups = await prisma.group.findMany();
 
   const employeesData = [
-    { email: "anna.andersson@krismyndigheten.se", telephone: "0701111111" },
-    { email: "erik.nilsson@krismyndigheten.se", telephone: "0702222222" },
-    { email: "sofia.lindberg@krismyndigheten.se", telephone: "0703333333" },
-    { email: "johan.persson@krismyndigheten.se", telephone: "0704444444" },
+    {
+      id: 1,
+      email: "anna.andersson@krismyndigheten.se",
+      telephone: "0701111111",
+    },
+    {
+      id: 2,
+      email: "erik.nilsson@krismyndigheten.se",
+      telephone: "0702222222",
+    },
+    {
+      id: 3,
+      email: "sofia.lindberg@krismyndigheten.se",
+      telephone: "0703333333",
+    },
+    {
+      id: 4,
+      email: "johan.persson@krismyndigheten.se",
+      telephone: "0704444444",
+    },
 
-    { email: "oncall.it@myndighet.se", telephone: "0705555555" },
-    { email: "driftansvarig@myndighet.se", telephone: "0706666666" },
-    { email: "it.sakerhet@myndighet.se", telephone: "0707777777" },
+    { id: 5, email: "oncall.it@myndighet.se", telephone: "0705555555" },
+    { id: 6, email: "driftansvarig@myndighet.se", telephone: "0706666666" },
+    { id: 7, email: "it.sakerhet@myndighet.se", telephone: "0707777777" },
 
-    { email: "test.anvandare1@demo.se", telephone: "0708888888" },
-    { email: "test.anvandare2@demo.se", telephone: "0709999999" },
-    { email: "test.anvandare3@demo.se", telephone: "0700000000" },
+    { id: 8, email: "test.anvandare1@demo.se", telephone: "0708888888" },
+    { id: 9, email: "test.anvandare2@demo.se", telephone: "0709999999" },
+    { id: 10, email: "test.anvandare3@demo.se", telephone: "0700000000" },
   ];
 
   await prisma.employee.createMany({
