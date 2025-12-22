@@ -30,7 +30,7 @@ const MessageStep = ({ onPrev, onNext }: Props) => {
     <div className="py-44 px-20">
       <p className="text-center text-xl">Skriv meddelande</p>
       <div className="py-14">
-        <p>Valda mottagare:</p>
+        <p>Valda mottagare</p>
         <div className="flex flex-wrap gap-8">
           {recipients.map((item) => (
             <Chip key={item.title}>{item.title}</Chip>
