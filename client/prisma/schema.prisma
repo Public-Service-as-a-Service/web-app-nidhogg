@@ -30,7 +30,7 @@ model Message {
 }
 
 model Employee {
-  id               String   @id @default(uuid())
+  id               Int      @id // från filen
   email            String
   telephone        String?
   createDate       DateTime @default(now())
@@ -40,7 +40,7 @@ model Employee {
 }
 
 model Group {
-  id               String   @id @default(uuid())
+  id               Int      @id @default(autoincrement())
   name             String
   description      String?
   createDate       DateTime @default(now())
@@ -50,12 +50,11 @@ model Group {
 }
 
 model GroupMember {
-  id         String @id @default(uuid())
-  groupId    String
-  employeeId String
+  groupId    Int
+  employeeId Int
 
-  group    Group    @relation(fields: [groupId], references: [id])
-  employee Employee @relation(fields: [employeeId], references: [id])
+  group    Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  employee Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
 
-  @@unique([groupId, employeeId])
+  @@id([groupId, employeeId])
 }
