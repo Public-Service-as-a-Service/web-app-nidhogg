@@ -4,5 +4,4 @@ export interface Group {
   description?: string;
   createDate: string;
   lastModifiedDate: string;
-//   members: GroupMember[];
 }
