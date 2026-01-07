@@ -1,19 +1,20 @@
 "use client";
 
-import React from "react";
 import { Button, Card, Checkbox } from "@sk-web-gui/react";
 import { FormControl, FormLabel, Combobox } from "@sk-web-gui/react";
 import { useRouter } from "next/navigation";
-// import { useScreenWidth } from "@/app/hooks/useScreenWidth";
-// import { tailwindBreakPoint } from "@/app/constants";
+import { useState } from "react";
 
 interface Props {
   onNext?: () => void;
 }
 
 const RecipientsStep = ({ onNext }: Props) => {
-  // const width = useScreenWidth();
-  // const isMobile = width < tailwindBreakPoint.MD;
+  const [allChecked, setAllChecked] = useState<boolean>(false);
+
+  const handleAllChecked = () => {
+    setAllChecked(!allChecked);
+  };
 
   const router = useRouter();
 
@@ -35,11 +36,11 @@ const RecipientsStep = ({ onNext }: Props) => {
     <div className="py-44 px-20">
       <p className="text-center text-xl">Välj mottagare</p>
       <div className="flex flex-col md:flex-row gap-14 py-14">
-        <Card>
+        <Card className={allChecked ? "opacity-40" : "opacity-100"}>
           <Card.Body>
             <Card.Text>
               <div className="pb-4 text-label-medium">
-                <Checkbox className="pr-8" />
+                <Checkbox className="pr-8" disabled={allChecked} />
                 Alla chefer
               </div>
               <p>Skicka till samtliga chefer</p>
@@ -50,7 +51,7 @@ const RecipientsStep = ({ onNext }: Props) => {
           <Card.Body>
             <Card.Text>
               <div className="pb-4 text-label-medium">
-                <Checkbox className="pr-8" />
+                <Checkbox className="pr-8" onChange={handleAllChecked} />
                 Alla medarbetare
               </div>
               <p>Skicka till samtliga medarbetare</p>
@@ -59,10 +60,16 @@ const RecipientsStep = ({ onNext }: Props) => {
         </Card>
       </div>
 
-      <div className="flex flex-col pt-14 pb-28 gap-16">
+      <div
+        className={
+          allChecked
+            ? "opacity-40 flex flex-col pt-14 pb-28 gap-16"
+            : "opacity-100 flex flex-col pt-14 pb-28 gap-16"
+        }
+      >
         <p className="text-label-large">Grupper</p>
 
-        <FormControl className="w-full">
+        <FormControl className="w-full" disabled={allChecked}>
           <FormLabel>Fördefinierade grupper</FormLabel>
           <Combobox multiple placeholder="Välj en eller flera grupper">
             <Combobox.Input className="w-full" />
@@ -76,7 +83,7 @@ const RecipientsStep = ({ onNext }: Props) => {
           </Combobox>
         </FormControl>
 
-        <FormControl className="w-full">
+        <FormControl className="w-full" disabled={allChecked}>
           <FormLabel>Sparade grupper</FormLabel>
           <Combobox multiple placeholder="Välj en eller flera grupper">
             <Combobox.Input className="w-full" />
