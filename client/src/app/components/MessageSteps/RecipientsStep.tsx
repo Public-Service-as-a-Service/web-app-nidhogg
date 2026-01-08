@@ -96,14 +96,27 @@ const RecipientsStep = ({ onNext }: Props) => {
               ))}
             </Combobox.List>
           </Combobox>
-          <Button variant="secondary" size="sm" className="w-fit" disabled={allChecked}>
+          <Button
+            variant="secondary"
+            size="sm"
+            className="w-fit"
+            disabled={allChecked}
+          >
             Hantera grupper
           </Button>
         </FormControl>
 
         <FormControl className="w-full" disabled={allChecked}>
-          <FormLabel>Organisation</FormLabel>
-          <TreeView itemsDescription="Valda mottagare" />
+          <p
+            id="organisation-label"
+            className="sk-form-label sk-form-label-md my-0"
+          >
+            Organisation
+          </p>
+          <TreeView
+            itemsDescription="Valda mottagare"
+            aria-labelledby="organisation-label"
+          />
         </FormControl>
       </div>
 
