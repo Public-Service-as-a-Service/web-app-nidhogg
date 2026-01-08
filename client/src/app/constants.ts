@@ -4,6 +4,7 @@ export const SESSION = {
 
 export const PATHS = [
   { url: "/dashboard", title: "Dashboard", isVisible: true },
+  { url: "/dashboard/messages", title: "Skapa nytt utskick", isVisible: true },
 ];
 
 export const SESSION_STORAGE = {

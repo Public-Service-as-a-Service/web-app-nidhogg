@@ -1,11 +1,13 @@
-.tree-view-container {
-  width: 375px;
-  padding: 45px 30px;
+.menu-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .menu-list-container .menu-list-container {
   padding-left: 10px;
   border-left: 1px #ffffff50 solid;
+  margin-top: 8px;
 }
 
 .menu-item {
@@ -14,9 +16,16 @@
   align-items: center;
   justify-content: center;
   padding: 4px 8px;
-  border-radius: 10px;
   position: relative;
   margin-left: 0;
+
+  border-width: var(--sk-spacing-1);
+  border-color: var(--sk-colors-input-field-outline-DEFAULT);
+  border-radius: var(--sk-radius-button-md);
+  min-height: 42px;
+
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .menu-item-left {
@@ -35,6 +44,6 @@
   margin-left: auto;
 }
 
-.parent-item {
+/* .parent-item {
   background-color: var(--sk-colors-vattjom-surface-accent-DEFAULT);
-}
+} */

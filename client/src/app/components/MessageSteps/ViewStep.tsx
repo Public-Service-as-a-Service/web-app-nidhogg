@@ -20,7 +20,7 @@ const ViewStep = ({ onPrev }: Props) => {
   ];
 
   return (
-    <div className="py-44 px-20 max-w-[450px]">
+    <div>
       <p className="text-center text-xl">Granska meddelande</p>
       <div className="pt-14 pb-28">
         <p>Valda mottagare</p>
@@ -46,7 +46,7 @@ const ViewStep = ({ onPrev }: Props) => {
         <Button variant="tertiary" onClick={onPrev}>
           Gå tillbaka
         </Button>
-        <Button>Skicka meddelande</Button>
+        <Button>Skicka</Button>
       </div>
     </div>
   );

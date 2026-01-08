@@ -4,6 +4,7 @@ import { Button, Card, Checkbox } from "@sk-web-gui/react";
 import { FormControl, FormLabel, Combobox } from "@sk-web-gui/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import TreeView from "../TreeView/TreeView";
 
 interface Props {
   onNext?: () => void;
@@ -33,7 +34,7 @@ const RecipientsStep = ({ onNext }: Props) => {
   ];
 
   return (
-    <div className="py-44 px-20">
+    <div>
       <p className="text-center text-xl">Välj mottagare</p>
       <div className="flex flex-col md:flex-row gap-14 py-14">
         <Card className={allChecked ? "opacity-40" : "opacity-100"}>
@@ -95,9 +96,14 @@ const RecipientsStep = ({ onNext }: Props) => {
               ))}
             </Combobox.List>
           </Combobox>
-          <Button variant="secondary" size="sm" className="w-fit">
+          <Button variant="secondary" size="sm" className="w-fit" disabled={allChecked}>
             Hantera grupper
           </Button>
+        </FormControl>
+
+        <FormControl className="w-full" disabled={allChecked}>
+          <FormLabel>Organisation</FormLabel>
+          <TreeView itemsDescription="Valda mottagare" />
         </FormControl>
       </div>
 

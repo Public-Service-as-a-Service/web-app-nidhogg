@@ -2,8 +2,6 @@
 
 import { Button, Chip, Checkbox, Card } from "@sk-web-gui/react";
 import MessageForm from "./MessageForm";
-// import { useScreenWidth } from "@/app/hooks/useScreenWidth";
-// import { tailwindBreakPoint } from "@/app/constants";
 
 interface Props {
   onPrev?: () => void;
@@ -11,9 +9,6 @@ interface Props {
 }
 
 const MessageStep = ({ onPrev, onNext }: Props) => {
-  // const width = useScreenWidth();
-  // const isMobile = width < tailwindBreakPoint.MD;
-
   const recipients = [
     {
       title: "Alla chefer",
@@ -27,7 +22,7 @@ const MessageStep = ({ onPrev, onNext }: Props) => {
   ];
 
   return (
-    <div className="py-44 px-20">
+    <div>
       <p className="text-center text-xl">Skriv meddelande</p>
       <div className="py-14">
         <p>Valda mottagare</p>
@@ -47,7 +42,7 @@ const MessageStep = ({ onPrev, onNext }: Props) => {
                 <Checkbox className="pr-8" />
                 Microsoft Teams
               </div>
-              <p>Notifiera alla via Teams</p>
+              <p>Skicka meddelande via Teams</p>
             </Card.Text>
           </Card.Body>
         </Card>
@@ -58,7 +53,7 @@ const MessageStep = ({ onPrev, onNext }: Props) => {
                 <Checkbox className="pr-8" />
                 SMS
               </div>
-              <p>Notifiera alla via SMS</p>
+              <p>Skicka meddelande via SMS</p>
             </Card.Text>
           </Card.Body>
         </Card>

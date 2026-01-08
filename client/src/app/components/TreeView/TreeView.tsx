@@ -73,7 +73,7 @@ const TreeView = ({ itemsDescription }: TreeViewProps) => {
         checkedItems={checkedItems}
         onToggle={toggleItem}
       />
-      <div className="pt-30">
+      <div className="pt-16">
         {itemsDescription}
         <SelectedList listItems={selectedItems} />
       </div>
