@@ -20,19 +20,23 @@ const ViewStep = ({ onPrev }: Props) => {
   ];
 
   return (
-    <div>
-      <p className="text-center text-xl">Granska meddelande</p>
-      <div className="pt-14 pb-28">
-        <p>Valda mottagare</p>
-        <div className="flex flex-wrap gap-8">
-          {recipients.map((item) => (
-            <Label key={item.title}>{item.title}</Label>
-          ))}
+    <div className="flex flex-col gap-14">
+      <p className="text-center text-h4-md sm:text-xl">Granska meddelande</p>
+      <div className="flex flex-col gap-14 pb-28">
+        <div className="flex flex-col gap-4">
+          <p className="text-label-large">Valda mottagare</p>
+          <div className="flex flex-wrap gap-8">
+            {recipients.map((item) => (
+              <Label key={item.title}>{item.title}</Label>
+            ))}
+          </div>
         </div>
-        <div>
-          <p className="text-label-large pt-14">Rubrik</p>
+        <div className="flex flex-col gap-4">
+          <p className="text-label-large">Rubrik</p>
           <p>Kris på kris</p>
-          <p className="text-label-large pt-8">Meddelande</p>
+        </div>
+        <div className="flex flex-col gap-4">
+          <p className="text-label-large">Meddelande</p>
           <p>
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure
             doloremque facilis corrupti voluptates obcaecati nulla officiis sint
@@ -42,7 +46,7 @@ const ViewStep = ({ onPrev }: Props) => {
           </p>
         </div>
       </div>
-      <div className="flex place-content-between">
+      <div className="flex justify-between">
         <Button variant="tertiary" onClick={onPrev}>
           Gå tillbaka
         </Button>
