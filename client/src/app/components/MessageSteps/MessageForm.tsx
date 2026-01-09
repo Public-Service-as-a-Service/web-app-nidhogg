@@ -4,11 +4,21 @@ import { FormControl, FormLabel, Input, Textarea } from "@sk-web-gui/react";
 
 const MessageForm = () => {
   return (
-    <FormControl className="w-full pt-14">
-      <FormLabel>Nytt meddelande</FormLabel>
-      <Input placeholder="Ange rubrik" />
-      <Textarea placeholder="Ange meddelandets innehåll" className="w-full min-h-[150px]" />
-    </FormControl>
+    <form className="pt-16 flex flex-col gap-14">
+      <FormControl className="w-full">
+        <FormLabel htmlFor="title">Rubrik</FormLabel>
+        <Input id="title" placeholder="Ange rubrik" />
+      </FormControl>
+
+      <FormControl className="w-full">
+        <FormLabel htmlFor="message">Meddelande</FormLabel>
+        <Textarea
+          id="message"
+          placeholder="Ange meddelandets innehåll"
+          className="w-full min-h-[150px]"
+        />
+      </FormControl>
+    </form>
   );
 };
 

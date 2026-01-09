@@ -45,7 +45,7 @@ const MenuItem = ({
           ></Checkbox>
 
           {hasChildren && (
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="sm" tabIndex={-1}>
               <Folder />
             </Button>
           )}
