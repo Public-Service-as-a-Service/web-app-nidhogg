@@ -2,6 +2,10 @@ export const SESSION = {
   token: "token",
 };
 
+export const STORE = {
+  userId: "userId",
+};
+
 export const PATHS = [
   { url: "/dashboard", title: "Dashboard", isVisible: true },
   { url: "/dashboard/messages", title: "Skapa nytt utskick", isVisible: true },
@@ -9,6 +13,13 @@ export const PATHS = [
 
 export const SESSION_STORAGE = {
   sessionActive: "sessionActive",
+};
+
+export const ROUTES = {
+  login: "/login",
+  logout: "/logout",
+  messages: "/messages",
+  groups: "/groups",
 };
 
 export const tailwindBreakPoint = {

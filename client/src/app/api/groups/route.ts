@@ -10,16 +10,13 @@ export async function GET() {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  const messages = await prisma.message.findMany({
-    where: {
-      userId: userId,
-    },
+  const groups = await prisma.group.findMany({
     orderBy: {
       createDate: "desc",
     },
   });
 
-  return new Response(JSON.stringify(messages), {
+  return new Response(JSON.stringify(groups), {
     status: 200,
     headers: { "Content-type": "application/json" },
   });

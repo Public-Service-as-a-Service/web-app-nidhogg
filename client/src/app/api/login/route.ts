@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { cookies } from "next/headers";
-import prisma from "../../../../lib/prisma";
+import prisma from "@/../lib/prisma";
+import { STORE } from "@/app/constants";
 
 export async function POST(req: NextRequest) {
   const { email, password } = await req.json();
@@ -14,7 +15,7 @@ export async function POST(req: NextRequest) {
   }
 
   const cookieStore = await cookies();
-  cookieStore.set("userId", user.id, {
+  cookieStore.set(STORE.userId, user.id, {
     httpOnly: true,
     secure: true,
     path: "/",
