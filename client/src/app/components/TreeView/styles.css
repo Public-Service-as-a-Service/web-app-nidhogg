@@ -44,6 +44,7 @@
   margin-left: auto;
 }
 
-/* .parent-item {
-  background-color: var(--sk-colors-vattjom-surface-accent-DEFAULT);
-} */
+.parent-item {
+  background-color: var(--sk-colors-input-field-surface-DEFAULT);
+  font-weight: 700;
+}
