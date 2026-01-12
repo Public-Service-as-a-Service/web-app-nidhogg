@@ -26,7 +26,7 @@ const MessageStep = ({ onPrev, onNext }: Props) => {
       <p className="text-center text-h4-md sm:text-xl">Skriv meddelande</p>
       <div className="flex flex-col gap-8 pb-28">
         <div>
-          <p className="sk-form-label sk-form-label-md mb-8 mt-0">
+          <p className="text-label-medium mb-8 mt-0">
             Valda mottagare
           </p>
           <div className="flex flex-wrap gap-8">
