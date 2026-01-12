@@ -14,6 +14,13 @@ export const SESSION_STORAGE = {
   sessionActive: "sessionActive",
 };
 
+export const ROUTES = {
+  login: "/login",
+  logout: "/logout",
+  messages: "/messages",
+  groups: "/groups",
+};
+
 export const tailwindBreakPoint = {
   SM: 640,
   MD: 768,
