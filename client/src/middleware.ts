@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PATHS } from "./app/constants";
+import { PATHS, STORE } from "./app/constants";
 
 export function middleware(req: NextRequest) {
-  const userId = req.cookies.get("userId")?.value;
+  const userId = req.cookies.get(STORE.userId)?.value;
   const { pathname } = req.nextUrl;
 
   if (isProtectedPage(pathname) && !userId) {

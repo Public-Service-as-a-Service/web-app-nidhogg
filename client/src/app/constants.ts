@@ -2,6 +2,10 @@ export const SESSION = {
   token: "token",
 };
 
+export const STORE = {
+  userId: "userId",
+};
+
 export const PATHS = [
   { url: "/dashboard", title: "Dashboard", isVisible: true },
 ];
