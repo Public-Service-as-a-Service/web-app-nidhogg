@@ -1,10 +1,11 @@
 "use client";
 
-import { Button, Card, Checkbox } from "@sk-web-gui/react";
+import { Button } from "@sk-web-gui/react";
 import { FormControl, FormLabel, Combobox } from "@sk-web-gui/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import TreeView from "../TreeView/TreeView";
+import CheckboxCard from "./CheckboxCard";
 
 interface Props {
   onNext?: () => void;
@@ -38,28 +39,15 @@ const RecipientsStep = ({ onNext }: Props) => {
       <p className="text-center text-h4-md sm:text-xl">Välj mottagare</p>
       <div className="flex flex-col gap-14 pb-28">
         <div className="flex flex-col md:flex-row gap-8">
-          <Card className={allChecked ? "opacity-40" : "opacity-100"}>
-            <Card.Body>
-              <Card.Text>
-                <div className="pb-4 text-label-medium">
-                  <Checkbox className="pr-8" disabled={allChecked} />
-                  Alla chefer
-                </div>
-                <p>Skicka till samtliga chefer</p>
-              </Card.Text>
-            </Card.Body>
-          </Card>
-          <Card>
-            <Card.Body>
-              <Card.Text>
-                <div className="pb-4 text-label-medium">
-                  <Checkbox className="pr-8" onChange={handleAllChecked} />
-                  Alla medarbetare
-                </div>
-                <p>Skicka till samtliga medarbetare</p>
-              </Card.Text>
-            </Card.Body>
-          </Card>
+          <CheckboxCard
+            label="Alla chefer"
+            description="Skicka till samtliga chefer"
+          />
+          <CheckboxCard
+            label="Alla medarbetare"
+            description="Skicka till samtliga medarbetare"
+            handleAllChecked={handleAllChecked}
+          />
         </div>
         <div
           className={`flex flex-col gap-14 ${

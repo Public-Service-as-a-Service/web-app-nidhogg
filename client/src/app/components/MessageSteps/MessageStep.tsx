@@ -1,7 +1,8 @@
 "use client";
 
-import { Button, Chip, Checkbox, Card } from "@sk-web-gui/react";
+import { Button, Chip } from "@sk-web-gui/react";
 import MessageForm from "./MessageForm";
+import CheckboxCard from "./CheckboxCard";
 
 interface Props {
   onPrev?: () => void;
@@ -26,9 +27,7 @@ const MessageStep = ({ onPrev, onNext }: Props) => {
       <p className="text-center text-h4-md sm:text-xl">Skriv meddelande</p>
       <div className="flex flex-col gap-8 pb-28">
         <div>
-          <p className="text-label-medium mb-8 mt-0">
-            Valda mottagare
-          </p>
+          <p className="text-label-medium mb-8 mt-0">Valda mottagare</p>
           <div className="flex flex-wrap gap-8">
             {recipients.map((item) => (
               <Chip key={item.title}>{item.title}</Chip>
@@ -36,29 +35,12 @@ const MessageStep = ({ onPrev, onNext }: Props) => {
           </div>
           <MessageForm />
         </div>
-        <div className="flex flex-col md:flex-row gap-14">
-          <Card>
-            <Card.Body>
-              <Card.Text>
-                <div className="text-label-medium">
-                  <Checkbox className="pr-8" />
-                  Microsoft Teams
-                </div>
-                <p>Skicka meddelande via Teams</p>
-              </Card.Text>
-            </Card.Body>
-          </Card>
-          <Card>
-            <Card.Body>
-              <Card.Text>
-                <div className="text-label-medium">
-                  <Checkbox className="pr-8" />
-                  SMS
-                </div>
-                <p>Skicka meddelande via SMS</p>
-              </Card.Text>
-            </Card.Body>
-          </Card>
+        <div className="flex flex-col md:flex-row gap-8">
+          <CheckboxCard
+            label="Microsoft Teams"
+            description="Skicka meddelande via Teams"
+          />
+          <CheckboxCard label="SMS" description="Skicka meddelande via SMS" />
         </div>
       </div>
       <div className="flex justify-between">
