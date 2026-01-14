@@ -7,9 +7,13 @@ import CheckboxCard from "./CheckboxCard";
 interface Props {
   onPrev?: () => void;
   onNext?: () => void;
+  title?: string;
+  messageBody?: string;
+  setTitle?: (value: string) => void;
+  setMessageBody?: (value: string) => void;
 }
 
-const MessageStep = ({ onPrev, onNext }: Props) => {
+const MessageStep = ({ onPrev, onNext, title, messageBody, setTitle, setMessageBody }: Props) => {
   const recipients = [
     {
       title: "Alla chefer",
@@ -33,7 +37,12 @@ const MessageStep = ({ onPrev, onNext }: Props) => {
               <Chip key={item.title}>{item.title}</Chip>
             ))}
           </div>
-          <MessageForm />
+          <MessageForm
+            title={title}
+            messageBody={messageBody}
+            setTitle={setTitle}
+            setMessageBody={setMessageBody}
+          />
         </div>
         <div className="flex flex-col md:flex-row gap-8">
           <CheckboxCard

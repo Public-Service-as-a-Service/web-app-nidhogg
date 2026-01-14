@@ -11,6 +11,8 @@ const Messages = () => {
   const t = useTranslations("Dashboard");
 
   const [step, setStep] = useState<number>(0);
+  const [title, setTitle] = useState<string>("");
+  const [messageBody, setMessageBody] = useState<string>("");
 
   return (
     <MainWrapper title={t("title")} subtitle={t("subtitle")}>
@@ -21,9 +23,17 @@ const Messages = () => {
           <MessageStep
             onNext={() => setStep(step + 1)}
             onPrev={() => setStep(step - 1)}
+            title={title}
+            messageBody={messageBody}
+            setTitle={setTitle}
+            setMessageBody={setMessageBody}
           />
         ) : (
-          <ViewStep onPrev={() => setStep(step - 1)} />
+          <ViewStep
+            onPrev={() => setStep(step - 1)}
+            title={title}
+            messageBody={messageBody}
+          />
         )}
       </div>
     </MainWrapper>
