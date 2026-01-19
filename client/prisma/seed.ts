@@ -119,7 +119,7 @@ async function main() {
     if (!memberEmails) continue;
 
     const groupMembers = employees
-      .filter((e) => memberEmails.includes(e.email))
+      .filter((e) => memberEmails!.includes(e.email))
       .map((employee) => ({
         groupId: group.id,
         employeeId: employee.id,
