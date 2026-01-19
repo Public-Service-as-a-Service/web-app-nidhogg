@@ -1,0 +1,47 @@
+name: Cypress E2E Tests
+
+on:
+  pull_request:
+    branches: [develop, main]
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./client
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js and Yarn cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: yarn
+          cache-dependency-path: client/yarn.lock
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build Next.js app
+        run: yarn build
+
+      - name: Start Next.js app
+        run: yarn dev &
+        env:
+          NODE_ENV: test
+
+      - name: Wait for app to be ready
+        uses: jakejarvis/wait-action@v0.1.1
+        with:
+          url: http://localhost:3000
+          timeout: 60
+
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          headless: true

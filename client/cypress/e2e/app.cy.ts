@@ -13,7 +13,7 @@ describe("Login Page", () => {
   it("shows error on invalid credentials", () => {
     cy.intercept("POST", "/api/login", {
       statusCode: 401,
-      body: "Incorrect password",
+      body: "User not found.",
     }).as("loginRequest");
 
     cy.get('input[type="email"]').type("wrong@example.com");
@@ -28,10 +28,7 @@ describe("Login Page", () => {
   it("logs in successfully and redirects", () => {
     cy.intercept("POST", "/api/login", {
       statusCode: 200,
-      body: { token: "logged-in" },
-      headers: {
-        "set-cookie": "token=logged-in; Path=/; HttpOnly",
-      },
+      body: { success: true },
     }).as("loginRequest");
 
     cy.get('input[type="email"]').type("test@example.com");
@@ -55,10 +52,7 @@ describe("Sign Out", () => {
 
     cy.intercept("POST", "/api/login", {
       statusCode: 200,
-      body: { token: "logged-in" },
-      headers: {
-        "set-cookie": "token=logged-in; Path=/; HttpOnly",
-      },
+      body: { success: true },
     }).as("loginRequest");
 
     cy.visit("http://localhost:3000");
