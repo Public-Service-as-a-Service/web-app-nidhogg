@@ -29,9 +29,12 @@ describe("Login Page", () => {
     cy.intercept("POST", "/api/login", {
       statusCode: 200,
       body: { success: true },
+      headers: {
+        "set-cookie": `userId=1; Path=/; HttpOnly`,
+      },
     }).as("loginRequest");
 
-    cy.get('input[type="email"]').type("test@example.com");
+    cy.get('input[type="email"]').type("user@test.se");
     cy.get('input[type="password"]').type("password");
     cy.get('button[type="submit"]').click();
 
@@ -46,18 +49,21 @@ describe("Sign Out", () => {
       statusCode: 200,
       body: { success: true },
       headers: {
-        "set-cookie": "token=; Path=/; HttpOnly",
+        "set-cookie": "userId=; Path=/; HttpOnly",
       },
     }).as("logoutRequest");
 
     cy.intercept("POST", "/api/login", {
       statusCode: 200,
       body: { success: true },
+      headers: {
+        "set-cookie": `userId=1; Path=/; HttpOnly`,
+      },
     }).as("loginRequest");
 
     cy.visit("http://localhost:3000");
 
-    cy.get('input[type="email"]').type("test@example.com");
+    cy.get('input[type="email"]').type("user@test.se");
     cy.get('input[type="password"]').type("password");
     cy.get('button[type="submit"]').click();
 
@@ -66,8 +72,7 @@ describe("Sign Out", () => {
   });
 
   it("renders dashboard while signed in", () => {
-    cy.contains("Dashboard").should("exist");
-    cy.contains("Rendera saker här!").should("exist");
+    cy.contains("Skapa nytt utskick").should("exist");
   });
 
   it("signs out successfully", () => {
