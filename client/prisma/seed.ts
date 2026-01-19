@@ -119,7 +119,7 @@ async function main() {
     if (!memberEmails) continue;
 
     const groupMembers = employees
-      .filter((e) => memberEmails!.includes(e.email))
+      .filter((e: typeof employees[number]) => memberEmails!.includes(e.email))
       .map((employee) => ({
         groupId: group.id,
         employeeId: employee.id,
@@ -134,7 +134,7 @@ async function main() {
 }
 
 main()
-  .catch((e) => {
+  .catch((e: Error) => {
     console.error(e);
     process.exit(1);
   })
