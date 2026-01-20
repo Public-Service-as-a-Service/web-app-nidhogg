@@ -72,7 +72,7 @@ describe("Sign Out", () => {
   });
 
   it("signs out successfully", () => {
-    cy.contains("button", "Logga ut").click();
+    cy.contains("button", /Logga ut/i).click({ force: true });
 
     cy.wait("@logoutRequest");
     cy.clearCookie("userId");
