@@ -1,3 +1,10 @@
+beforeEach(() => {
+  cy.intercept("GET", "**/api/**", {
+    statusCode: 200,
+    body: [],
+  }).as("backgroundApi");
+});
+
 describe("Login Page", () => {
   beforeEach(() => {
     cy.visit("http://localhost:3000");
