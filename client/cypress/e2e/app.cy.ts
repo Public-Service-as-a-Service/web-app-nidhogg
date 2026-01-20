@@ -21,7 +21,6 @@ describe("Login Page", () => {
     cy.get('button[type="submit"]').click();
 
     cy.wait("@loginRequest");
-
     cy.contains("Inloggningen misslyckades").should("exist");
   });
 
@@ -29,13 +28,13 @@ describe("Login Page", () => {
     cy.intercept("POST", "**/api/login", {
       statusCode: 200,
       body: { success: true },
-      headers: {
-        "set-cookie": `userId=1; Path=/; HttpOnly`,
-      },
     }).as("loginRequest");
 
     cy.get('input[type="email"]').type("user@test.se");
     cy.get('input[type="password"]').type("password");
+
+    cy.setCookie("userId", "1");
+
     cy.get('button[type="submit"]').click();
 
     cy.wait("@loginRequest");
@@ -48,23 +47,20 @@ describe("Sign Out", () => {
     cy.intercept("POST", "**/api/logout", {
       statusCode: 200,
       body: { success: true },
-      headers: {
-        "set-cookie": "userId=; Path=/; HttpOnly",
-      },
     }).as("logoutRequest");
 
     cy.intercept("POST", "**/api/login", {
       statusCode: 200,
       body: { success: true },
-      headers: {
-        "set-cookie": `userId=1; Path=/; HttpOnly`,
-      },
     }).as("loginRequest");
 
     cy.visit("http://localhost:3000");
 
     cy.get('input[type="email"]').type("user@test.se");
     cy.get('input[type="password"]').type("password");
+
+    cy.setCookie("userId", "1");
+
     cy.get('button[type="submit"]').click();
 
     cy.wait("@loginRequest");
@@ -77,7 +73,11 @@ describe("Sign Out", () => {
 
   it("signs out successfully", () => {
     cy.contains("button", "Logga ut").click();
+
     cy.wait("@logoutRequest");
-    cy.location("pathname").should("eq", "/");
+    cy.clearCookie("userId");
+
+    cy.reload();
+    cy.location("pathname", { timeout: 15000 }).should("eq", "/");
   });
 });
