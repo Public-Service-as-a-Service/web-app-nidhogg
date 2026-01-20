@@ -11,7 +11,7 @@ describe("Login Page", () => {
   });
 
   it("shows error on invalid credentials", () => {
-    cy.intercept("POST", "/api/login", {
+    cy.intercept("POST", "**/api/login", {
       statusCode: 401,
       body: "User not found.",
     }).as("loginRequest");
@@ -26,7 +26,7 @@ describe("Login Page", () => {
   });
 
   it("logs in successfully and redirects", () => {
-    cy.intercept("POST", "/api/login", {
+    cy.intercept("POST", "**/api/login", {
       statusCode: 200,
       body: { success: true },
       headers: {
@@ -45,7 +45,7 @@ describe("Login Page", () => {
 
 describe("Sign Out", () => {
   beforeEach(() => {
-    cy.intercept("POST", "/api/logout", {
+    cy.intercept("POST", "**/api/logout", {
       statusCode: 200,
       body: { success: true },
       headers: {
@@ -53,7 +53,7 @@ describe("Sign Out", () => {
       },
     }).as("logoutRequest");
 
-    cy.intercept("POST", "/api/login", {
+    cy.intercept("POST", "**/api/login", {
       statusCode: 200,
       body: { success: true },
       headers: {

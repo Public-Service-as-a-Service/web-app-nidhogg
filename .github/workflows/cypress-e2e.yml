@@ -38,9 +38,9 @@ jobs:
         with:
           working-directory: ./client
           browser: chrome
-          headless: true
           start: yarn start
           wait-on: http://localhost:3000
           wait-on-timeout: 60000
         env:
           NODE_ENV: test
+          NEXT_PUBLIC_API_URL: http://localhost:3000
