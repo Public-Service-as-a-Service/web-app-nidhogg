@@ -49,12 +49,12 @@ const AppBarHeader = () => {
             <Button
               type="button"
               variant="secondary"
-              size="sm"
+              size="md"
               onClick={() => setOpen(false)}
             >
               {t("closeButton")}
             </Button>
-            <List listStyle="bullet">
+            <List listStyle="stroke" className="pt-10">
               {PATHS.filter((p) => p.isVisible).map((path, i) => (
                 <List.Item key={i}>
                   <List.Text>

@@ -21,5 +21,51 @@
       "wrongPassword": "Felaktigt lösenord.",
       "wrongCredentials": "Kontrollera användarnamn och lösenord."
     }
+  },
+  "GroupSection": {
+    "sectionTitle": "Grupper",
+    "predefinedGroups": "Fördefinierade grupper",
+    "savedGroups": "Sparade grupper",
+    "selectGroups": "Välj en eller flera grupper",
+    "handleGroups": "Hantera grupper",
+    "organization": "Organisation",
+    "recipients": "Valda mottagare"
+  },
+  "MessageForm": {
+    "titleLabel": "Titel",
+    "titlePlaceholder": "Ange titel",
+    "messageLabel": "Meddelande",
+    "messagePlaceholder": "Ange meddelandets innehåll"
+  },
+  "RecipientsStep": {
+    "sectionTitle": "Välj mottagare",
+    "allManagersLabel": "Alla chefer",
+    "allManagersDesc": "Skicka till samtliga chefer",
+    "allEmployeesLabel": "Alla medarbetare",
+    "allEmployeesDesc": "Skicka till samtliga medarbetare",
+    "goBackButton": "Gå tillbaka",
+    "nextButton": "Gå vidare"
+  },
+  "MessageStep": {
+    "sectionTitle": "Skriv meddelande",
+    "recipients": "Valda mottagare",
+    "checkboxes": {
+      "teamsLabel": "Microsoft Teams",
+      "teamsDesc": "Skicka meddelande via Teams",
+      "smsLabel": "SMS",
+      "smsDesc": "Skicka meddelande via SMS"
+    },
+    "goBackButton": "Gå tillbaka",
+    "reviewButton": "Granska"
+  },
+  "ViewStep": {
+    "sectionTitle": "Granska meddelande",
+    "titleLabel": "Rubrik",
+    "messageLabel": "Meddelande",
+    "recipientsLabel": "Valda mottagare",
+    "channelsLabel": "Utskickskanaler",
+    "channelsInfo": "Valda mottagare notifieras via {channel}",
+    "goBackButton": "Gå tillbaka",
+    "sendButton": "Skicka"
   }
 }

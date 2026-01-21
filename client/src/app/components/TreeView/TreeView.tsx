@@ -7,9 +7,13 @@ import SelectedList from "./SelectedList";
 
 interface TreeViewProps {
   itemsDescription: string;
+  "aria-labelledby"?: string;
 }
 
-const TreeView = ({ itemsDescription }: TreeViewProps) => {
+const TreeView = ({
+  itemsDescription,
+  "aria-labelledby": ariaLabelledby,
+}: TreeViewProps) => {
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
 
   const toggleItem = (item: TreeMenuItem) => {
@@ -67,13 +71,18 @@ const TreeView = ({ itemsDescription }: TreeViewProps) => {
   );
 
   return (
-    <div className="tree-view-container">
+    <div
+      className="tree-view-container"
+      role="tree"
+      aria-labelledby={ariaLabelledby}
+      aria-multiselectable="true"
+    >
       <MenuList
         list={menus}
         checkedItems={checkedItems}
         onToggle={toggleItem}
       />
-      <div className="pt-30">
+      <div className="pt-16">
         {itemsDescription}
         <SelectedList listItems={selectedItems} />
       </div>

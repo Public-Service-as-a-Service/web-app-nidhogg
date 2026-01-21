@@ -31,7 +31,7 @@ const MenuItem = ({
   };
 
   return (
-    <List.Item className="pt-5 [li&::before]:!hidden [&::before]:!hidden [&::before]:!content-none">
+    <List.Item className="pt-0 [li&::before]:!hidden [&::before]:!hidden [&::before]:!content-none">
       <List.Text
         className={hasChildren ? "menu-item parent-item" : "menu-item"}
       >
@@ -45,7 +45,7 @@ const MenuItem = ({
           ></Checkbox>
 
           {hasChildren && (
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="sm" tabIndex={-1}>
               <Folder />
             </Button>
           )}
