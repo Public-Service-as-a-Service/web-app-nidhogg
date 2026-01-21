@@ -14,7 +14,7 @@ const CheckboxCard = ({
   description,
 }: CheckboxCardProps) => {
   return (
-    <Card>
+    <Card className="flex-auto">
       <Card.Body>
         <Card.Text>
           <div className="text-label-medium">
