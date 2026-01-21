@@ -3,6 +3,7 @@
 import { Button, Chip } from "@sk-web-gui/react";
 import MessageForm from "./MessageForm";
 import CheckboxCard from "./CheckboxCard";
+import { useTranslations } from "next-intl";
 
 interface Props {
   onPrev?: () => void;
@@ -13,7 +14,16 @@ interface Props {
   setMessageBody?: (value: string) => void;
 }
 
-const MessageStep = ({ onPrev, onNext, title, messageBody, setTitle, setMessageBody }: Props) => {
+const MessageStep = ({
+  onPrev,
+  onNext,
+  title,
+  messageBody,
+  setTitle,
+  setMessageBody,
+}: Props) => {
+  const t = useTranslations("MessageStep");
+
   const recipients = [
     {
       title: "Alla chefer",
@@ -28,10 +38,10 @@ const MessageStep = ({ onPrev, onNext, title, messageBody, setTitle, setMessageB
 
   return (
     <div className="flex flex-col gap-14">
-      <p className="text-center text-h4-md sm:text-xl">Skriv meddelande</p>
+      <p className="text-center text-h4-md sm:text-xl"> {t("sectionTitle")} </p>
       <div className="flex flex-col gap-8 pb-28">
         <div>
-          <p className="text-label-medium mb-8 mt-0">Valda mottagare</p>
+          <p className="text-label-medium mb-8 mt-0">{t("recipients")}</p>
           <div className="flex flex-wrap gap-8">
             {recipients.map((item) => (
               <Chip key={item.title}>{item.title}</Chip>
@@ -46,18 +56,21 @@ const MessageStep = ({ onPrev, onNext, title, messageBody, setTitle, setMessageB
         </div>
         <div className="flex flex-col md:flex-row gap-8">
           <CheckboxCard
-            label="Microsoft Teams"
-            description="Skicka meddelande via Teams"
+            label={t("checkboxes.teamsLabel")}
+            description={t("checkboxes.teamsDesc")}
           />
-          <CheckboxCard label="SMS" description="Skicka meddelande via SMS" />
+          <CheckboxCard
+            label={t("checkboxes.smsLabel")}
+            description={t("checkboxes.smsDesc")}
+          />
         </div>
       </div>
       <div className="flex justify-between">
         <Button variant="tertiary" onClick={onPrev} className="self-start">
-          Gå tillbaka
+          {t("goBackButton")}
         </Button>
         <Button variant="primary" onClick={onNext} className="self-start">
-          Granska
+          {t("reviewButton")}
         </Button>
       </div>
     </div>

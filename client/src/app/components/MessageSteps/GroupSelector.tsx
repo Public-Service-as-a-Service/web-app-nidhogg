@@ -7,7 +7,7 @@ interface ListItem {
   name: string;
 }
 
-interface Props {
+interface GroupSelectorProps {
   label: string;
   placeholder: string;
   list: ListItem[];
@@ -19,7 +19,7 @@ const GroupSelector = ({
   placeholder,
   list = [],
   allChecked,
-}: Props) => {
+}: GroupSelectorProps) => {
   return (
     <FormControl className="w-full" disabled={allChecked}>
       <FormLabel> {label} </FormLabel>

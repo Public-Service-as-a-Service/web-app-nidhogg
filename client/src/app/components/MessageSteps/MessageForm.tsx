@@ -1,31 +1,42 @@
 "use client";
 
 import { FormControl, FormLabel, Input, Textarea } from "@sk-web-gui/react";
+import { useTranslations } from "next-intl";
 
-interface Props {
+interface MessageFormProps {
   title?: string;
   messageBody?: string;
   setTitle?: (value: string) => void;
   setMessageBody?: (value: string) => void;
 }
 
-const MessageForm = ({ title = "", messageBody = "", setTitle, setMessageBody }: Props) => {
+const MessageForm = ({
+  title = "",
+  messageBody = "",
+  setTitle,
+  setMessageBody,
+}: MessageFormProps) => {
+  const t = useTranslations("MessageForm");
+
   return (
-    <form className="pt-14 flex flex-col gap-14" onSubmit={(e) => e.preventDefault()}>
+    <form
+      className="pt-14 flex flex-col gap-14"
+      onSubmit={(e) => e.preventDefault()}
+    >
       <FormControl className="w-full">
-        <FormLabel htmlFor="title">Rubrik</FormLabel>
+        <FormLabel htmlFor="title">{t("titleLabel")}</FormLabel>
         <Input
           id="title"
-          placeholder="Ange rubrik"
+          placeholder={t("titlePlaceholder")}
           value={title}
           onChange={(e) => setTitle && setTitle(e.target.value)}
         />
       </FormControl>
       <FormControl className="w-full">
-        <FormLabel htmlFor="message">Meddelande</FormLabel>
+        <FormLabel htmlFor="message">{t("messageLabel")}</FormLabel>
         <Textarea
           id="message"
-          placeholder="Ange meddelandets innehåll"
+          placeholder={t("messagePlaceholder")}
           className="w-full min-h-[150px]"
           value={messageBody}
           onChange={(e) => setMessageBody && setMessageBody(e.target.value)}

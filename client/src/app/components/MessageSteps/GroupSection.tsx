@@ -3,12 +3,15 @@
 import { FormControl, Button } from "@sk-web-gui/react";
 import TreeView from "../TreeView/TreeView";
 import GroupSelector from "./GroupSelector";
+import { useTranslations } from "next-intl";
 
-interface Props {
+interface GroupSectionProps {
   allChecked: boolean;
 }
 
-const GroupSection = ({ allChecked }: Props) => {
+const GroupSection = ({ allChecked }: GroupSectionProps) => {
+  const t = useTranslations("GroupSection");
+
   const predefinedGroups = [
     { id: 1, name: "Krisgrupp" },
     { id: 2, name: "IT-jour" },
@@ -25,16 +28,16 @@ const GroupSection = ({ allChecked }: Props) => {
         allChecked ? "opacity-40" : "opacity-100"
       }`}
     >
-      <p className="text-label-large">Grupper</p>
+      <p className="text-label-large">{t("sectionTitle")}</p>
       <GroupSelector
-        label="Fördefinierade grupper"
-        placeholder="Välj en eller flera grupper"
+        label={t("predefinedGroups")}
+        placeholder={t("selectGroups")}
         list={predefinedGroups}
         allChecked={allChecked}
       />
       <GroupSelector
-        label="Sparade grupper"
-        placeholder="Välj en eller flera grupper"
+        label={t("savedGroups")}
+        placeholder={t("selectGroups")}
         list={savedGroups}
         allChecked={allChecked}
       />
@@ -44,17 +47,17 @@ const GroupSection = ({ allChecked }: Props) => {
         className="w-fit"
         disabled={allChecked}
       >
-        Hantera grupper
+        {t("handleGroups")}
       </Button>
       <FormControl className="w-full" disabled={allChecked}>
         <p
           id="organisation-label"
           className="sk-form-label sk-form-label-md my-0"
         >
-          Organisation
+          {t("organization")}
         </p>
         <TreeView
-          itemsDescription="Valda mottagare"
+          itemsDescription={t("recipients")}
           aria-labelledby="organisation-label"
         />
       </FormControl>

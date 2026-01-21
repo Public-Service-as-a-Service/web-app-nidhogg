@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, Label } from "@sk-web-gui/react";
+import { useTranslations } from "next-intl";
 
 interface Props {
   onPrev?: () => void;
@@ -9,6 +10,8 @@ interface Props {
 }
 
 const ViewStep = ({ onPrev, title = "", messageBody = "" }: Props) => {
+  const t = useTranslations("ViewStep");
+
   const recipients = [
     {
       title: "Alla chefer",
@@ -23,18 +26,18 @@ const ViewStep = ({ onPrev, title = "", messageBody = "" }: Props) => {
 
   return (
     <div className="flex flex-col gap-14">
-      <p className="text-center text-h4-md sm:text-xl">Granska meddelande</p>
+      <p className="text-center text-h4-md sm:text-xl">{t("sectionTitle")}</p>
       <div className="flex flex-col gap-14 pb-28">
         <div className="flex flex-col">
-          <p className="text-label-medium">Rubrik</p>
+          <p className="text-label-medium">{t("titleLabel")}</p>
           <p>{title || "-"}</p>
         </div>
         <div className="flex flex-col">
-          <p className="text-label-medium">Meddelande</p>
+          <p className="text-label-medium">{t("messageLabel")}</p>
           <p>{messageBody || "-"}</p>
         </div>
         <div className="flex flex-col">
-          <p className="text-label-medium">Valda mottagare</p>
+          <p className="text-label-medium">{t("recipientsLabel")}</p>
           <div className="flex flex-wrap gap-8 my-4">
             {recipients.map((item) => (
               <Label key={item.title}>{item.title}</Label>
@@ -42,15 +45,15 @@ const ViewStep = ({ onPrev, title = "", messageBody = "" }: Props) => {
           </div>
         </div>
         <div className="flex flex-col">
-          <p className="text-label-medium">Utskickskanaler</p>
-          <p>Mottagare notifieras via Teams</p>
+          <p className="text-label-medium">{t("channelsLabel")}</p>
+          <p> {t("channelsInfo", { channel: "Teams" })} </p>
         </div>
       </div>
       <div className="flex justify-between">
         <Button variant="tertiary" onClick={onPrev}>
-          Gå tillbaka
+          {t("goBackButton")}
         </Button>
-        <Button>Skicka</Button>
+        <Button>{t("sendButton")}</Button>
       </div>
     </div>
   );

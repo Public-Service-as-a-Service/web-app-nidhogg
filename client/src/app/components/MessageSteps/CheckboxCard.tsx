@@ -2,13 +2,17 @@
 
 import { Card, Checkbox } from "@sk-web-gui/react";
 
-interface Props {
+interface CheckboxCardProps {
   handleAllChecked?: () => void;
   label: string;
   description: string;
 }
 
-const CheckboxCard = ({ handleAllChecked, label, description }: Props) => {
+const CheckboxCard = ({
+  handleAllChecked,
+  label,
+  description,
+}: CheckboxCardProps) => {
   return (
     <Card>
       <Card.Body>
