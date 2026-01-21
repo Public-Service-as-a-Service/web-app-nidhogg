@@ -5,7 +5,7 @@ import MessageForm from "./MessageForm";
 import CheckboxCard from "./CheckboxCard";
 import { useTranslations } from "next-intl";
 
-interface Props {
+interface MessageStepProps {
   onPrev?: () => void;
   onNext?: () => void;
   title?: string;
@@ -21,7 +21,7 @@ const MessageStep = ({
   messageBody,
   setTitle,
   setMessageBody,
-}: Props) => {
+}: MessageStepProps) => {
   const t = useTranslations("MessageStep");
 
   const recipients = [
