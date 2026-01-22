@@ -13,13 +13,25 @@ const Messages = () => {
   const [title, setTitle] = useState<string>("");
   const [messageBody, setMessageBody] = useState<string>("");
 
+  const [recipients, setRecipients] = useState<string[]>([]);
+
+  const handleRecipients = (recipient: string) => {
+    setRecipients([...recipients, recipient]);
+  };
+
   const t = useTranslations("Dashboard");
   const t_steps = useTranslations("ProgressSteps");
 
   const steps = [
     {
       label: t_steps("recipients"),
-      content: <RecipientsStep onNext={() => setStep(1)} />,
+      content: (
+        <RecipientsStep
+          onNext={() => setStep(1)}
+          recipients={recipients}
+          handleRecipients={handleRecipients}
+        />
+      ),
     },
     {
       label: t_steps("message"),
@@ -31,6 +43,7 @@ const Messages = () => {
           messageBody={messageBody}
           setTitle={setTitle}
           setMessageBody={setMessageBody}
+          recipients={recipients}
         />
       ),
     },
@@ -41,6 +54,7 @@ const Messages = () => {
           onPrev={() => setStep(1)}
           title={title}
           messageBody={messageBody}
+          recipients={recipients}
         />
       ),
     },

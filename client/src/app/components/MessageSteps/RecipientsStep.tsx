@@ -7,12 +7,19 @@ import { useTranslations } from "next-intl";
 import CheckboxCard from "./CheckboxCard";
 import GroupSection from "./GroupSection";
 
-interface Props {
+interface RecipientStepProps {
   onNext?: () => void;
+  recipients: string[];
+  handleRecipients: (name: string) => void;
 }
 
-const RecipientsStep = ({ onNext }: Props) => {
+const RecipientsStep = ({
+  onNext,
+  recipients,
+  handleRecipients,
+}: RecipientStepProps) => {
   const [allChecked, setAllChecked] = useState<boolean>(false);
+
   const t = useTranslations("RecipientsStep");
 
   const handleAllChecked = () => {
@@ -24,6 +31,8 @@ const RecipientsStep = ({ onNext }: Props) => {
   const handleGoBack = () => {
     router.push("/dashboard");
   };
+
+  console.log(recipients); //TA BORT SEN
 
   return (
     <div className="flex flex-col gap-14">
@@ -40,7 +49,10 @@ const RecipientsStep = ({ onNext }: Props) => {
             handleAllChecked={handleAllChecked}
           />
         </div>
-        <GroupSection allChecked={allChecked} />
+        <GroupSection
+          allChecked={allChecked}
+          handleRecipients={handleRecipients}
+        />
       </div>
       <div className="flex justify-between">
         <Button variant="tertiary" onClick={handleGoBack}>

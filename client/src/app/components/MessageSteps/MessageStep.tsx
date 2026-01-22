@@ -12,6 +12,7 @@ interface MessageStepProps {
   messageBody?: string;
   setTitle?: (value: string) => void;
   setMessageBody?: (value: string) => void;
+  recipients: string[];
 }
 
 const MessageStep = ({
@@ -21,10 +22,11 @@ const MessageStep = ({
   messageBody,
   setTitle,
   setMessageBody,
+  recipients,
 }: MessageStepProps) => {
   const t = useTranslations("MessageStep");
 
-  const recipients = [
+  const mockRecipients = [
     {
       title: "Alla chefer",
     },
@@ -36,6 +38,8 @@ const MessageStep = ({
     },
   ];
 
+  console.log(recipients); //TA BORT SEN
+
   return (
     <div className="flex flex-col gap-14">
       <p className="text-center text-h4-md sm:text-xl"> {t("sectionTitle")} </p>
@@ -43,7 +47,7 @@ const MessageStep = ({
         <div>
           <p className="text-label-medium mb-8 mt-0">{t("recipients")}</p>
           <div className="flex flex-wrap gap-8">
-            {recipients.map((item) => (
+            {mockRecipients.map((item) => (
               <Chip key={item.title}>{item.title}</Chip>
             ))}
           </div>

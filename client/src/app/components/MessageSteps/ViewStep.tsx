@@ -3,16 +3,22 @@
 import { Button, Label } from "@sk-web-gui/react";
 import { useTranslations } from "next-intl";
 
-interface Props {
+interface ViewStepProps {
   onPrev?: () => void;
   title?: string;
   messageBody?: string;
+  recipients: string[];
 }
 
-const ViewStep = ({ onPrev, title = "", messageBody = "" }: Props) => {
+const ViewStep = ({
+  onPrev,
+  title = "",
+  messageBody = "",
+  recipients,
+}: ViewStepProps) => {
   const t = useTranslations("ViewStep");
 
-  const recipients = [
+  const mockRecipients = [
     {
       title: "Alla chefer",
     },
@@ -23,6 +29,8 @@ const ViewStep = ({ onPrev, title = "", messageBody = "" }: Props) => {
       title: "IT-jouren",
     },
   ];
+
+  console.log(recipients); //TA BORT SEN
 
   return (
     <div className="flex flex-col gap-14">
@@ -39,7 +47,7 @@ const ViewStep = ({ onPrev, title = "", messageBody = "" }: Props) => {
         <div className="flex flex-col">
           <p className="text-label-medium">{t("recipientsLabel")}</p>
           <div className="flex flex-wrap gap-8 my-4">
-            {recipients.map((item) => (
+            {mockRecipients.map((item) => (
               <Label key={item.title}>{item.title}</Label>
             ))}
           </div>

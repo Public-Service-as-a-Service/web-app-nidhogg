@@ -7,17 +7,18 @@ import { useTranslations } from "next-intl";
 
 interface GroupSectionProps {
   allChecked: boolean;
+  handleRecipients: (name: string) => void;
 }
 
-const GroupSection = ({ allChecked }: GroupSectionProps) => {
+const GroupSection = ({ allChecked, handleRecipients }: GroupSectionProps) => {
   const t = useTranslations("GroupSection");
 
-  const predefinedGroups = [
+  const mockPredefinedGroups = [
     { id: 1, name: "Krisgrupp" },
     { id: 2, name: "IT-jour" },
   ];
 
-  const savedGroups = [
+  const mockSavedGroups = [
     { id: 1, name: "Team Nidhogg" },
     { id: 2, name: "Nidhoggs krishanterare" },
   ];
@@ -32,14 +33,16 @@ const GroupSection = ({ allChecked }: GroupSectionProps) => {
       <GroupSelector
         label={t("predefinedGroups")}
         placeholder={t("selectGroups")}
-        list={predefinedGroups}
+        list={mockPredefinedGroups}
         allChecked={allChecked}
+        handleRecipients={handleRecipients}
       />
       <GroupSelector
         label={t("savedGroups")}
         placeholder={t("selectGroups")}
-        list={savedGroups}
+        list={mockSavedGroups}
         allChecked={allChecked}
+        handleRecipients={handleRecipients}
       />
       <Button
         variant="secondary"

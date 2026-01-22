@@ -12,6 +12,7 @@ interface GroupSelectorProps {
   placeholder: string;
   list: ListItem[];
   allChecked: boolean;
+  handleRecipients: (name: string) => void;
 }
 
 const GroupSelector = ({
@@ -19,15 +20,20 @@ const GroupSelector = ({
   placeholder,
   list = [],
   allChecked,
+  handleRecipients,
 }: GroupSelectorProps) => {
   return (
     <FormControl className="w-full" disabled={allChecked}>
-      <FormLabel> {label} </FormLabel>
+      <FormLabel>{label}</FormLabel>
       <Combobox multiple placeholder={placeholder}>
         <Combobox.Input className="w-full" />
         <Combobox.List>
           {list.map((group) => (
-            <Combobox.Option key={group.id} value={group.name}>
+            <Combobox.Option
+              key={group.id}
+              value={group.name}
+              onChange={() => handleRecipients(group.name)}
+            >
               {group.name}
             </Combobox.Option>
           ))}
