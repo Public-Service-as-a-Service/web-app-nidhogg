@@ -26,18 +26,6 @@ const MessageStep = ({
 }: MessageStepProps) => {
   const t = useTranslations("MessageStep");
 
-  const mockRecipients = [
-    {
-      title: "Alla chefer",
-    },
-    {
-      title: "Krisgruppen",
-    },
-    {
-      title: "IT-jouren",
-    },
-  ];
-
   console.log(recipients); //TA BORT SEN
 
   return (
@@ -47,8 +35,8 @@ const MessageStep = ({
         <div>
           <p className="text-label-medium mb-8 mt-0">{t("recipients")}</p>
           <div className="flex flex-wrap gap-8">
-            {mockRecipients.map((item) => (
-              <Chip key={item.title}>{item.title}</Chip>
+            {recipients.map((item) => (
+              <Chip key={item}>{item}</Chip>
             ))}
           </div>
           <MessageForm

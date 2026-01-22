@@ -16,7 +16,13 @@ const Messages = () => {
   const [recipients, setRecipients] = useState<string[]>([]);
 
   const handleRecipients = (recipient: string) => {
-    setRecipients([...recipients, recipient]);
+    setRecipients((prevRecipients) => {
+      if (prevRecipients.includes(recipient)) {
+        return prevRecipients.filter((r) => r !== recipient);
+      } else {
+        return [...prevRecipients, recipient];
+      }
+    });
   };
 
   const t = useTranslations("Dashboard");

@@ -52,6 +52,7 @@ const RecipientsStep = ({
         <GroupSection
           allChecked={allChecked}
           handleRecipients={handleRecipients}
+          selectedItems={recipients}
         />
       </div>
       <div className="flex justify-between">

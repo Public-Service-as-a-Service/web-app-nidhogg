@@ -18,18 +18,6 @@ const ViewStep = ({
 }: ViewStepProps) => {
   const t = useTranslations("ViewStep");
 
-  const mockRecipients = [
-    {
-      title: "Alla chefer",
-    },
-    {
-      title: "Krisgruppen",
-    },
-    {
-      title: "IT-jouren",
-    },
-  ];
-
   console.log(recipients); //TA BORT SEN
 
   return (
@@ -47,8 +35,8 @@ const ViewStep = ({
         <div className="flex flex-col">
           <p className="text-label-medium">{t("recipientsLabel")}</p>
           <div className="flex flex-wrap gap-8 my-4">
-            {mockRecipients.map((item) => (
-              <Label key={item.title}>{item.title}</Label>
+            {recipients.map((item) => (
+              <Label key={item}>{item}</Label>
             ))}
           </div>
         </div>
