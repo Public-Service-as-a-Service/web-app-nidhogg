@@ -56,7 +56,8 @@
       "smsDesc": "Skicka meddelande via SMS"
     },
     "goBackButton": "Gå tillbaka",
-    "reviewButton": "Granska"
+    "reviewButton": "Granska",
+    "sendToAll": "Alla medarbetare"
   },
   "ViewStep": {
     "sectionTitle": "Granska meddelande",
@@ -66,7 +67,8 @@
     "channelsLabel": "Utskickskanaler",
     "channelsInfo": "Valda mottagare notifieras via {channel}",
     "goBackButton": "Gå tillbaka",
-    "sendButton": "Skicka"
+    "sendButton": "Skicka",
+    "sendToAll": "Alla medarbetare"
   },
   "ProgressSteps": {
     "recipients": "Mottagare",

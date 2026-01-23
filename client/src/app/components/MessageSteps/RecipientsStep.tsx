@@ -11,7 +11,7 @@ interface RecipientStepProps {
   recipients: string[];
   handleRecipients: (name: string) => void;
   allChecked: boolean;
-  setAllChecked: (allChecked: boolean) => void
+  setAllChecked: (allChecked: boolean) => void;
 }
 
 const RecipientsStep = ({
@@ -48,6 +48,7 @@ const RecipientsStep = ({
           <CheckboxCard
             label={t("allEmployeesLabel")}
             description={t("allEmployeesDesc")}
+            allChecked={allChecked}
             handleAllChecked={handleAllChecked}
             handleRecipients={handleRecipients}
             recipients={recipients}

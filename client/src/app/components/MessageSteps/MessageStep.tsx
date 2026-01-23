@@ -13,6 +13,7 @@ interface MessageStepProps {
   setTitle?: (value: string) => void;
   setMessageBody?: (value: string) => void;
   recipients: string[];
+  allChecked: boolean;
 }
 
 const MessageStep = ({
@@ -23,6 +24,7 @@ const MessageStep = ({
   setTitle,
   setMessageBody,
   recipients,
+  allChecked,
 }: MessageStepProps) => {
   const t = useTranslations("MessageStep");
 
@@ -33,9 +35,11 @@ const MessageStep = ({
         <div>
           <p className="text-label-medium mb-8 mt-0">{t("recipients")}</p>
           <div className="flex flex-wrap gap-8">
-            {recipients.map((item) => (
-              <Chip key={item}>{item}</Chip>
-            ))}
+            {allChecked ? (
+              <Chip>{t("sendToAll")}</Chip>
+            ) : (
+              recipients.map((item) => <Chip key={item}>{item}</Chip>)
+            )}
           </div>
           <MessageForm
             title={title}
@@ -48,10 +52,12 @@ const MessageStep = ({
           <CheckboxCard
             label={t("checkboxes.teamsLabel")}
             description={t("checkboxes.teamsDesc")}
+            allChecked={allChecked}
           />
           <CheckboxCard
             label={t("checkboxes.smsLabel")}
             description={t("checkboxes.smsDesc")}
+            allChecked={allChecked}
           />
         </div>
       </div>

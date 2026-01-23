@@ -3,7 +3,7 @@
 import { Card, Checkbox } from "@sk-web-gui/react";
 
 interface CheckboxCardProps {
-  allChecked?: boolean;
+  allChecked: boolean;
   handleAllChecked?: (isChecked: boolean) => void;
   label: string;
   description: string;
@@ -21,16 +21,25 @@ const CheckboxCard = ({
   recipients,
   disabled,
 }: CheckboxCardProps) => {
-  const isChecked = recipients ? recipients.some((r) => r === label) : false;
+  const isMasterToggle = !!handleAllChecked;
+  const isChecked = isMasterToggle
+    ? allChecked
+    : recipients?.includes(label) || false;
 
-  const handleCheck = () => {
-    const nextValue = !isChecked;
-    handleAllChecked?.(nextValue);
-    handleRecipients?.(label);
+  const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const nextValue = e.target.checked;
+
+    if (isMasterToggle) {
+      handleAllChecked?.(nextValue);
+    } else {
+      handleRecipients?.(label);
+    }
   };
 
   return (
-    <Card className={`flex-auto ${allChecked ? "opacity-40" : "opacity-100"}`}>
+    <Card
+      className={`flex-auto ${disabled && !isMasterToggle ? "opacity-40" : "opacity-100"}`}
+    >
       <Card.Body>
         <Card.Text>
           <div className="text-label-medium">

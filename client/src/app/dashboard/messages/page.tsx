@@ -15,7 +15,16 @@ const Messages = () => {
   const [recipients, setRecipients] = useState<string[]>([]);
   const [allChecked, setAllChecked] = useState<boolean>(false);
 
+  const handleAllCheckedChange = (checked: boolean) => {
+    setAllChecked(checked);
+    if (checked) {
+      setRecipients([]);
+    }
+  };
+
   const handleRecipients = (recipient: string) => {
+    if (allChecked) return;
+
     setRecipients((prevRecipients) => {
       if (prevRecipients.includes(recipient)) {
         return prevRecipients.filter((r) => r !== recipient);
@@ -37,7 +46,7 @@ const Messages = () => {
           recipients={recipients}
           handleRecipients={handleRecipients}
           allChecked={allChecked}
-          setAllChecked={setAllChecked}
+          setAllChecked={handleAllCheckedChange}
         />
       ),
     },
@@ -52,6 +61,7 @@ const Messages = () => {
           setTitle={setTitle}
           setMessageBody={setMessageBody}
           recipients={recipients}
+          allChecked={allChecked}
         />
       ),
     },
@@ -63,6 +73,7 @@ const Messages = () => {
           title={title}
           messageBody={messageBody}
           recipients={recipients}
+          allChecked={allChecked}
         />
       ),
     },
