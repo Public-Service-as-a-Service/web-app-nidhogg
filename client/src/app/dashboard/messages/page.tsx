@@ -12,8 +12,8 @@ const Messages = () => {
   const [step, setStep] = useState(0);
   const [title, setTitle] = useState<string>("");
   const [messageBody, setMessageBody] = useState<string>("");
-
   const [recipients, setRecipients] = useState<string[]>([]);
+  const [allChecked, setAllChecked] = useState<boolean>(false);
 
   const handleRecipients = (recipient: string) => {
     setRecipients((prevRecipients) => {
@@ -36,6 +36,8 @@ const Messages = () => {
           onNext={() => setStep(1)}
           recipients={recipients}
           handleRecipients={handleRecipients}
+          allChecked={allChecked}
+          setAllChecked={setAllChecked}
         />
       ),
     },

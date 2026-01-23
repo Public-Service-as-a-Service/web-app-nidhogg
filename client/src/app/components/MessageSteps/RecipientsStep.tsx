@@ -2,7 +2,6 @@
 
 import { Button } from "@sk-web-gui/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { useTranslations } from "next-intl";
 import CheckboxCard from "./CheckboxCard";
 import GroupSection from "./GroupSection";
@@ -11,28 +10,27 @@ interface RecipientStepProps {
   onNext?: () => void;
   recipients: string[];
   handleRecipients: (name: string) => void;
+  allChecked: boolean;
+  setAllChecked: (allChecked: boolean) => void
 }
 
 const RecipientsStep = ({
   onNext,
   recipients,
   handleRecipients,
+  allChecked,
+  setAllChecked,
 }: RecipientStepProps) => {
-  const [allChecked, setAllChecked] = useState<boolean>(false);
-
+  const router = useRouter();
   const t = useTranslations("RecipientsStep");
 
-  const handleAllChecked = () => {
-    setAllChecked(!allChecked);
+  const handleAllChecked = (isChecked: boolean) => {
+    setAllChecked(isChecked);
   };
-
-  const router = useRouter();
 
   const handleGoBack = () => {
     router.push("/dashboard");
   };
-
-  console.log(recipients); //TA BORT SEN
 
   return (
     <div className="flex flex-col gap-14">
@@ -42,11 +40,17 @@ const RecipientsStep = ({
           <CheckboxCard
             label={t("allManagersLabel")}
             description={t("allManagersDesc")}
+            allChecked={allChecked}
+            handleRecipients={handleRecipients}
+            recipients={recipients}
+            disabled={allChecked}
           />
           <CheckboxCard
             label={t("allEmployeesLabel")}
             description={t("allEmployeesDesc")}
             handleAllChecked={handleAllChecked}
+            handleRecipients={handleRecipients}
+            recipients={recipients}
           />
         </div>
         <GroupSection

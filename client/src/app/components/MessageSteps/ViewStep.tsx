@@ -18,8 +18,6 @@ const ViewStep = ({
 }: ViewStepProps) => {
   const t = useTranslations("ViewStep");
 
-  console.log(recipients); //TA BORT SEN
-
   return (
     <div className="flex flex-col gap-14">
       <p className="text-center text-h4-md sm:text-xl">{t("sectionTitle")}</p>
