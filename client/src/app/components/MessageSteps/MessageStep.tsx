@@ -4,6 +4,7 @@ import { Button, Chip } from "@sk-web-gui/react";
 import MessageForm from "./MessageForm";
 import CheckboxCard from "./CheckboxCard";
 import { useTranslations } from "next-intl";
+import { useState, useEffect } from "react";
 
 interface MessageStepProps {
   onPrev?: () => void;
@@ -26,7 +27,17 @@ const MessageStep = ({
   recipients,
   allChecked,
 }: MessageStepProps) => {
+  const [disabled, setDisabled] = useState<boolean>(true);
+
   const t = useTranslations("MessageStep");
+
+  useEffect(() => {
+    if (title !== "" && messageBody !== "") {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [title, messageBody]);
 
   return (
     <div className="flex flex-col gap-14">
@@ -65,7 +76,11 @@ const MessageStep = ({
         <Button variant="tertiary" onClick={onPrev} className="self-start">
           {t("goBackButton")}
         </Button>
-        <Button variant="primary" onClick={onNext} className="self-start">
+        <Button
+          disabled={disabled}
+          onClick={onNext}
+          className="self-start"
+        >
           {t("reviewButton")}
         </Button>
       </div>

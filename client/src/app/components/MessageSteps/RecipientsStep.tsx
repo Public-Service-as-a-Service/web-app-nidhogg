@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import CheckboxCard from "./CheckboxCard";
 import GroupSection from "./GroupSection";
+import { useState, useEffect } from "react";
 
 interface RecipientStepProps {
   onNext?: () => void;
@@ -21,6 +22,8 @@ const RecipientsStep = ({
   allChecked,
   setAllChecked,
 }: RecipientStepProps) => {
+  const [disabled, setDisabled] = useState<boolean>(true);
+
   const router = useRouter();
   const t = useTranslations("RecipientsStep");
 
@@ -31,6 +34,14 @@ const RecipientsStep = ({
   const handleGoBack = () => {
     router.push("/dashboard");
   };
+
+  useEffect(() => {
+    if (recipients.length >= 1) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [recipients]);
 
   return (
     <div className="flex flex-col gap-14">
@@ -64,7 +75,9 @@ const RecipientsStep = ({
         <Button variant="tertiary" onClick={handleGoBack}>
           {t("goBackButton")}
         </Button>
-        <Button onClick={onNext}>{t("nextButton")}</Button>
+        <Button disabled={disabled} onClick={onNext}>
+          {t("nextButton")}
+        </Button>
       </div>
     </div>
   );
