@@ -2,11 +2,16 @@
 
 import MainWrapper from "../../components/MainWrapper";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { JSX, useState } from "react";
 import RecipientsStep from "@/app/components/MessageSteps/RecipientsStep";
 import MessageStep from "@/app/components/MessageSteps/MessageStep";
 import ViewStep from "@/app/components/MessageSteps/ViewStep";
 import { ProgressStepper } from "@sk-web-gui/react";
+
+interface StepsProps {
+  label: string;
+  content: JSX.Element;
+}
 
 const Messages = () => {
   const [step, setStep] = useState(0);
@@ -48,7 +53,7 @@ const Messages = () => {
   const t = useTranslations("Dashboard");
   const t_steps = useTranslations("ProgressSteps");
 
-  const steps = [
+  const steps: StepsProps[] = [
     {
       label: t_steps("recipients"),
       content: (
