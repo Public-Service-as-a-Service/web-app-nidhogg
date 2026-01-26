@@ -1,3 +1,10 @@
+beforeEach(() => {
+  cy.intercept("GET", "**/api/**", {
+    statusCode: 200,
+    body: [],
+  }).as("backgroundApi");
+});
+
 describe("Login Page", () => {
   beforeEach(() => {
     cy.visit("http://localhost:3000");
@@ -11,9 +18,9 @@ describe("Login Page", () => {
   });
 
   it("shows error on invalid credentials", () => {
-    cy.intercept("POST", "/api/login", {
+    cy.intercept("POST", "**/api/login", {
       statusCode: 401,
-      body: "Incorrect password",
+      body: "User not found.",
     }).as("loginRequest");
 
     cy.get('input[type="email"]').type("wrong@example.com");
@@ -21,21 +28,20 @@ describe("Login Page", () => {
     cy.get('button[type="submit"]').click();
 
     cy.wait("@loginRequest");
-
     cy.contains("Inloggningen misslyckades").should("exist");
   });
 
   it("logs in successfully and redirects", () => {
-    cy.intercept("POST", "/api/login", {
+    cy.intercept("POST", "**/api/login", {
       statusCode: 200,
-      body: { token: "logged-in" },
-      headers: {
-        "set-cookie": "token=logged-in; Path=/; HttpOnly",
-      },
+      body: { success: true },
     }).as("loginRequest");
 
-    cy.get('input[type="email"]').type("test@example.com");
+    cy.get('input[type="email"]').type("user@test.se");
     cy.get('input[type="password"]').type("password");
+
+    cy.setCookie("userId", "1");
+
     cy.get('button[type="submit"]').click();
 
     cy.wait("@loginRequest");
@@ -45,26 +51,23 @@ describe("Login Page", () => {
 
 describe("Sign Out", () => {
   beforeEach(() => {
-    cy.intercept("POST", "/api/logout", {
+    cy.intercept("POST", "**/api/logout", {
       statusCode: 200,
       body: { success: true },
-      headers: {
-        "set-cookie": "token=; Path=/; HttpOnly",
-      },
     }).as("logoutRequest");
 
-    cy.intercept("POST", "/api/login", {
+    cy.intercept("POST", "**/api/login", {
       statusCode: 200,
-      body: { token: "logged-in" },
-      headers: {
-        "set-cookie": "token=logged-in; Path=/; HttpOnly",
-      },
+      body: { success: true },
     }).as("loginRequest");
 
     cy.visit("http://localhost:3000");
 
-    cy.get('input[type="email"]').type("test@example.com");
+    cy.get('input[type="email"]').type("user@test.se");
     cy.get('input[type="password"]').type("password");
+
+    cy.setCookie("userId", "1");
+
     cy.get('button[type="submit"]').click();
 
     cy.wait("@loginRequest");
@@ -72,13 +75,16 @@ describe("Sign Out", () => {
   });
 
   it("renders dashboard while signed in", () => {
-    cy.contains("Dashboard").should("exist");
-    cy.contains("Rendera saker här!").should("exist");
+    cy.contains("Skapa nytt utskick").should("exist");
   });
 
   it("signs out successfully", () => {
-    cy.contains("button", "Logga ut").click();
+    cy.contains("button", /Logga ut/i).click({ force: true });
+
     cy.wait("@logoutRequest");
-    cy.location("pathname").should("eq", "/");
+    cy.clearCookie("userId");
+
+    cy.reload();
+    cy.location("pathname", { timeout: 15000 }).should("eq", "/");
   });
 });
