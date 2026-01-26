@@ -14,12 +14,11 @@ interface Props {
 const RecipientsStep = ({ onNext }: Props) => {
   const [allChecked, setAllChecked] = useState<boolean>(false);
   const t = useTranslations("RecipientsStep");
+  const router = useRouter();
 
   const handleAllChecked = () => {
     setAllChecked(!allChecked);
   };
-
-  const router = useRouter();
 
   const handleGoBack = () => {
     router.push("/dashboard");

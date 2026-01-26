@@ -4,6 +4,7 @@ import { FormControl, Button } from "@sk-web-gui/react";
 import TreeView from "../TreeView/TreeView";
 import GroupSelector from "./GroupSelector";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 interface GroupSectionProps {
   allChecked: boolean;
@@ -11,6 +12,11 @@ interface GroupSectionProps {
 
 const GroupSection = ({ allChecked }: GroupSectionProps) => {
   const t = useTranslations("GroupSection");
+  const router = useRouter();
+
+  const handleNavigation = () => {
+    router.push("/dashboard/groups");
+  };
 
   const predefinedGroups = [
     { id: 1, name: "Krisgrupp" },
@@ -46,6 +52,7 @@ const GroupSection = ({ allChecked }: GroupSectionProps) => {
         size="sm"
         className="w-fit"
         disabled={allChecked}
+        onClick={handleNavigation}
       >
         {t("handleGroups")}
       </Button>
