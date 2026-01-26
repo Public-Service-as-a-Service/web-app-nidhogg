@@ -65,7 +65,6 @@
     "messageLabel": "Meddelande",
     "recipientsLabel": "Valda mottagare",
     "channelsLabel": "Utskickskanaler",
-    "channelsInfo": "Valda mottagare notifieras via {channel}",
     "goBackButton": "Gå tillbaka",
     "sendButton": "Skicka",
     "sendToAll": "Alla medarbetare"

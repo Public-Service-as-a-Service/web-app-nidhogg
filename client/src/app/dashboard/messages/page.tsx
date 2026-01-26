@@ -13,6 +13,7 @@ const Messages = () => {
   const [title, setTitle] = useState<string>("");
   const [messageBody, setMessageBody] = useState<string>("");
   const [recipients, setRecipients] = useState<string[]>([]);
+  const [channels, setChannels] = useState<string[]>([]);
   const [allChecked, setAllChecked] = useState<boolean>(false);
 
   const handleAllCheckedChange = (checked: boolean) => {
@@ -30,6 +31,16 @@ const Messages = () => {
         return prevRecipients.filter((r) => r !== recipient);
       } else {
         return [...prevRecipients, recipient];
+      }
+    });
+  };
+
+  const handleChannels = (channel: string) => {
+    setChannels((prevChannels) => {
+      if (prevChannels.includes(channel)) {
+        return prevChannels.filter((r) => r !== channel);
+      } else {
+        return [...prevChannels, channel];
       }
     });
   };
@@ -62,6 +73,8 @@ const Messages = () => {
           setMessageBody={setMessageBody}
           recipients={recipients}
           allChecked={allChecked}
+          channels={channels}
+          handleChannels={handleChannels}
         />
       ),
     },
@@ -74,6 +87,7 @@ const Messages = () => {
           messageBody={messageBody}
           recipients={recipients}
           allChecked={allChecked}
+          channels={channels}
         />
       ),
     },

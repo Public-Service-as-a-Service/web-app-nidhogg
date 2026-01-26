@@ -3,12 +3,12 @@
 import { Card, Checkbox } from "@sk-web-gui/react";
 
 interface CheckboxCardProps {
-  allChecked: boolean;
+  allChecked?: boolean;
   handleAllChecked?: (isChecked: boolean) => void;
   label: string;
   description: string;
-  handleRecipients?: (name: string) => void;
-  recipients?: string[];
+  handleItems?: (name: string) => void;
+  items?: string[];
   disabled?: boolean;
 }
 
@@ -17,14 +17,14 @@ const CheckboxCard = ({
   handleAllChecked,
   label,
   description,
-  handleRecipients,
-  recipients,
+  handleItems,
+  items,
   disabled,
 }: CheckboxCardProps) => {
   const isMasterToggle = !!handleAllChecked;
   const isChecked = isMasterToggle
     ? allChecked
-    : recipients?.includes(label) || false;
+    : items?.includes(label) || false;
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
     const nextValue = e.target.checked;
@@ -32,7 +32,7 @@ const CheckboxCard = ({
     if (isMasterToggle) {
       handleAllChecked?.(nextValue);
     } else {
-      handleRecipients?.(label);
+      handleItems?.(label);
     }
   };
 

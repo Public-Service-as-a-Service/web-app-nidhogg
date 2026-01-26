@@ -9,6 +9,7 @@ interface ViewStepProps {
   messageBody?: string;
   recipients: string[];
   allChecked: boolean;
+  channels: string[];
 }
 
 const ViewStep = ({
@@ -17,6 +18,7 @@ const ViewStep = ({
   messageBody = "",
   recipients,
   allChecked,
+  channels,
 }: ViewStepProps) => {
   const t = useTranslations("ViewStep");
 
@@ -36,7 +38,7 @@ const ViewStep = ({
           <p className="text-label-medium">{t("recipientsLabel")}</p>
           <div className="flex flex-wrap gap-8 my-4">
             {allChecked ? (
-              <Label>{t("sendToAll")}</Label> 
+              <Label>{t("sendToAll")}</Label>
             ) : (
               recipients.map((item) => <Label key={item}>{item}</Label>)
             )}
@@ -44,7 +46,11 @@ const ViewStep = ({
         </div>
         <div className="flex flex-col">
           <p className="text-label-medium">{t("channelsLabel")}</p>
-          <p> {t("channelsInfo", { channel: "Teams" })} </p>
+          <div className="flex flex-wrap gap-8 my-4">
+            {channels.map((item) => (
+              <Label key={item}>{item}</Label>
+            ))}
+          </div>
         </div>
       </div>
       <div className="flex justify-between">

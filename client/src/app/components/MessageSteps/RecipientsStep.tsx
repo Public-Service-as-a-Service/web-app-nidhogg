@@ -36,12 +36,12 @@ const RecipientsStep = ({
   };
 
   useEffect(() => {
-    if (recipients.length >= 1) {
+    if (recipients.length >= 1 || allChecked) {
       setDisabled(false);
     } else {
       setDisabled(true);
     }
-  }, [recipients]);
+  }, [recipients, allChecked]);
 
   return (
     <div className="flex flex-col gap-14">
@@ -52,8 +52,8 @@ const RecipientsStep = ({
             label={t("allManagersLabel")}
             description={t("allManagersDesc")}
             allChecked={allChecked}
-            handleRecipients={handleRecipients}
-            recipients={recipients}
+            handleItems={handleRecipients}
+            items={recipients}
             disabled={allChecked}
           />
           <CheckboxCard
@@ -61,8 +61,8 @@ const RecipientsStep = ({
             description={t("allEmployeesDesc")}
             allChecked={allChecked}
             handleAllChecked={handleAllChecked}
-            handleRecipients={handleRecipients}
-            recipients={recipients}
+            handleItems={handleRecipients}
+            items={recipients}
           />
         </div>
         <GroupSection

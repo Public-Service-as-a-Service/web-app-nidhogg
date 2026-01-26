@@ -15,6 +15,8 @@ interface MessageStepProps {
   setMessageBody?: (value: string) => void;
   recipients: string[];
   allChecked: boolean;
+  channels: string[];
+  handleChannels: (name: string) => void;
 }
 
 const MessageStep = ({
@@ -26,18 +28,20 @@ const MessageStep = ({
   setMessageBody,
   recipients,
   allChecked,
+  channels,
+  handleChannels,
 }: MessageStepProps) => {
   const [disabled, setDisabled] = useState<boolean>(true);
 
   const t = useTranslations("MessageStep");
 
   useEffect(() => {
-    if (title !== "" && messageBody !== "") {
+    if (title !== "" && messageBody !== "" && channels.length >= 1) {
       setDisabled(false);
     } else {
       setDisabled(true);
     }
-  }, [title, messageBody]);
+  }, [title, messageBody, channels]);
 
   return (
     <div className="flex flex-col gap-14">
@@ -63,12 +67,14 @@ const MessageStep = ({
           <CheckboxCard
             label={t("checkboxes.teamsLabel")}
             description={t("checkboxes.teamsDesc")}
-            allChecked={allChecked}
+            handleItems={handleChannels}
+            items={channels}
           />
           <CheckboxCard
             label={t("checkboxes.smsLabel")}
             description={t("checkboxes.smsDesc")}
-            allChecked={allChecked}
+            handleItems={handleChannels}
+            items={channels}
           />
         </div>
       </div>
@@ -76,11 +82,7 @@ const MessageStep = ({
         <Button variant="tertiary" onClick={onPrev} className="self-start">
           {t("goBackButton")}
         </Button>
-        <Button
-          disabled={disabled}
-          onClick={onNext}
-          className="self-start"
-        >
+        <Button disabled={disabled} onClick={onNext} className="self-start">
           {t("reviewButton")}
         </Button>
       </div>
