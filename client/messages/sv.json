@@ -67,5 +67,10 @@
     "channelsInfo": "Valda mottagare notifieras via {channel}",
     "goBackButton": "Gå tillbaka",
     "sendButton": "Skicka"
+  },
+  "ProgressSteps": {
+    "recipients": "Mottagare",
+    "message": "Meddelande",
+    "view": "Granska"
   }
 }
