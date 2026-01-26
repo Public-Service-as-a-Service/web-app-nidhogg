@@ -31,8 +31,7 @@ const MessageStep = ({
   handleChannels,
 }: MessageStepProps) => {
   const t = useTranslations("MessageStep");
-  const isDisabled =
-    title !== "" && messageBody !== "" && channels.length === 0;
+  const isDisabled = !title || !messageBody || channels.length === 0;
 
   return (
     <div className="flex flex-col gap-14">
