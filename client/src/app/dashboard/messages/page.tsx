@@ -28,26 +28,16 @@ const Messages = () => {
     }
   };
 
+  const toggleItem = (list: string[], item: string) =>
+    list.includes(item) ? list.filter((i) => i !== item) : [...list, item];
+
   const handleRecipients = (recipient: string) => {
     if (allChecked) return;
-
-    setRecipients((prevRecipients) => {
-      if (prevRecipients.includes(recipient)) {
-        return prevRecipients.filter((r) => r !== recipient);
-      } else {
-        return [...prevRecipients, recipient];
-      }
-    });
+    setRecipients((prev) => toggleItem(prev, recipient));
   };
 
   const handleChannels = (channel: string) => {
-    setChannels((prevChannels) => {
-      if (prevChannels.includes(channel)) {
-        return prevChannels.filter((r) => r !== channel);
-      } else {
-        return [...prevChannels, channel];
-      }
-    });
+    setChannels((prev) => toggleItem(prev, channel));
   };
 
   const t = useTranslations("Dashboard");
