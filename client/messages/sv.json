@@ -74,6 +74,8 @@
     "view": "Granska"
   },
   "GroupHandling": {
-    "sectionTitle": "Sparade grupper"
+    "sectionTitle": "Sparade grupper",
+    "goBackButton": "Gå tillbaka",
+    "addButton": "Lägg till grupp"
   }
 }
