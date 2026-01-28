@@ -13,10 +13,12 @@ const GroupView = ({ list = [] }: GroupCardProps) => {
 
   return (
     <div className="flex flex-col gap-14">
-      <p className="text-center text-h4-md sm:text-xl"> {t("sectionTitle")} </p>
-      {list.map((item) => (
-        <GroupCard key={item.id} item={item} />
-      ))}
+      <p className="text-center text-h4-md sm:text-xl">{t("sectionTitle")}</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {list.map((item) => (
+          <GroupCard key={item.id} item={item} />
+        ))}
+      </div>
     </div>
   );
 };
