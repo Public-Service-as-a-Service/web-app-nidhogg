@@ -72,5 +72,8 @@
     "recipients": "Mottagare",
     "message": "Meddelande",
     "view": "Granska"
+  },
+  "GroupHandling": {
+    "sectionTitle": "Sparade grupper"
   }
 }
