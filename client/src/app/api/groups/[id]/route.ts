@@ -5,8 +5,10 @@ import { NextRequest } from "next/server";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
+  const { id } = await params;
+
   const cookieStore = await cookies();
   const userId = cookieStore.get(STORE.userId)?.value;
 
@@ -16,7 +18,7 @@ export async function GET(
 
   const group = await prisma.group.findUnique({
     where: {
-      id: Number(params.id),
+      id: Number(id),
     },
   });
 
