@@ -13,7 +13,6 @@ const Messages = () => {
   const [title, setTitle] = useState<string>("");
   const [messageBody, setMessageBody] = useState<string>("");
 
-  const t = useTranslations("Dashboard");
   const t_steps = useTranslations("ProgressSteps");
 
   const steps = [
@@ -47,7 +46,7 @@ const Messages = () => {
   ];
 
   return (
-    <MainWrapper title={t("title")} subtitle={t("subtitle")}>
+    <MainWrapper>
       <div className="pt-44 px-20 w-[330px] sm:w-[450px] md:w-[600px]">
         <ProgressStepper
           steps={steps.map((s) => s.label)}

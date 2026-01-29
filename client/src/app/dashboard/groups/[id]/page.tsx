@@ -3,6 +3,7 @@
 import { useGroup } from "@/app/services/useGroup";
 import Loading from "@/app/components/LoadingSpinner";
 import { useTranslations } from "next-intl";
+import MainWrapper from "@/app/components/MainWrapper";
 import { useParams } from "next/navigation";
 
 const EditGroup = () => {
@@ -21,9 +22,11 @@ const EditGroup = () => {
     );
 
   return (
-    <div>
-      <p>{group.name}</p>
-    </div>
+    <MainWrapper>
+      <div className="pt-44 px-20 w-[330px] sm:w-[450px] md:w-[700px]">
+        <p className="text-center text-h4-md sm:text-xl">{group.name}</p>
+      </div>
+    </MainWrapper>
   );
 };
 

@@ -1,7 +1,9 @@
 {
-  "Dashboard": {
+  "Wrapper": {
     "title": "Nidhogg",
-    "subtitle": "Krisinformation",
+    "subtitle": "Krisinformation"
+  },
+  "Dashboard": {
     "newMessageButton": "Skapa nytt utskick",
     "sentMessages": "Dina senaste utskick",
     "updateMessageButton": "Skicka nytt meddelande"
