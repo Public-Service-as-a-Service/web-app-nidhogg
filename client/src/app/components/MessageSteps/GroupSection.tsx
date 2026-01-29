@@ -14,7 +14,7 @@ const GroupSection = ({ allChecked }: GroupSectionProps) => {
   const t = useTranslations("GroupSection");
   const router = useRouter();
 
-  const handleNavigation = () => {
+  const handleManageGroups = () => {
     router.push("/dashboard/groups");
   };
 
@@ -52,7 +52,7 @@ const GroupSection = ({ allChecked }: GroupSectionProps) => {
         size="sm"
         className="w-fit"
         disabled={allChecked}
-        onClick={handleNavigation}
+        onClick={handleManageGroups}
       >
         {t("handleGroups")}
       </Button>
