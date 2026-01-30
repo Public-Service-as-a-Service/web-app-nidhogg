@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "../../tailwind.scss";
 import "./globals.css";
 import AppBarHeader from "./components/AppBar";
 import Providers from "./providers";
