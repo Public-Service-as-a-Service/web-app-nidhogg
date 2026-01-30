@@ -34,7 +34,7 @@ const GroupSection = ({ allChecked }: GroupSectionProps) => {
         allChecked ? "opacity-40" : "opacity-100"
       }`}
     >
-      <p className="text-label-large">{t("sectionTitle")}</p>
+      <p className="text-label-large pt-10">{t("sectionTitle")}</p>
       <GroupSelector
         label={t("predefinedGroups")}
         placeholder={t("selectGroups")}
