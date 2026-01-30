@@ -24,7 +24,7 @@ const EditGroup = () => {
   return (
     <MainWrapper>
       <div className="pt-44 px-20 w-[330px] sm:w-[450px] md:w-[700px]">
-        <p className="text-center text-h4-md sm:text-xl">{group.name}</p>
+        <h1 className="text-center sm:text-xl md:text-2xl">{group.name}</h1>
       </div>
     </MainWrapper>
   );
