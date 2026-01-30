@@ -27,7 +27,9 @@ const RecipientsStep = ({ onNext }: Props) => {
 
   return (
     <div className="flex flex-col gap-14">
-      <h2 className="text-center sm:text-xl">{t("sectionTitle")}</h2>
+      <h1 className="text-center sm:text-xl md:text-2xl">
+        {t("sectionTitle")}
+      </h1>
       <div className="flex flex-col gap-14 pb-28">
         <div className="flex flex-col md:flex-row gap-8">
           <CheckboxCard
