@@ -24,7 +24,8 @@
     "next-intl": "^4.5.3",
     "prisma": "^6.19.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "sass": "^1.97.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

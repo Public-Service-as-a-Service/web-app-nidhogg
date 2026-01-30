@@ -1,0 +1,120 @@
+@use "tailwindcss/base";
+@use "tailwindcss/components";
+@use "tailwindcss/utilities";
+@use "./public/fonts/fonts.css";
+
+@layer base {
+  .max-width-content {
+    @apply max-w-content;
+  }
+
+  html,
+  body {
+    @apply text-body;
+  }
+}
+
+@layer components {
+  .container {
+    @apply max-w-content px-20 desktop:px-0 w-full;
+  }
+
+  .form-error-message {
+    @apply mb-4;
+  }
+}
+
+@layer utilities {
+  .MuiSvgIcon-root.material-icon {
+    user-select: none;
+    font-size: 1.25em;
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    fill: currentColor;
+    flex-shrink: 0;
+  }
+}
+
+// NOTE: sticky footer
+html,
+body,
+#__next,
+.root-container {
+  min-height: 100vh;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+#__next {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 500px) {
+  .recharts-cartesian-axis-ticks {
+    @apply text-xs !important;
+  }
+}
+
+.root-container {
+  @apply flex flex-col items-center bg-background-100;
+}
+
+@layer components {
+  .main-container {
+    @apply max-w-main-content grow w-full flex flex-col items-center my-40 desktop:my-80;
+  }
+  .text-content {
+    @apply flex flex-col max-w-[76.4rem];
+
+    h1 {
+      @apply mb-8;
+    }
+
+    h3 + p {
+      @apply mt-8;
+    }
+
+    * + p,
+    * + ul {
+      @apply mt-16 mb-0;
+    }
+
+    .ingress {
+      @apply mt-0;
+    }
+
+    ul {
+      @apply ml-16 list-disc;
+
+      li + li {
+        @apply mt-16;
+      }
+    }
+  }
+
+  .sk {
+    &-label {
+      @apply h-auto max-h-max;
+    }
+
+    &-breadcrumb {
+      &-item,
+      &-item > * {
+        @apply max-w-full whitespace-break-spaces hyphens-auto break-words;
+      }
+    }
+
+    &-cookie-consent-btn-wrapper .sk-btn-primary {
+      background-color: var(--sk-colors-primary-surface-DEFAULT);
+      color: var(--sk-colors-light-primary);
+    }
+
+    &-cookie-consent-btn-wrapper .sk-btn-primary:hover {
+      background-color: var(--sk-colors-primary-surface-hover);
+    }
+  }
+}

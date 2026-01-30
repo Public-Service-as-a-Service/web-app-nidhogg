@@ -13,7 +13,9 @@ const MessageList = () => {
 
   return (
     <div className="px-20">
-      <h2 className="py-12 text-center">{t("sentMessages")}</h2>
+      <h1 className="pt-12 text-center sm:text-xl md:text-2xl">
+        {t("sentMessages")}
+      </h1>
       <div className="flex flex-col gap-10 max-w-[700px]">
         {messages.map((item) => (
           <Card key={item.id}>
