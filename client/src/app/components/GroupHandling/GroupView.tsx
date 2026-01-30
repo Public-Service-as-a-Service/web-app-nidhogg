@@ -4,6 +4,7 @@ import GroupCard from "./GroupCard";
 import { useTranslations } from "next-intl";
 import { Group } from "@/app/interfaces/group";
 import { Button } from "@sk-web-gui/react";
+import { useRouter } from "next/navigation";
 
 interface GroupCardProps {
   list: Group[];
@@ -11,6 +12,11 @@ interface GroupCardProps {
 
 const GroupView = ({ list = [] }: GroupCardProps) => {
   const t = useTranslations("GroupHandling");
+  const router = useRouter();
+
+  const handleGoBack = () => {
+    router.back();
+  };
 
   return (
     <div className="flex flex-col gap-14">
@@ -25,7 +31,9 @@ const GroupView = ({ list = [] }: GroupCardProps) => {
         </div>
       </div>
       <div className="flex justify-between">
-        <Button variant="tertiary">{t("goBackButton")}</Button>
+        <Button variant="tertiary" onClick={handleGoBack}>
+          {t("goBackButton")}
+        </Button>
         <Button>{t("addButton")}</Button>
       </div>
     </div>
