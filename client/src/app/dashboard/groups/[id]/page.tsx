@@ -6,6 +6,7 @@ import Loading from "@/app/components/LoadingSpinner";
 import { useTranslations } from "next-intl";
 import MainWrapper from "@/app/components/MainWrapper";
 import { useParams } from "next/navigation";
+import MemberSection from "@/app/components/GroupHandling/MemberSection";
 
 const EditGroup = () => {
   const params = useParams();
@@ -13,9 +14,7 @@ const EditGroup = () => {
   const t = useTranslations("GroupHandling");
 
   const { data: group, isLoading } = useGroup(id);
-  const { data: members } = useMembers(id);
-
-  console.log(members?.map((member) => member.employee));
+  const { data: members = [] } = useMembers(id);
 
   if (isLoading) return <Loading />;
 
@@ -30,6 +29,7 @@ const EditGroup = () => {
     <MainWrapper>
       <div className="pt-44 px-20 w-[330px] sm:w-[450px] md:w-[700px]">
         <h1 className="text-center sm:text-xl md:text-2xl">{group.name}</h1>
+        <MemberSection members={members} />
       </div>
     </MainWrapper>
   );
