@@ -1,7 +1,7 @@
 "use client";
 
 import { useGroup } from "@/app/services/useGroup";
-import { useMembers } from "@/app/services/useMember";
+import { useMembers } from "@/app/services/useMembers";
 import Loading from "@/app/components/LoadingSpinner";
 import { useTranslations } from "next-intl";
 import MainWrapper from "@/app/components/MainWrapper";
