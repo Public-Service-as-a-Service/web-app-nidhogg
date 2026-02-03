@@ -34,7 +34,7 @@ const GroupView = ({ list = [] }: GroupCardProps) => {
         <Button variant="tertiary" onClick={handleGoBack}>
           {t("goBackButton")}
         </Button>
-        <Button>{t("addButton")}</Button>
+        <Button>{t("addGroupButton")}</Button>
       </div>
     </div>
   );

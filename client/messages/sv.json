@@ -78,7 +78,8 @@
   "GroupHandling": {
     "sectionTitle": "Sparade grupper",
     "goBackButton": "Gå tillbaka",
-    "addButton": "Lägg till grupp",
-    "notFound": "Gruppen hittades inte"
+    "addGroupButton": "Skapa grupp",
+    "notFound": "Gruppen hittades inte",
+    "addMembersButton": "Lägg till"
   }
 }
