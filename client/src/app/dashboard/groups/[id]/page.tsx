@@ -1,6 +1,7 @@
 "use client";
 
 import { useGroup } from "@/app/services/useGroup";
+import { useMembers } from "@/app/services/useMember";
 import Loading from "@/app/components/LoadingSpinner";
 import { useTranslations } from "next-intl";
 import MainWrapper from "@/app/components/MainWrapper";
@@ -10,7 +11,11 @@ const EditGroup = () => {
   const params = useParams();
   const id = Number(params.id);
   const t = useTranslations("GroupHandling");
+
   const { data: group, isLoading } = useGroup(id);
+  const { data: members } = useMembers(id);
+
+  console.log(members?.map((member) => member.employee));
 
   if (isLoading) return <Loading />;
 
