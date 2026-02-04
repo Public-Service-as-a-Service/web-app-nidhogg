@@ -14,7 +14,7 @@ const MemberCard = ({ member }: MemberCardProps) => {
         <Card.Text>
           <div className="flex flex-row items-center">
             <Checkbox className="pr-16" />
-            <Avatar initials={member.employee.email.slice(0, 2)} />
+            <Avatar rounded={true} initials={member.employee.email.slice(0, 2)} />
             <div className="flex flex-col pl-12">
               <p>{member.employee.email.slice(0, 10)}...</p>
               <p>{member.employee.telephone}</p>
