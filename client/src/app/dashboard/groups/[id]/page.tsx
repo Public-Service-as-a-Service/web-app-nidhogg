@@ -28,7 +28,9 @@ const EditGroup = () => {
   return (
     <MainWrapper>
       <div className="pt-44 px-20 w-[330px] sm:w-[450px] md:w-[700px]">
-        <h1 className="text-center sm:text-xl md:text-2xl">{group.name}</h1>
+        <h1 className="text-h2-sm">{group.name}</h1>
+        <p className="text-label-large">{t("groupDescription")}</p>
+        <p>{group.description}</p>
         <MemberSection members={members} />
       </div>
     </MainWrapper>

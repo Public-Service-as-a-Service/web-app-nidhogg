@@ -77,10 +77,13 @@
   },
   "GroupHandling": {
     "sectionTitle": "Dina grupper",
-    "goBackButton": "Gå tillbaka",
+    "goBackButton": "Tillbaka",
     "addButton": "Skapa grupp",
     "notFound": "Gruppen hittades inte",
     "showAllButton": "Visa alla",
-    "wasCreated": "Skapad: "
+    "wasCreated": "Skapad: ",
+    "editButton": "Redigera",
+    "groupDescription": "Beskrivning",
+    "membersLabel": "Gruppmedlemmar"
   }
 }
