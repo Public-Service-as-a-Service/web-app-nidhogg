@@ -2,35 +2,49 @@
 
 import { Card, Button } from "@sk-web-gui/react";
 import { Group } from "@/app/interfaces/group";
-import { SquarePen } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 interface GroupCardProps {
   item: Group;
 }
 
 const GroupCard = ({ item }: GroupCardProps) => {
+  const t = useTranslations("GroupHandling");
   const router = useRouter();
 
-  const handleEdit = () => {
+  const handleClick = () => {
     router.push(`/dashboard/groups/${item.id}`);
   };
 
   return (
-    <Card className="w-full">
-      <Card.Body>
-        <Card.Header>
-          <h2>{item.name}</h2>
-        </Card.Header>
-        <Card.Text>
-          <p>{item.description}</p>
-        </Card.Text>
+    <Card>
+      <Card.Body className="w-full">
+        <div className="flex flex-row items-center justify-between">
+          <div className="flex flex-col flex-1">
+            <Card.Header>
+              <h2 className="text-h3-sm">{item.name}</h2>
+            </Card.Header>
+            <Card.Text>
+              <p className="text-sm">
+                {t("wasCreated")}
+                {new Date(item.createDate).toLocaleDateString()}
+              </p>
+            </Card.Text>
+          </div>
+          <div className="flex items-center">
+            <Button
+              iconButton={true}
+              rounded={true}
+              size="md"
+              onClick={handleClick}
+            >
+              <ArrowRight />
+            </Button>
+          </div>
+        </div>
       </Card.Body>
-      <div className="flex flex-row place-content-end pb-12 pr-12">
-        <Button iconButton={true} size="md" onClick={handleEdit}>
-          <SquarePen />
-        </Button>
-      </div>
     </Card>
   );
 };

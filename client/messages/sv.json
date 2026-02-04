@@ -27,7 +27,7 @@
   "GroupSection": {
     "sectionTitle": "Grupper",
     "predefinedGroups": "Fördefinierade grupper",
-    "savedGroups": "Sparade grupper",
+    "savedGroups": "Dina grupper",
     "selectGroups": "Välj en eller flera grupper",
     "handleGroups": "Hantera grupper",
     "organization": "Organisation",
@@ -76,10 +76,11 @@
     "view": "Granska"
   },
   "GroupHandling": {
-    "sectionTitle": "Sparade grupper",
+    "sectionTitle": "Dina grupper",
     "goBackButton": "Gå tillbaka",
-    "addGroupButton": "Skapa grupp",
+    "addButton": "Skapa grupp",
     "notFound": "Gruppen hittades inte",
-    "addMembersButton": "Lägg till"
+    "showAllButton": "Visa alla",
+    "wasCreated": "Skapad: "
   }
 }
