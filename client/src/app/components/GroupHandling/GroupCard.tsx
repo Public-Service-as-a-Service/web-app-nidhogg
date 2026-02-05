@@ -20,29 +20,17 @@ const GroupCard = ({ item }: GroupCardProps) => {
 
   return (
     <Card>
-      <Card.Body className="w-full">
+      <Card.Body className="w-full pt-24">
         <div className="flex flex-row items-center justify-between">
-          <div className="flex flex-col flex-1">
-            <Card.Header>
-              <h2 className="text-h3-sm">{item.name}</h2>
-            </Card.Header>
-            <Card.Text>
-              <p className="text-sm">
-                {t("wasCreated")}
-                {new Date(item.createDate).toLocaleDateString()}
-              </p>
-            </Card.Text>
+          <div className="flex flex-col justify-center">
+            <h2 className="text-h3-sm !mt-0">{item.name}</h2>
+            <p className="text-small">
+              {t("wasCreated")} {new Date(item.createDate).toLocaleDateString()}
+            </p>
           </div>
-          <div className="flex items-center">
-            <Button
-              iconButton={true}
-              rounded={true}
-              size="md"
-              onClick={handleClick}
-            >
-              <ArrowRight />
-            </Button>
-          </div>
+          <Button iconButton rounded size="md" onClick={handleClick}>
+            <ArrowRight />
+          </Button>
         </div>
       </Card.Body>
     </Card>
