@@ -6,16 +6,17 @@ import { ArrowRight } from "lucide-react";
 
 interface MemberCardProps {
   member: Member;
+  editMode: boolean;
 }
 
-const MemberCard = ({ member }: MemberCardProps) => {
+const MemberCard = ({ member, editMode }: MemberCardProps) => {
   return (
     <Card>
-      <Card.Body className="w-full">
+      <Card.Body className="w-full pb-16">
         <div className="flex flex-row justify-between">
           <Card.Text>
             <div className="flex flex-row items-center">
-              <Checkbox className="pr-16" />
+              {editMode && <Checkbox className="pr-16" />}
               <Avatar
                 rounded={true}
                 initials={member.employee.email.slice(0, 2)}

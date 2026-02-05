@@ -9,9 +9,15 @@ import { SquarePen, ArrowLeft } from "lucide-react";
 
 interface MemberSectionProps {
   members: Member[];
+  editMode: boolean;
+  handleEditMode: () => void;
 }
 
-const MemberSection = ({ members = [] }: MemberSectionProps) => {
+const MemberSection = ({
+  members = [],
+  editMode,
+  handleEditMode,
+}: MemberSectionProps) => {
   const t = useTranslations("GroupHandling");
   const router = useRouter();
 
@@ -27,6 +33,7 @@ const MemberSection = ({ members = [] }: MemberSectionProps) => {
           <MemberCard
             key={member.employeeId + member.groupId}
             member={member}
+            editMode={editMode}
           />
         ))}
       </div>
@@ -35,10 +42,14 @@ const MemberSection = ({ members = [] }: MemberSectionProps) => {
           <ArrowLeft />
           {t("goBackButton")}
         </Button>
-        <Button>
-          {t("editButton")}
-          <SquarePen />
-        </Button>
+        {!editMode ? (
+          <Button onClick={handleEditMode}>
+            {t("editButton")}
+            <SquarePen />
+          </Button>
+        ) : (
+          <Button onClick={handleEditMode}>{t("saveButton")}</Button>
+        )}
       </div>
     </div>
   );
