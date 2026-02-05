@@ -31,7 +31,7 @@
     "selectGroups": "Välj en eller flera grupper",
     "handleGroups": "Hantera grupper",
     "organization": "Organisation",
-    "recipients": "Valda mottagare"
+    "recipients": "Valda mottagare från organisationen:"
   },
   "MessageForm": {
     "titleLabel": "Titel",
@@ -58,7 +58,8 @@
       "smsDesc": "Skicka meddelande via SMS"
     },
     "goBackButton": "Gå tillbaka",
-    "reviewButton": "Granska"
+    "reviewButton": "Granska",
+    "sendToAll": "Alla medarbetare"
   },
   "ViewStep": {
     "sectionTitle": "Granska meddelande",
@@ -66,9 +67,9 @@
     "messageLabel": "Meddelande",
     "recipientsLabel": "Valda mottagare",
     "channelsLabel": "Utskickskanaler",
-    "channelsInfo": "Valda mottagare notifieras via {channel}",
     "goBackButton": "Gå tillbaka",
-    "sendButton": "Skicka"
+    "sendButton": "Skicka",
+    "sendToAll": "Alla medarbetare"
   },
   "ProgressSteps": {
     "recipients": "Mottagare",

@@ -3,26 +3,24 @@
 import { Button, Label } from "@sk-web-gui/react";
 import { useTranslations } from "next-intl";
 
-interface Props {
+interface ViewStepProps {
   onPrev?: () => void;
   title?: string;
   messageBody?: string;
+  recipients: string[];
+  allChecked: boolean;
+  channels: string[];
 }
 
-const ViewStep = ({ onPrev, title = "", messageBody = "" }: Props) => {
+const ViewStep = ({
+  onPrev,
+  title = "",
+  messageBody = "",
+  recipients,
+  allChecked,
+  channels,
+}: ViewStepProps) => {
   const t = useTranslations("ViewStep");
-
-  const recipients = [
-    {
-      title: "Alla chefer",
-    },
-    {
-      title: "Krisgruppen",
-    },
-    {
-      title: "IT-jouren",
-    },
-  ];
 
   return (
     <div className="flex flex-col gap-14">
@@ -41,14 +39,20 @@ const ViewStep = ({ onPrev, title = "", messageBody = "" }: Props) => {
         <div className="flex flex-col">
           <p className="text-label-medium">{t("recipientsLabel")}</p>
           <div className="flex flex-wrap gap-8 my-4">
-            {recipients.map((item) => (
-              <Label key={item.title}>{item.title}</Label>
-            ))}
+            {allChecked ? (
+              <Label>{t("sendToAll")}</Label>
+            ) : (
+              recipients.map((item) => <Label key={item}>{item}</Label>)
+            )}
           </div>
         </div>
         <div className="flex flex-col">
           <p className="text-label-medium">{t("channelsLabel")}</p>
-          <p> {t("channelsInfo", { channel: "Teams" })} </p>
+          <div className="flex flex-wrap gap-8 my-4">
+            {channels.map((item) => (
+              <Label key={item}>{item}</Label>
+            ))}
+          </div>
         </div>
       </div>
       <div className="flex justify-between">
