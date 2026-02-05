@@ -20,7 +20,7 @@ const MemberSection = ({ members = [] }: MemberSectionProps) => {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col pt-16">
       <p className="text-label-large">{t("membersLabel")}</p>
       <div className="flex flex-col gap-12 pb-28">
         {members.map((member) => (
