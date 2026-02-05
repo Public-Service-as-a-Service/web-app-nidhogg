@@ -33,6 +33,12 @@ const RecipientsStep = ({
     router.push("/dashboard");
   };
 
+  const commonProps = {
+    allChecked,
+    handleItems: handleRecipients,
+    items: recipients,
+  };
+
   return (
     <div className="flex flex-col gap-14">
       <h1 className="text-center sm:text-xl md:text-2xl">
@@ -41,20 +47,16 @@ const RecipientsStep = ({
       <div className="flex flex-col gap-14 pb-28">
         <div className="flex flex-col md:flex-row gap-8">
           <CheckboxCard
+            {...commonProps}
             label={t("allManagersLabel")}
             description={t("allManagersDesc")}
-            allChecked={allChecked}
-            handleItems={handleRecipients}
-            items={recipients}
             disabled={allChecked}
           />
           <CheckboxCard
+            {...commonProps}
             label={t("allEmployeesLabel")}
             description={t("allEmployeesDesc")}
-            allChecked={allChecked}
             handleAllChecked={handleAllChecked}
-            handleItems={handleRecipients}
-            items={recipients}
           />
         </div>
         <GroupSection
