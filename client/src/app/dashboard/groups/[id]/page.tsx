@@ -10,7 +10,7 @@ import MemberSection from "@/app/components/GroupHandling/MemberSection";
 import { useState } from "react";
 
 const EditGroup = () => {
-  const [editMode, setEditMode] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const params = useParams();
   const id = Number(params.id);
@@ -20,7 +20,7 @@ const EditGroup = () => {
   const { data: members = [] } = useMembers(id);
 
   const handleEditMode = () => {
-    setEditMode((prev) => !prev);
+    setIsEditing((prev) => !prev);
   };
 
   if (isLoading) return <Loading />;
@@ -30,7 +30,6 @@ const EditGroup = () => {
       <MainWrapper>
         <div className="pt-44 text-center">
           <h1 className="text-h2-sm">{t("notFound")}</h1>
-          {/* Gå tillbaka-knapp */}
         </div>
       </MainWrapper>
     );
@@ -44,7 +43,7 @@ const EditGroup = () => {
         <p>{group.description}</p>
         <MemberSection
           members={members}
-          editMode={editMode}
+          editMode={isEditing}
           handleEditMode={handleEditMode}
         />
       </div>

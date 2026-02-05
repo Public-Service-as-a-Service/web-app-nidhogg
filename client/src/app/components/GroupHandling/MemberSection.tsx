@@ -5,7 +5,7 @@ import MemberCard from "./MemberCard";
 import { Button } from "@sk-web-gui/react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { SquarePen, ArrowLeft } from "lucide-react";
+import { SquarePen, ArrowLeft, Save } from "lucide-react";
 
 interface MemberSectionProps {
   members: Member[];
@@ -48,7 +48,10 @@ const MemberSection = ({
             <SquarePen />
           </Button>
         ) : (
-          <Button onClick={handleEditMode}>{t("saveButton")}</Button>
+          <Button onClick={handleEditMode}>
+            {t("saveButton")}
+            <Save />
+          </Button>
         )}
       </div>
     </div>
