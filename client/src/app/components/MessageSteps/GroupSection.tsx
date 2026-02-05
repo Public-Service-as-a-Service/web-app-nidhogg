@@ -8,9 +8,15 @@ import { useRouter } from "next/navigation";
 
 interface GroupSectionProps {
   allChecked: boolean;
+  handleRecipients: (name: string) => void;
+  selectedItems: string[];
 }
 
-const GroupSection = ({ allChecked }: GroupSectionProps) => {
+const GroupSection = ({
+  allChecked,
+  handleRecipients,
+  selectedItems,
+}: GroupSectionProps) => {
   const t = useTranslations("GroupSection");
   const router = useRouter();
 
@@ -18,14 +24,14 @@ const GroupSection = ({ allChecked }: GroupSectionProps) => {
     router.push("/dashboard/groups");
   };
 
-  const predefinedGroups = [
-    { id: 1, name: "Krisgrupp" },
-    { id: 2, name: "IT-jour" },
+  const mockPredefinedGroups = [
+    { id: 1, name: "Krisgrupp", default: true },
+    { id: 2, name: "IT-jour", default: true },
   ];
 
-  const savedGroups = [
-    { id: 1, name: "Team Nidhogg" },
-    { id: 2, name: "Nidhoggs krishanterare" },
+  const mockSavedGroups = [
+    { id: 1, name: "Team Nidhogg", default: false },
+    { id: 2, name: "Nidhoggs krishanterare", default: false },
   ];
 
   return (
@@ -38,14 +44,20 @@ const GroupSection = ({ allChecked }: GroupSectionProps) => {
       <GroupSelector
         label={t("predefinedGroups")}
         placeholder={t("selectGroups")}
-        list={predefinedGroups}
+        list={mockPredefinedGroups}
         allChecked={allChecked}
+        handleRecipients={handleRecipients}
+        selectedItems={selectedItems}
+        defaultGroup={true}
       />
       <GroupSelector
         label={t("savedGroups")}
         placeholder={t("selectGroups")}
-        list={savedGroups}
+        list={mockSavedGroups}
         allChecked={allChecked}
+        handleRecipients={handleRecipients}
+        selectedItems={selectedItems}
+        defaultGroup={false}
       />
       <Button
         variant="secondary"

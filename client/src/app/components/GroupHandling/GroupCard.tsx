@@ -5,6 +5,7 @@ import { Group } from "@/app/interfaces/group";
 import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import dayjs from "dayjs";
 
 interface GroupCardProps {
   item: Group;
@@ -25,7 +26,8 @@ const GroupCard = ({ item }: GroupCardProps) => {
           <div className="flex flex-col justify-center">
             <h2 className="text-h3-sm !mt-0">{item.name}</h2>
             <p className="text-small">
-              {t("wasCreated")} {new Date(item.createDate).toLocaleDateString()}
+              {t("wasCreated")}
+              {dayjs(item.createDate).format("YYYY-MM-DD")}
             </p>
           </div>
           <Button iconButton rounded size="md" onClick={handleClick}>
