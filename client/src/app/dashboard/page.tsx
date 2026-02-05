@@ -15,7 +15,7 @@ const Dashboard = () => {
   };
 
   return (
-    <MainWrapper title={t("title")} subtitle={t("subtitle")}>
+    <MainWrapper>
       <div className="py-30">
         <Button size="lg" onClick={handleNavigation}>
           {t("newMessageButton")}

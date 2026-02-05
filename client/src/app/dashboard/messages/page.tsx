@@ -40,7 +40,6 @@ const Messages = () => {
     setChannels((prev) => toggleItem(prev, channel));
   };
 
-  const t = useTranslations("Dashboard");
   const t_steps = useTranslations("ProgressSteps");
 
   const steps: StepsProps[] = [
@@ -89,7 +88,7 @@ const Messages = () => {
   ];
 
   return (
-    <MainWrapper title={t("title")} subtitle={t("subtitle")}>
+    <MainWrapper>
       <div className="pt-44 px-20 w-[330px] sm:w-[450px] md:w-[600px]">
         <ProgressStepper
           steps={steps.map((s) => s.label)}

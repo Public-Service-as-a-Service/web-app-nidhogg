@@ -1,7 +1,9 @@
 {
-  "Dashboard": {
+  "Wrapper": {
     "title": "Nidhogg",
-    "subtitle": "Krisinformation",
+    "subtitle": "Krisinformation"
+  },
+  "Dashboard": {
     "newMessageButton": "Skapa nytt utskick",
     "sentMessages": "Dina senaste utskick",
     "updateMessageButton": "Skicka nytt meddelande"
@@ -25,7 +27,7 @@
   "GroupSection": {
     "sectionTitle": "Grupper",
     "predefinedGroups": "Fördefinierade grupper",
-    "savedGroups": "Sparade grupper",
+    "savedGroups": "Dina grupper",
     "selectGroups": "Välj en eller flera grupper",
     "handleGroups": "Hantera grupper",
     "organization": "Organisation",
@@ -73,5 +75,13 @@
     "recipients": "Mottagare",
     "message": "Meddelande",
     "view": "Granska"
+  },
+  "GroupHandling": {
+    "sectionTitle": "Dina grupper",
+    "goBackButton": "Gå tillbaka",
+    "addButton": "Skapa grupp",
+    "notFound": "Gruppen hittades inte",
+    "showAllButton": "Visa alla",
+    "wasCreated": "Skapad: "
   }
 }

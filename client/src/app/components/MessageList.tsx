@@ -22,7 +22,7 @@ const MessageList = () => {
             <Card.Body>
               <Card.Header>
                 <div className="flex flex-col md:flex-row justify-between">
-                  <h3>{item.title}</h3>
+                  <h2>{item.title}</h2>
                   <p>{new Date(item.createDate).toLocaleString()}</p>
                 </div>
               </Card.Header>

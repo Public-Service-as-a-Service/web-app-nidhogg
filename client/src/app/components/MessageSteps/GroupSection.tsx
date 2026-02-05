@@ -4,6 +4,7 @@ import { FormControl, Button } from "@sk-web-gui/react";
 import TreeView from "../TreeView/TreeView";
 import GroupSelector from "./GroupSelector";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 interface GroupSectionProps {
   allChecked: boolean;
@@ -17,6 +18,11 @@ const GroupSection = ({
   selectedItems,
 }: GroupSectionProps) => {
   const t = useTranslations("GroupSection");
+  const router = useRouter();
+
+  const handleManageGroups = () => {
+    router.push("/dashboard/groups");
+  };
 
   const mockPredefinedGroups = [
     { id: 1, name: "Krisgrupp", default: true },
@@ -58,6 +64,7 @@ const GroupSection = ({
         size="sm"
         className="w-fit"
         disabled={allChecked}
+        onClick={handleManageGroups}
       >
         {t("handleGroups")}
       </Button>
