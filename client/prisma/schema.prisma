@@ -30,9 +30,15 @@ model Message {
 }
 
 model Employee {
-  id               Int      @id // från filen
-  email            String
-  telephone        String?
+  id               Int      @id
+  personId         String   @unique @default(uuid())
+  orgId            String
+  firstName        String
+  lastName         String
+  email            String?  @unique
+  workMobile       String?
+  workPhone        String?
+  workTitle        String?
   createDate       DateTime @default(now())
   lastModifiedDate DateTime @updatedAt
 

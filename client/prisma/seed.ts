@@ -20,20 +20,17 @@ async function main() {
     data: [
       {
         title: "Krisarnas kris",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut dapibus ultricies accumsan.",
+        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         userId: user.id,
       },
       {
         title: "Nu är det julkris",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut dapibus ultricies accumsan.",
+        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         userId: user.id,
       },
       {
         title: "Krisen är här",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut dapibus ultricies accumsan.",
+        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         userId: user.id,
       },
     ],
@@ -43,15 +40,15 @@ async function main() {
     data: [
       {
         name: "Krisgruppen",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        description: "Hanterar akuta kriser.",
       },
       {
         name: "IT-jour",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        description: "Teknisk support dygnet runt.",
       },
       {
         name: "Testgrupp",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        description: "Enbart för systemtester.",
       },
     ],
   });
@@ -61,32 +58,114 @@ async function main() {
   const employeesData = [
     {
       id: 1,
+      personId: "P-001",
+      orgId: "ORG-1",
+      firstName: "Anna",
+      lastName: "Andersson",
       email: "anna.andersson@krismyndigheten.se",
-      telephone: "0701111111",
+      workMobile: "0701111111",
+      workPhone: "08111111",
+      workTitle: "Krisledare",
     },
     {
       id: 2,
+      personId: "P-002",
+      orgId: "ORG-1",
+      firstName: "Erik",
+      lastName: "Nilsson",
       email: "erik.nilsson@krismyndigheten.se",
-      telephone: "0702222222",
+      workMobile: "0702222222",
+      workPhone: "08222222",
+      workTitle: "Analytiker",
     },
     {
       id: 3,
+      personId: "P-003",
+      orgId: "ORG-1",
+      firstName: "Sofia",
+      lastName: "Lindberg",
       email: "sofia.lindberg@krismyndigheten.se",
-      telephone: "0703333333",
+      workMobile: "0703333333",
+      workPhone: "08333333",
+      workTitle: "Kommunikatör",
     },
     {
       id: 4,
+      personId: "P-004",
+      orgId: "ORG-1",
+      firstName: "Johan",
+      lastName: "Persson",
       email: "johan.persson@krismyndigheten.se",
-      telephone: "0704444444",
+      workMobile: "0704444444",
+      workPhone: "08444444",
+      workTitle: "Logistikansvarig",
     },
-
-    { id: 5, email: "oncall.it@myndighet.se", telephone: "0705555555" },
-    { id: 6, email: "driftansvarig@myndighet.se", telephone: "0706666666" },
-    { id: 7, email: "it.sakerhet@myndighet.se", telephone: "0707777777" },
-
-    { id: 8, email: "test.anvandare1@demo.se", telephone: "0708888888" },
-    { id: 9, email: "test.anvandare2@demo.se", telephone: "0709999999" },
-    { id: 10, email: "test.anvandare3@demo.se", telephone: "0700000000" },
+    {
+      id: 5,
+      personId: "P-005",
+      orgId: "ORG-IT",
+      firstName: "IT",
+      lastName: "OnCall",
+      email: "oncall.it@myndighet.se",
+      workMobile: "0705555555",
+      workPhone: "08555555",
+      workTitle: "Systemtekniker",
+    },
+    {
+      id: 6,
+      personId: "P-006",
+      orgId: "ORG-IT",
+      firstName: "Drift",
+      lastName: "Ansvarig",
+      email: "driftansvarig@myndighet.se",
+      workMobile: "0706666666",
+      workPhone: "08666666",
+      workTitle: "Driftchef",
+    },
+    {
+      id: 7,
+      personId: "P-007",
+      orgId: "ORG-IT",
+      firstName: "Säkerhets",
+      lastName: "Expert",
+      email: "it.sakerhet@myndighet.se",
+      workMobile: "0707777777",
+      workPhone: "08777777",
+      workTitle: "CISO",
+    },
+    {
+      id: 8,
+      personId: "P-008",
+      orgId: "ORG-TEST",
+      firstName: "Test",
+      lastName: "Användare 1",
+      email: "test.anvandare1@demo.se",
+      workMobile: "0708888888",
+      workPhone: "08888888",
+      workTitle: "Testare",
+    },
+    {
+      id: 9,
+      personId: "P-009",
+      orgId: "ORG-TEST",
+      firstName: "Test",
+      lastName: "Användare 2",
+      email: "test.anvandare2@demo.se",
+      workMobile: "0709999999",
+      workPhone: "08999999",
+      workTitle: "Testare",
+    },
+    {
+      id: 10,
+      personId: "P-010",
+      orgId: "ORG-TEST",
+      firstName: "Test",
+      lastName: "Användare 3",
+      email: "test.anvandare3@demo.se",
+      workMobile: "0700000000",
+      workPhone: "08000000",
+      workTitle: "Testare",
+    },
   ];
 
   await prisma.employee.createMany({
@@ -119,7 +198,7 @@ async function main() {
     if (!memberEmails) continue;
 
     const groupMembers = employees
-      .filter((e) => memberEmails.includes(e.email))
+      .filter((e) => e.email && memberEmails.includes(e.email))
       .map((employee) => ({
         groupId: group.id,
         employeeId: employee.id,
