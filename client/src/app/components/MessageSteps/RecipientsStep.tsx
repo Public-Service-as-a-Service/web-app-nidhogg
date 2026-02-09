@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import CheckboxCard from "./CheckboxCard";
 import GroupSection from "./GroupSection";
+import { useOrganization } from "@/app/services/useOrganization";
+import Loading from "../LoadingSpinner";
 
 interface RecipientStepProps {
   onNext?: () => void;
@@ -25,6 +27,9 @@ const RecipientsStep = ({
   const t = useTranslations("RecipientsStep");
   const isDisabled = recipients.length === 0 && !allChecked;
 
+  const { data: organization, isLoading } = useOrganization(13);
+  console.log(organization?.name);
+
   const handleAllChecked = (isChecked: boolean) => {
     setAllChecked(isChecked);
   };
@@ -38,6 +43,8 @@ const RecipientsStep = ({
     handleItems: handleRecipients,
     items: recipients,
   };
+
+  if (isLoading) return <Loading />;
 
   return (
     <div className="flex flex-col gap-14">
