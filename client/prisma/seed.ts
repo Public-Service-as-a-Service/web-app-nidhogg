@@ -3,7 +3,6 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.groupMember.deleteMany();
   await prisma.group.deleteMany();
   await prisma.employee.deleteMany();
   await prisma.message.deleteMany();
@@ -35,25 +34,6 @@ async function main() {
       },
     ],
   });
-
-  await prisma.group.createMany({
-    data: [
-      {
-        name: "Krisgruppen",
-        description: "Hanterar akuta kriser.",
-      },
-      {
-        name: "IT-jour",
-        description: "Teknisk support dygnet runt.",
-      },
-      {
-        name: "Testgrupp",
-        description: "Enbart för systemtester.",
-      },
-    ],
-  });
-
-  const createdGroups = await prisma.group.findMany();
 
   const employeesData = [
     {
@@ -193,19 +173,19 @@ async function main() {
     ],
   };
 
-  for (const group of createdGroups) {
-    const memberEmails = membershipMap[group.name];
-    if (!memberEmails) continue;
-
-    const groupMembers = employees
-      .filter((e) => e.email && memberEmails.includes(e.email))
-      .map((employee) => ({
-        groupId: group.id,
-        employeeId: employee.id,
-      }));
-
-    await prisma.groupMember.createMany({
-      data: groupMembers,
+  for (const [groupName, emails] of Object.entries(membershipMap)) {
+    await prisma.group.create({
+      data: {
+        name: groupName,
+        description: groupName,
+        createdBy: user.email,
+        userId: user.id,
+        employees: {
+          connect: employees
+            .filter((e) => e.email && emails.includes(e.email))
+            .map((e) => ({ id: e.id })),
+        },
+      },
     });
   }
 

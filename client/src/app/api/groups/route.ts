@@ -11,8 +11,12 @@ export async function GET() {
   }
 
   const groups = await prisma.group.findMany({
+    where: { userId },
+    include: {
+      employees: true,
+    },
     orderBy: {
-      createDate: "desc",
+      createdAt: "desc",
     },
   });
 
