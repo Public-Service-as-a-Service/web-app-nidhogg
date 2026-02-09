@@ -1,14 +1,14 @@
 "use client";
 
-import { Member } from "@/app/interfaces/member";
 import MemberCard from "./MemberCard";
 import { Button } from "@sk-web-gui/react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { SquarePen, ArrowLeft, Save } from "lucide-react";
+import { Employee } from "@/app/interfaces/employee";
 
 interface MemberSectionProps {
-  members: Member[];
+  members: Employee[];
   editMode: boolean;
   handleEditMode: () => void;
 }
@@ -30,11 +30,7 @@ const MemberSection = ({
       <p className="text-label-large">{t("membersLabel")}</p>
       <div className="flex flex-col gap-12 pb-28">
         {members.map((member) => (
-          <MemberCard
-            key={member.employeeId + member.groupId}
-            member={member}
-            editMode={editMode}
-          />
+          <MemberCard key={member.id} member={member} editMode={editMode} />
         ))}
       </div>
       <div className="flex justify-between">

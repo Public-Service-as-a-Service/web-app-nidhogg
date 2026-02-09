@@ -1,17 +1,17 @@
 "use client";
 
 import { Card, Checkbox, Avatar, Button } from "@sk-web-gui/react";
-import { Member } from "@/app/interfaces/member";
+import { Employee } from "@/app/interfaces/employee";
 import { ArrowRight } from "lucide-react";
 
 interface MemberCardProps {
-  member: Member;
+  member: Employee;
   editMode: boolean;
 }
 
 const MemberCard = ({ member, editMode }: MemberCardProps) => {
   const initials =
-    `${member.employee?.firstName?.charAt(0) || ""}${member.employee?.lastName?.charAt(0) || ""}`.toUpperCase();
+    `${member.firstName?.charAt(0) || ""}${member.lastName?.charAt(0) || ""}`.toUpperCase();
 
   return (
     <Card>
@@ -23,10 +23,10 @@ const MemberCard = ({ member, editMode }: MemberCardProps) => {
               <Avatar rounded={true} initials={initials} />
               <div className="flex flex-col pl-12 gap-2">
                 <p className="text-small font-bold !p-0">
-                  {member.employee.firstName} {member.employee.lastName}
+                  {member.firstName} {member.lastName}
                 </p>
-                <p className="!p-0">{member.employee.workTitle}</p>
-                <p className="!p-0">{member.employee.orgId}</p>
+                <p className="!p-0">{member.workTitle}</p>
+                <p className="!p-0">{member.orgId}</p>
               </div>
             </div>
           </Card.Text>

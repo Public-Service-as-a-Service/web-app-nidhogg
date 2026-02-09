@@ -1,7 +1,6 @@
 "use client";
 
 import { useGroup } from "@/app/services/useGroup";
-import { useMembers } from "@/app/services/useMembers";
 import Loading from "@/app/components/LoadingSpinner";
 import { useTranslations } from "next-intl";
 import MainWrapper from "@/app/components/MainWrapper";
@@ -17,7 +16,6 @@ const EditGroup = () => {
   const t = useTranslations("GroupHandling");
 
   const { data: group, isLoading } = useGroup(id);
-  const { data: members = [] } = useMembers(id);
 
   const handleEditMode = () => {
     setIsEditing((prev) => !prev);
@@ -42,7 +40,7 @@ const EditGroup = () => {
         <p className="text-label-large">{t("groupDescription")}</p>
         <p>{group.description}</p>
         <MemberSection
-          members={members}
+          members={group.employees}
           editMode={isEditing}
           handleEditMode={handleEditMode}
         />
