@@ -27,7 +27,7 @@ const GroupCard = ({ item }: GroupCardProps) => {
             <h2 className="text-h3-sm !mt-0">{item.name}</h2>
             <p className="text-small">
               {t("wasCreated")}
-              {dayjs(item.createDate).format("YYYY-MM-DD")}
+              {dayjs(item.createdAt).format("YYYY-MM-DD")}
             </p>
           </div>
           <Button iconButton rounded size="md" onClick={handleClick}>

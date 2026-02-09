@@ -8,7 +8,6 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
-
   const cookieStore = await cookies();
   const userId = cookieStore.get(STORE.userId)?.value;
 
@@ -17,8 +16,9 @@ export async function GET(
   }
 
   const group = await prisma.group.findUnique({
-    where: {
-      id: Number(id),
+    where: { id: Number(id) },
+    include: {
+      employees: true,
     },
   });
 
