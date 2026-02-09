@@ -3,18 +3,18 @@ import MenuList from "./MenuList";
 import menus from "./data";
 import "./styles.css";
 import { TreeMenuItem } from "@/app/interfaces/tree-menu";
-import SelectedList from "./SelectedList";
+import { useTreeMenu } from "@/app/hooks/useTreeMenu";
+import Loading from "../LoadingSpinner";
 
 interface TreeViewProps {
   itemsDescription: string;
   "aria-labelledby"?: string;
 }
 
-const TreeView = ({
-  itemsDescription,
-  "aria-labelledby": ariaLabelledby,
-}: TreeViewProps) => {
+const TreeView = ({ "aria-labelledby": ariaLabelledby }: TreeViewProps) => {
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
+
+  const { items, isLoading } = useTreeMenu();
 
   const toggleItem = (item: TreeMenuItem) => {
     setCheckedItems((prev) => {
@@ -30,7 +30,7 @@ const TreeView = ({
 
       const findById = (
         nodes: TreeMenuItem[],
-        id: string
+        id: string,
       ): TreeMenuItem | undefined => {
         for (const n of nodes) {
           if (n.id === id) return n;
@@ -49,7 +49,7 @@ const TreeView = ({
         if (!parent) return;
 
         const childValues = parent.children!.map(
-          (child) => newState[child.name] ?? false
+          (child) => newState[child.name] ?? false,
         );
 
         const allChecked = childValues.every((value) => value === true);
@@ -66,9 +66,7 @@ const TreeView = ({
     });
   };
 
-  const selectedItems = Object.keys(checkedItems).filter(
-    (key) => checkedItems[key]
-  );
+  if (isLoading) return <Loading />;
 
   return (
     <div
@@ -78,14 +76,10 @@ const TreeView = ({
       aria-multiselectable="true"
     >
       <MenuList
-        list={menus}
+        list={items}
         checkedItems={checkedItems}
         onToggle={toggleItem}
       />
-      <div className="pt-16">
-        {itemsDescription}
-        <SelectedList listItems={selectedItems} />
-      </div>
     </div>
   );
 };
