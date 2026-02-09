@@ -80,6 +80,7 @@
     "sectionTitle": "Dina grupper",
     "goBackButton": "Tillbaka",
     "addButton": "Skapa grupp",
+    "deleteButton": "Radera",
     "notFound": "Gruppen hittades inte",
     "showAllButton": "Visa alla",
     "wasCreated": "Skapad: ",
