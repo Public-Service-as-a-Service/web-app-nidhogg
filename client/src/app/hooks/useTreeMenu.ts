@@ -4,13 +4,24 @@ import { useEmployees } from "@/app/services/useEmployees";
 import { useOrganizations } from "@/app/services/useOrganizations";
 import { buildTree } from "@/utils/buildTree";
 
+const filterEmptyBranches = (items: TreeMenuItem[]): TreeMenuItem[] => {
+  return items
+    .map((item) => ({
+      ...item,
+      children: item.children ? filterEmptyBranches(item.children) : [],
+    }))
+    .filter((item) => {
+      if (item.type === "emp") return true;
+      return item.type === "org" && item.children && item.children.length > 0;
+    });
+};
+
 export function useTreeMenu() {
   const {
     data: organizations,
     isLoading: orgLoading,
     error: orgError,
   } = useOrganizations();
-
   const {
     data: employees,
     isLoading: empLoading,
@@ -21,23 +32,24 @@ export function useTreeMenu() {
     if (!organizations || !employees) return [];
 
     const orgNodes: TreeMenuItem[] = organizations.map((org) => ({
-      id: `org-${org.orgId}`,
+      id: org.orgId,
       name: org.name,
-      parentId: `org-${org.parentOrgId}`,
-      children: undefined,
-    }));
-
-    const employeeNodes: TreeMenuItem[] = employees.map((emp) => ({
-      id: `emp-${emp.personId}`,
-      name: `${emp.firstName} ${emp.lastName}`,
-      parentId: `org-${emp.orgId}`,
+      type: "org",
+      parentId: org.parentOrgId ?? null,
       children: [],
     }));
 
-    console.log(employeeNodes[0]);
-    console.log(orgNodes[0]);
+    const employeeNodes: TreeMenuItem[] = employees.map((emp) => ({
+      id: emp.personId,
+      name: `${emp.firstName} ${emp.lastName}`,
+      type: "emp",
+      parentId: emp.orgId,
+      children: [],
+    }));
 
-    return buildTree([...orgNodes, ...employeeNodes]);
+    const fullTree = buildTree([...orgNodes, ...employeeNodes]);
+
+    return filterEmptyBranches(fullTree);
   }, [organizations, employees]);
 
   return {

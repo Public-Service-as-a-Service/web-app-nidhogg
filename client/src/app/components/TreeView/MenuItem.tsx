@@ -42,7 +42,7 @@ const MenuItem = ({
             tabIndex={0}
             role="checkbox"
             aria-checked={isChecked}
-          ></Checkbox>
+          />
         </span>
 
         <span className="menu-item-center px-5">{item.name}</span>

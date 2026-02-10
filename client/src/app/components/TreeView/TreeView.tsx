@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import MenuList from "./MenuList";
-import menus from "./data";
 import "./styles.css";
 import { TreeMenuItem } from "@/app/interfaces/tree-menu";
 import { useTreeMenu } from "@/app/hooks/useTreeMenu";
@@ -45,7 +44,7 @@ const TreeView = ({ "aria-labelledby": ariaLabelledby }: TreeViewProps) => {
       const updateParents = (node: TreeMenuItem) => {
         if (!node.parentId) return;
 
-        const parent = findById(menus, node.parentId);
+        const parent = findById(items, node.parentId);
         if (!parent) return;
 
         const childValues = parent.children!.map(
