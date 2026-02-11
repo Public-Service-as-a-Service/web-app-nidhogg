@@ -9,12 +9,14 @@ import { useRouter } from "next/navigation";
 interface GroupSectionProps {
   allChecked: boolean;
   handleRecipients: (name: string) => void;
+  handleBulkRecipients: (name: string[]) => void;
   selectedItems: string[];
 }
 
 const GroupSection = ({
   allChecked,
   handleRecipients,
+  handleBulkRecipients,
   selectedItems,
 }: GroupSectionProps) => {
   const t = useTranslations("GroupSection");
@@ -76,8 +78,9 @@ const GroupSection = ({
           {t("organization")}
         </p>
         <TreeView
-          itemsDescription={t("recipients")}
-          aria-labelledby="organisation-label"
+          aria-labelledby="organization-label"
+          handleRecipients={handleBulkRecipients}
+          selectedNames={selectedItems}
         />
       </FormControl>
     </div>

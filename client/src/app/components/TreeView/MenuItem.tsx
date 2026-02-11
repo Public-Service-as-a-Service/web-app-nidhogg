@@ -3,12 +3,13 @@ import MenuList from "./MenuList";
 import { TreeMenuItem } from "@/app/interfaces/tree-menu";
 import { List, Button, Checkbox } from "@sk-web-gui/react";
 import { ChevronRight, ChevronDown } from "lucide-react";
+import { CheckedItem } from "@/app/interfaces/checked-item";
 
 interface MenuItemProps {
   item: TreeMenuItem;
   parent?: TreeMenuItem;
   isChecked: boolean;
-  checkedItems: Record<string, boolean>;
+  checkedItems: Record<string, CheckedItem>;
   onToggle: (name: TreeMenuItem, parent?: TreeMenuItem) => void;
 }
 

@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
         // This matches any request starting with /api
         source: "/api/:path*",
         // This redirects it to your Spring Boot / backend server
-        destination: "http://localhost:8080/api/:path*",
+        destination: "http://localhost:8087/api/:path*",
       },
     ];
   },

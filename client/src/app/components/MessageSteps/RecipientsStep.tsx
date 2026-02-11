@@ -10,6 +10,7 @@ interface RecipientStepProps {
   onNext?: () => void;
   recipients: string[];
   handleRecipients: (name: string) => void;
+  handleBulkRecipients: (names: string[]) => void;
   allChecked: boolean;
   setAllChecked: (allChecked: boolean) => void;
 }
@@ -18,6 +19,7 @@ const RecipientsStep = ({
   onNext,
   recipients,
   handleRecipients,
+  handleBulkRecipients,
   allChecked,
   setAllChecked,
 }: RecipientStepProps) => {
@@ -62,6 +64,7 @@ const RecipientsStep = ({
         <GroupSection
           allChecked={allChecked}
           handleRecipients={handleRecipients}
+          handleBulkRecipients={handleBulkRecipients}
           selectedItems={recipients}
         />
       </div>

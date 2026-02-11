@@ -1,68 +1,93 @@
-import React, { useState } from "react";
+import React, { useMemo } from "react";
 import MenuList from "./MenuList";
 import "./styles.css";
 import { TreeMenuItem } from "@/app/interfaces/tree-menu";
+import { CheckedItem } from "@/app/interfaces/checked-item";
 import { useTreeMenu } from "@/app/hooks/useTreeMenu";
 import Loading from "../LoadingSpinner";
 
 interface TreeViewProps {
-  itemsDescription: string;
   "aria-labelledby"?: string;
+  handleRecipients: (names: string[]) => void;
+  selectedNames: string[];
 }
 
-const TreeView = ({ "aria-labelledby": ariaLabelledby }: TreeViewProps) => {
-  const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
-
+const TreeView = ({
+  "aria-labelledby": ariaLabelledby,
+  handleRecipients,
+  selectedNames,
+}: TreeViewProps) => {
   const { items, isLoading } = useTreeMenu();
 
-  const toggleItem = (item: TreeMenuItem) => {
-    setCheckedItems((prev) => {
-      const newState = { ...prev };
+  const allNodesMap = useMemo(() => {
+    const map: Record<string, TreeMenuItem> = {};
 
-      const isChecked = !prev[item.name];
+    const flatten = (nodes: TreeMenuItem[]) => {
+      nodes.forEach((node) => {
+        map[node.id] = node;
+        if (node.children) flatten(node.children);
+      });
+    };
 
-      const toggleDescendants = (node: TreeMenuItem, value: boolean) => {
-        newState[node.name] = value;
-        node.children?.forEach((child) => toggleDescendants(child, value));
-      };
-      toggleDescendants(item, isChecked);
+    flatten(items);
+    return map;
+  }, [items]);
 
-      const findById = (
-        nodes: TreeMenuItem[],
-        id: string,
-      ): TreeMenuItem | undefined => {
-        for (const n of nodes) {
-          if (n.id === id) return n;
-          if (n.children) {
-            const found = findById(n.children, id);
-            if (found) return found;
-          }
-        }
-        return undefined;
-      };
+  const checkedItems = useMemo(() => {
+    const map: Record<string, CheckedItem> = {};
 
-      const updateParents = (node: TreeMenuItem) => {
-        if (!node.parentId) return;
-
-        const parent = findById(items, node.parentId);
-        if (!parent) return;
-
-        const childValues = parent.children!.map(
-          (child) => newState[child.name] ?? false,
-        );
-
-        const allChecked = childValues.every((value) => value === true);
-
-        if (allChecked) newState[parent.name] = true;
-        else newState[parent.name] = false;
-
-        updateParents(parent);
-      };
-
-      updateParents(item);
-
-      return newState;
+    Object.values(allNodesMap).forEach((node) => {
+      if (node.type === "emp" && selectedNames.includes(node.name)) {
+        map[node.id] = {
+          id: node.id,
+          name: node.name,
+          type: node.type,
+          checked: true,
+        };
+      }
     });
+
+    const updateParents = (node: TreeMenuItem) => {
+      if (!node.children || node.children.length === 0) return;
+
+      node.children.forEach(updateParents);
+
+      const allChildrenChecked = node.children.every((child) => map[child.id]);
+
+      if (allChildrenChecked) {
+        map[node.id] = {
+          id: node.id,
+          name: node.name,
+          type: node.type,
+          checked: true,
+        };
+      }
+    };
+
+    items.forEach(updateParents);
+
+    return map;
+  }, [selectedNames, allNodesMap, items]);
+
+  const toggleItem = (item: TreeMenuItem) => {
+    const newSelected = new Set(selectedNames);
+    const isCurrentlyChecked = !!checkedItems[item.id];
+
+    const toggleDescendants = (node: TreeMenuItem, shouldCheck: boolean) => {
+      if (node.type === "emp") {
+        if (shouldCheck) {
+          newSelected.add(node.name);
+        } else {
+          newSelected.delete(node.name);
+        }
+      }
+
+      node.children?.forEach((child) => toggleDescendants(child, shouldCheck));
+    };
+
+    toggleDescendants(item, !isCurrentlyChecked);
+
+    handleRecipients(Array.from(newSelected));
   };
 
   if (isLoading) return <Loading />;
@@ -72,7 +97,6 @@ const TreeView = ({ "aria-labelledby": ariaLabelledby }: TreeViewProps) => {
       className="tree-view-container"
       role="tree"
       aria-labelledby={ariaLabelledby}
-      aria-multiselectable="true"
     >
       <MenuList
         list={items}
