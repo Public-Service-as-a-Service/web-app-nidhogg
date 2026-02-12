@@ -173,11 +173,21 @@ async function main() {
     ],
   };
 
+  const groupDescriptions: Record<string, string> = {
+    Krisgruppen:
+      "Strategisk ledningsgrupp för hantering av nationella kriser och beredskapsfrågor.",
+    "IT-jour":
+      "Teknisk expertis tillgänglig dygnet runt för att säkra kritisk infrastruktur.",
+    Testgrupp:
+      "Intern testmiljö för verifiering av systemfunktioner och användarflöden.",
+  };
+
   for (const [groupName, emails] of Object.entries(membershipMap)) {
     await prisma.group.create({
       data: {
         name: groupName,
-        description: groupName,
+        description:
+          groupDescriptions[groupName] || `Beskrivning för ${groupName}`,
         createdBy: user.email,
         userId: user.id,
         employees: {
