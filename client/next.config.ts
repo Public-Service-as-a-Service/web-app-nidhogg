@@ -3,14 +3,14 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const nextConfig: NextConfig = {
   async rewrites() {
-    return [
-      {
-        // This matches any request starting with /api
-        source: "/api/:path*",
-        // This redirects it to your Spring Boot / backend server
-        destination: "http://localhost:8087/api/:path*",
-      },
-    ];
+    return {
+      fallback: [
+        {
+          source: "/api/:path*",
+          destination: "http://localhost:8087/api/:path*",
+        },
+      ],
+    };
   },
 };
 
