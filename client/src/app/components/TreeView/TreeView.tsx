@@ -1,8 +1,7 @@
-import React, { useMemo } from "react";
+import React from "react";
 import MenuList from "./MenuList";
 import "./styles.css";
 import { TreeMenuItem } from "@/app/interfaces/tree-menu";
-import { CheckedItem } from "@/app/interfaces/checked-item";
 import { useTreeMenu } from "@/app/hooks/useTreeMenu";
 import Loading from "../LoadingSpinner";
 
@@ -19,75 +18,56 @@ const TreeView = ({
 }: TreeViewProps) => {
   const { items, isLoading } = useTreeMenu();
 
-  const allNodesMap = useMemo(() => {
-    const map: Record<string, TreeMenuItem> = {};
+  const checkedItems: Record<string, boolean> = {};
 
-    const flatten = (nodes: TreeMenuItem[]) => {
-      nodes.forEach((node) => {
-        map[node.id] = node;
-        if (node.children) flatten(node.children);
-      });
-    };
+  const checkNode = (node: TreeMenuItem): boolean => {
+    if (node.type === "emp") {
+      const isChecked = selectedNames.includes(node.name);
+      if (isChecked) checkedItems[node.id] = true;
+      return isChecked;
+    }
 
-    flatten(items);
-    return map;
-  }, [items]);
+    if (node.children && node.children.length > 0) {
+      const results = node.children.map(checkNode);
+      const allChecked = results.every(Boolean);
 
-  const checkedItems = useMemo(() => {
-    const map: Record<string, CheckedItem> = {};
-
-    Object.values(allNodesMap).forEach((node) => {
-      if (node.type === "emp" && selectedNames.includes(node.name)) {
-        map[node.id] = {
-          id: node.id,
-          name: node.name,
-          type: node.type,
-          checked: true,
-        };
+      if (allChecked) {
+        checkedItems[node.id] = true;
       }
-    });
 
-    const updateParents = (node: TreeMenuItem) => {
-      if (!node.children || node.children.length === 0) return;
+      return allChecked;
+    }
 
-      node.children.forEach(updateParents);
+    return false;
+  };
 
-      const allChildrenChecked = node.children.every((child) => map[child.id]);
-
-      if (allChildrenChecked) {
-        map[node.id] = {
-          id: node.id,
-          name: node.name,
-          type: node.type,
-          checked: true,
-        };
-      }
-    };
-
-    items.forEach(updateParents);
-
-    return map;
-  }, [selectedNames, allNodesMap, items]);
+  items.forEach(checkNode);
 
   const toggleItem = (item: TreeMenuItem) => {
-    const newSelected = new Set(selectedNames);
-    const isCurrentlyChecked = !!checkedItems[item.id];
+    const newSelected = [...selectedNames];
 
-    const toggleDescendants = (node: TreeMenuItem, shouldCheck: boolean) => {
+    const isChecked = !!checkedItems[item.id];
+
+    const toggleChildren = (node: TreeMenuItem, shouldCheck: boolean) => {
       if (node.type === "emp") {
         if (shouldCheck) {
-          newSelected.add(node.name);
+          if (!newSelected.includes(node.name)) {
+            newSelected.push(node.name);
+          }
         } else {
-          newSelected.delete(node.name);
+          const index = newSelected.indexOf(node.name);
+          if (index !== -1) {
+            newSelected.splice(index, 1);
+          }
         }
       }
 
-      node.children?.forEach((child) => toggleDescendants(child, shouldCheck));
+      node.children?.forEach((child) => toggleChildren(child, shouldCheck));
     };
 
-    toggleDescendants(item, !isCurrentlyChecked);
+    toggleChildren(item, !isChecked);
 
-    handleRecipients(Array.from(newSelected));
+    handleRecipients(newSelected);
   };
 
   if (isLoading) return <Loading />;

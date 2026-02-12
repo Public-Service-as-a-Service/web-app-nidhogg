@@ -2,11 +2,10 @@ import React from "react";
 import MenuItem from "./MenuItem";
 import { TreeMenuItem } from "@/app/interfaces/tree-menu";
 import { List } from "@sk-web-gui/react";
-import { CheckedItem } from "@/app/interfaces/checked-item";
 
 interface MenuListProps {
   list?: TreeMenuItem[];
-  checkedItems: Record<string, CheckedItem>;
+  checkedItems: Record<string, boolean>;
   parent?: TreeMenuItem;
   onToggle: (item: TreeMenuItem, parent?: TreeMenuItem) => void;
 }
