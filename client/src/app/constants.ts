@@ -9,7 +9,11 @@ export const STORE = {
 export const PATHS = [
   { url: "/dashboard", title: "Dashboard", isVisible: true },
   { url: "/dashboard/messages", title: "Skapa nytt utskick", isVisible: true },
-  { url: "/dashboard/groups", title: "Hantera sparade grupper", isVisible: true },
+  {
+    url: "/dashboard/groups",
+    title: "Hantera sparade grupper",
+    isVisible: true,
+  },
 ];
 
 export const SESSION_STORAGE = {
