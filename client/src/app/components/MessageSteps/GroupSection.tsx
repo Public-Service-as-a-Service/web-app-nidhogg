@@ -65,7 +65,7 @@ const GroupSection = ({
         <TreeView
           aria-labelledby="organization-label"
           handleRecipients={handleBulkRecipients}
-          selectedNames={selectedItems}
+          selectedItems={selectedItems}
         />
       </FormControl>
     </div>

@@ -8,13 +8,13 @@ import Loading from "../LoadingSpinner";
 interface TreeViewProps {
   "aria-labelledby"?: string;
   handleRecipients: (names: string[]) => void;
-  selectedNames: string[];
+  selectedItems: string[];
 }
 
 const TreeView = ({
   "aria-labelledby": ariaLabelledby,
   handleRecipients,
-  selectedNames,
+  selectedItems,
 }: TreeViewProps) => {
   const { items, isLoading } = useTreeMenu();
 
@@ -22,7 +22,7 @@ const TreeView = ({
 
   const checkNode = (node: TreeMenuItem): boolean => {
     if (node.type === "emp") {
-      const isChecked = selectedNames.includes(node.name);
+      const isChecked = selectedItems.includes(node.name);
       if (isChecked) checkedItems[node.id] = true;
       return isChecked;
     }
@@ -44,7 +44,7 @@ const TreeView = ({
   items.forEach(checkNode);
 
   const toggleItem = (item: TreeMenuItem) => {
-    const newSelected = [...selectedNames];
+    const newSelected = [...selectedItems];
 
     const isChecked = !!checkedItems[item.id];
 
