@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useLogin } from "./services/useLogin";
-import { styles } from "./styles";
 import { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
 import { Button, Input } from "@sk-web-gui/react";
@@ -39,7 +38,7 @@ const Login = () => {
             error?.response?.data === "Incorrect password"
               ? t("errors.wrongPassword")
               : t("errors.wrongCredentials")
-          }`
+          }`,
         );
       },
     });
@@ -48,17 +47,12 @@ const Login = () => {
   return isPending ? (
     <Loading />
   ) : (
-    <div style={styles.loginMain} data-cy="login">
-      <div style={styles.loginMainPaper}>
+    <div className="flex flex-col justify-center h-screen" data-cy="login">
+      <div className="flex flex-col items-center gap-4 p-4">
         <h1>{t("welcomeMessage")}</h1>
         <form
           onSubmit={handleLogin}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 16,
-            alignItems: "center",
-          }}
+          className="flex flex-col items-center gap-16"
         >
           {error && <div>{error}</div>}
           <Input

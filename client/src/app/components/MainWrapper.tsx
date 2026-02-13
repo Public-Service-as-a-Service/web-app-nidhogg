@@ -1,4 +1,3 @@
-import { styles } from "../styles";
 import { ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import useSessionStatus from "../hooks/useSessionStatus";
@@ -14,9 +13,13 @@ const MainWrapper = ({ children }: MainWrapperProps) => {
   const t = useTranslations("Wrapper");
 
   return loggedIn ? (
-    <div style={styles.main}>
-      <Logo variant="service" title={t("title")} subtitle={t("subtitle")} />
-      {children}
+    <div className="flex flex-col pb-[80px]">
+      <div className="self-center">
+        <Logo variant="service" title={t("title")} subtitle={t("subtitle")} />
+      </div>
+      <div className="mx-auto w-full sm:max-w-[500px] md:max-w-[700px] pt-44 px-20">
+        {children}
+      </div>
     </div>
   ) : (
     <Loading />

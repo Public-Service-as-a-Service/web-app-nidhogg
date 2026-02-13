@@ -12,9 +12,7 @@ const Groups = () => {
 
   return (
     <MainWrapper>
-      <div className="pt-44 px-20 w-[330px] sm:w-[450px] md:w-[700px]">
-        <GroupView list={groups} />
-      </div>
+       <GroupView list={groups} />
     </MainWrapper>
   );
 };

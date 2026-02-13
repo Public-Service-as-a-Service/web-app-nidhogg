@@ -12,14 +12,14 @@ const MessageList = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="px-20">
-      <h1 className="pt-12 text-center sm:text-xl md:text-2xl">
+    <div>
+      <h1 className="pt-12 text-center text-h2-sm">
         {t("sentMessages")}
       </h1>
-      <div className="flex flex-col gap-10 max-w-[700px]">
+      <div className="flex flex-col gap-10 w-full">
         {messages.map((item) => (
           <Card key={item.id}>
-            <Card.Body>
+            <Card.Body className="w-full">
               <Card.Header>
                 <div className="flex flex-col md:flex-row justify-between">
                   <h2>{item.title}</h2>

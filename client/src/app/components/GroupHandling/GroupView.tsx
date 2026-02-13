@@ -23,7 +23,7 @@ const GroupView = ({ list = [] }: GroupCardProps) => {
       </div>
       <h1 className="text-h2-sm">{t("sectionTitle")}</h1>
       <div className="flex flex-col gap-14 pb-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-24">
+        <div className="flex flex-col gap-24">
           {list.map((item) => (
             <GroupCard key={item.id} item={item} />
           ))}

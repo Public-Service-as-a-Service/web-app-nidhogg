@@ -16,11 +16,11 @@ const Dashboard = () => {
 
   return (
     <MainWrapper>
-      <div className="py-30">
-        <Button size="lg" onClick={handleNavigation}>
-          {t("newMessageButton")}
-        </Button>
-      </div>
+       <div className="py-30 flex justify-center">
+         <Button size="lg" onClick={handleNavigation}>
+           {t("newMessageButton")}
+         </Button>
+       </div>
       <MessageList />
     </MainWrapper>
   );

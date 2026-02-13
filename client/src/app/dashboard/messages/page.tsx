@@ -89,16 +89,14 @@ const Messages = () => {
 
   return (
     <MainWrapper>
-      <div className="pt-44 px-20 w-[330px] sm:w-[450px] md:w-[600px]">
-        <ProgressStepper
+       <ProgressStepper
           steps={steps.map((s) => s.label)}
           labelPosition="bottom"
           current={step}
           size="sm"
           className="pb-40"
-        />
-        {steps[step].content}
-      </div>
+       />
+       {steps[step].content}
     </MainWrapper>
   );
 };
