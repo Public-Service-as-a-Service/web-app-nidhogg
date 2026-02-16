@@ -40,7 +40,7 @@ const MessageList = () => {
                   variant="primary"
                   onClick={() => handleClick(item.id)}
                 >
-                  {t("updateMessageButton")}
+                  {t("viewMessageButton")}
                 </Button>
               </div>
             </Card.Body>
