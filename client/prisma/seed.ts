@@ -3,9 +3,10 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
+  await prisma.messageRecipient.deleteMany();
+  await prisma.message.deleteMany();
   await prisma.group.deleteMany();
   await prisma.employee.deleteMany();
-  await prisma.message.deleteMany();
   await prisma.user.deleteMany();
 
   const user = await prisma.user.create({
@@ -13,26 +14,6 @@ async function main() {
       email: "user@test.se",
       password: "password",
     },
-  });
-
-  await prisma.message.createMany({
-    data: [
-      {
-        title: "Krisarnas kris",
-        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-        userId: user.id,
-      },
-      {
-        title: "Nu är det julkris",
-        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-        userId: user.id,
-      },
-      {
-        title: "Krisen är här",
-        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-        userId: user.id,
-      },
-    ],
   });
 
   const employeesData = [
@@ -153,6 +134,36 @@ async function main() {
   });
 
   const employees = await prisma.employee.findMany();
+  const employeesByEmail = new Map(
+    employees
+      .filter((employee) => employee.email)
+      .map((employee) => [employee.email as string, employee])
+  );
+
+  const now = new Date();
+  const minutesAgo = (minutes: number) =>
+    new Date(now.getTime() - minutes * 60 * 1000);
+  const buildRecipient = (
+    email: string,
+    deliveryStatus: string,
+    receivedAt: Date
+  ) => {
+    const employee = employeesByEmail.get(email);
+    if (!employee) {
+      return null;
+    }
+
+    return {
+      employeeId: employee.id,
+      orgId: employee.orgId,
+      workTitle: employee.workTitle ?? "Okänd",
+      deliveryStatus,
+      receivedAt,
+    };
+  };
+  const isRecipient = (
+    value: ReturnType<typeof buildRecipient>
+  ): value is NonNullable<ReturnType<typeof buildRecipient>> => value !== null;
 
   const membershipMap: Record<string, string[]> = {
     Krisgruppen: [
@@ -194,6 +205,85 @@ async function main() {
           connect: employees
             .filter((e) => e.email && emails.includes(e.email))
             .map((e) => ({ id: e.id })),
+        },
+      },
+    });
+  }
+
+  const messageRecipients = [
+    {
+      title: "Krisarnas kris",
+      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      recipients: [
+        buildRecipient(
+          "anna.andersson@krismyndigheten.se",
+          "delivered",
+          minutesAgo(90)
+        ),
+        buildRecipient(
+          "erik.nilsson@krismyndigheten.se",
+          "delivered",
+          minutesAgo(80)
+        ),
+        buildRecipient(
+          "sofia.lindberg@krismyndigheten.se",
+          "pending",
+          minutesAgo(70)
+        ),
+      ].filter(isRecipient),
+    },
+    {
+      title: "Nu är det julkris",
+      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      recipients: [
+        buildRecipient(
+          "oncall.it@myndighet.se",
+          "delivered",
+          minutesAgo(50)
+        ),
+        buildRecipient(
+          "driftansvarig@myndighet.se",
+          "failed",
+          minutesAgo(45)
+        ),
+        buildRecipient(
+          "it.sakerhet@myndighet.se",
+          "delivered",
+          minutesAgo(40)
+        ),
+      ].filter(isRecipient),
+    },
+    {
+      title: "Krisen är här",
+      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      recipients: [
+        buildRecipient(
+          "test.anvandare1@demo.se",
+          "delivered",
+          minutesAgo(30)
+        ),
+        buildRecipient(
+          "test.anvandare2@demo.se",
+          "delivered",
+          minutesAgo(25)
+        ),
+        buildRecipient(
+          "test.anvandare3@demo.se",
+          "pending",
+          minutesAgo(20)
+        ),
+      ].filter(isRecipient),
+    },
+  ];
+
+  for (const message of messageRecipients) {
+    await prisma.message.create({
+      data: {
+        title: message.title,
+        content: message.content,
+        sender: user.email,
+        recipients: {
+          create: message.recipients,
         },
       },
     });
