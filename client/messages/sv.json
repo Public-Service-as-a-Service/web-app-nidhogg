@@ -13,7 +13,8 @@
     "newMessageButton": "Nytt utskick",
     "messageLabel": "Meddelande",
     "recipientsLabel": "Mottagare",
-    "channelLabel": "Utskickskanal"
+    "channelLabel": "Utskickskanal",
+    "notFound": "Meddelandet hittades inte"
   },
   "AppBar": {
     "logOut": "Logga ut",

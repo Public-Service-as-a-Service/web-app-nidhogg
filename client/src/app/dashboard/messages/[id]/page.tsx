@@ -20,6 +20,16 @@ const MessageDetails = () => {
 
   if (isLoading) return <Loading />;
 
+  if (!message) {
+    return (
+      <MainWrapper>
+        <div className="pt-44 text-center">
+          <h1 className="text-h2-sm">{t("notFound")}</h1>
+        </div>
+      </MainWrapper>
+    );
+  }
+
   return (
     <MainWrapper>
       <h1 className="text-h2-sm !m-0 pb-40">{message?.title}</h1>
