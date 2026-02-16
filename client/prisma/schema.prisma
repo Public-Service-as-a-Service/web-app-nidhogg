@@ -17,18 +17,16 @@ model User {
   id       String    @id @default(uuid())
   email    String    @unique
   password String
-  messages Message[]
   groups   Group[]
 }
 
 model Message {
-  id         String   @id @default(uuid())
+  id         String             @id @default(uuid())
   title      String
   content    String?
-  createDate DateTime @default(now())
-  
-  user       User?    @relation(fields: [userId], references: [id])
-  userId     String?
+  sender     String
+  createdAt  DateTime           @default(now())
+  recipients MessageRecipient[]
 }
 
 model Employee {
@@ -44,7 +42,21 @@ model Employee {
   createDate       DateTime @default(now())
   lastModifiedDate DateTime @updatedAt
 
-  groups Group[] @relation("GroupToEmployee")
+  groups            Group[]            @relation("GroupToEmployee")
+  messageRecipients MessageRecipient[]
+}
+
+model MessageRecipient {
+  messageId      String
+  message        Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  employeeId     Int
+  employee       Employee @relation(fields: [employeeId], references: [id])
+  orgId          String
+  workTitle      String
+  deliveryStatus String
+  receivedAt     DateTime
+
+  @@id([messageId, employeeId])
 }
 
 model Group {

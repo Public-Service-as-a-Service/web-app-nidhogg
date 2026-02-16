@@ -10,12 +10,24 @@ export async function GET() {
     return new Response("Unauthorized", { status: 401 });
   }
 
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { email: true },
+  });
+
+  if (!user) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
   const messages = await prisma.message.findMany({
     where: {
-      userId: userId,
+      sender: user.email,
     },
     orderBy: {
-      createDate: "desc",
+      createdAt: "desc",
+    },
+    include: {
+      recipients: true,
     },
   });
 
