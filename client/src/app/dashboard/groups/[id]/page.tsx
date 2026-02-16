@@ -39,8 +39,7 @@ const EditGroup = () => {
 
   return (
     <MainWrapper>
-      <div className="pt-44 px-20 w-[330px] sm:w-[450px] md:w-[700px]">
-        <div className="flex justify-between pb-40">
+       <div className="flex justify-between pb-40">
           <Button variant="secondary">
             {t("deleteButton")}
             <Trash2 />
@@ -56,8 +55,8 @@ const EditGroup = () => {
               <Save />
             </Button>
           )}
-        </div>
-        <div className="flex flex-col gap-16">
+       </div>
+       <div className="flex flex-col gap-16">
           <div className="flex flex-col gap-10">
             <h1 className="text-h2-sm !m-0">{group.name}</h1>
             <p className="text-small">
@@ -69,9 +68,9 @@ const EditGroup = () => {
             <p className="text-label-large !m-0">{t("groupDescription")}</p>
             <p>{group.description}</p>
           </div>
-        </div>
-        <MemberSection members={group.employees} editMode={isEditing} />
-        <div className="flex justify-start">
+       </div>
+       <MemberSection members={group.employees} editMode={isEditing} />
+       <div className="flex justify-start">
           <Button
             variant="secondary"
             rounded={true}
@@ -80,8 +79,7 @@ const EditGroup = () => {
             <ArrowLeft />
             {t("goBackButton")}
           </Button>
-        </div>
-      </div>
+       </div>
     </MainWrapper>
   );
 };

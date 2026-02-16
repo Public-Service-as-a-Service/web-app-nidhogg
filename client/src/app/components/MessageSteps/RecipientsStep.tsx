@@ -43,7 +43,7 @@ const RecipientsStep = ({
 
   return (
     <div className="flex flex-col gap-14">
-      <h1 className="text-center sm:text-xl md:text-2xl">
+      <h1 className="text-center text-h2-sm">
         {t("sectionTitle")}
       </h1>
       <div className="flex flex-col gap-14 pb-28">

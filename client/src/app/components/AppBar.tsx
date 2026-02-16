@@ -28,7 +28,7 @@ const AppBarHeader = () => {
 
   return (
     <>
-      <header className="w-full top-0 left-0 z-50">
+      <header className="w-full top-0 z-50">
         <div className="mx-auto p-20 flex items-center align-center justify-between">
           <Button onClick={() => setOpen(true)}>
             {t("menuButton")} <Rows3 />
