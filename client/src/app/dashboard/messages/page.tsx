@@ -36,6 +36,11 @@ const Messages = () => {
     setRecipients((prev) => toggleItem(prev, recipient));
   };
 
+  const handleBulkRecipients = (names: string[]) => {
+    if (allChecked) return;
+    setRecipients(names);
+  };
+
   const handleChannels = (channel: string) => {
     setChannels((prev) => toggleItem(prev, channel));
   };
@@ -50,6 +55,7 @@ const Messages = () => {
           onNext={() => setStep(1)}
           recipients={recipients}
           handleRecipients={handleRecipients}
+          handleBulkRecipients={handleBulkRecipients}
           allChecked={allChecked}
           setAllChecked={handleAllCheckedChange}
         />

@@ -25,6 +25,8 @@ export const ROUTES = {
   logout: "/logout",
   messages: "/messages",
   groups: "/groups",
+  allEmployees: "/notifier/employee/employees",
+  allOrganizations: "/notifier/organization/organizations",
 };
 
 export const tailwindBreakPoint = {

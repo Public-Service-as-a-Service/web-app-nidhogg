@@ -1,91 +1,88 @@
-import React, { useState } from "react";
+import React from "react";
 import MenuList from "./MenuList";
-import menus from "./data";
 import "./styles.css";
 import { TreeMenuItem } from "@/app/interfaces/tree-menu";
-import SelectedList from "./SelectedList";
+import { useTreeMenu } from "@/app/hooks/useTreeMenu";
+import Loading from "../LoadingSpinner";
 
 interface TreeViewProps {
-  itemsDescription: string;
   "aria-labelledby"?: string;
+  handleRecipients: (names: string[]) => void;
+  selectedItems: string[];
 }
 
 const TreeView = ({
-  itemsDescription,
   "aria-labelledby": ariaLabelledby,
+  handleRecipients,
+  selectedItems,
 }: TreeViewProps) => {
-  const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
+  const { items, isLoading } = useTreeMenu();
 
-  const toggleItem = (item: TreeMenuItem) => {
-    setCheckedItems((prev) => {
-      const newState = { ...prev };
+  const checkedItems: Record<string, boolean> = {};
 
-      const isChecked = !prev[item.name];
+  const checkNode = (node: TreeMenuItem): boolean => {
+    if (node.type === "emp") {
+      const isChecked = selectedItems.includes(node.name);
+      if (isChecked) checkedItems[node.id] = true;
+      return isChecked;
+    }
 
-      const toggleDescendants = (node: TreeMenuItem, value: boolean) => {
-        newState[node.name] = value;
-        node.children?.forEach((child) => toggleDescendants(child, value));
-      };
-      toggleDescendants(item, isChecked);
+    if (node.children && node.children.length > 0) {
+      const results = node.children.map(checkNode);
+      const allChecked = results.every(Boolean);
 
-      const findById = (
-        nodes: TreeMenuItem[],
-        id: string
-      ): TreeMenuItem | undefined => {
-        for (const n of nodes) {
-          if (n.id === id) return n;
-          if (n.children) {
-            const found = findById(n.children, id);
-            if (found) return found;
-          }
-        }
-        return undefined;
-      };
+      if (allChecked) {
+        checkedItems[node.id] = true;
+      }
 
-      const updateParents = (node: TreeMenuItem) => {
-        if (!node.parentId) return;
+      return allChecked;
+    }
 
-        const parent = findById(menus, node.parentId);
-        if (!parent) return;
-
-        const childValues = parent.children!.map(
-          (child) => newState[child.name] ?? false
-        );
-
-        const allChecked = childValues.every((value) => value === true);
-
-        if (allChecked) newState[parent.name] = true;
-        else newState[parent.name] = false;
-
-        updateParents(parent);
-      };
-
-      updateParents(item);
-
-      return newState;
-    });
+    return false;
   };
 
-  const selectedItems = Object.keys(checkedItems).filter(
-    (key) => checkedItems[key]
-  );
+  items.forEach(checkNode);
+
+  const toggleItem = (item: TreeMenuItem) => {
+    const newSelected = [...selectedItems];
+
+    const isChecked = !!checkedItems[item.id];
+
+    const toggleChildren = (node: TreeMenuItem, shouldCheck: boolean) => {
+      if (node.type === "emp") {
+        if (shouldCheck) {
+          if (!newSelected.includes(node.name)) {
+            newSelected.push(node.name);
+          }
+        } else {
+          const index = newSelected.indexOf(node.name);
+          if (index !== -1) {
+            newSelected.splice(index, 1);
+          }
+        }
+      }
+
+      node.children?.forEach((child) => toggleChildren(child, shouldCheck));
+    };
+
+    toggleChildren(item, !isChecked);
+
+    handleRecipients(newSelected);
+  };
+
+  if (isLoading) return <Loading />;
 
   return (
     <div
       className="tree-view-container"
       role="tree"
       aria-labelledby={ariaLabelledby}
-      aria-multiselectable="true"
     >
       <MenuList
-        list={menus}
+        list={items}
         checkedItems={checkedItems}
         onToggle={toggleItem}
       />
-      <div className="pt-16">
-        {itemsDescription}
-        <SelectedList listItems={selectedItems} />
-      </div>
     </div>
   );
 };

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import MenuList from "./MenuList";
 import { TreeMenuItem } from "@/app/interfaces/tree-menu";
 import { List, Button, Checkbox } from "@sk-web-gui/react";
-import { ChevronRight, ChevronDown, Folder } from "lucide-react";
+import { ChevronRight, ChevronDown } from "lucide-react";
 
 interface MenuItemProps {
   item: TreeMenuItem;
@@ -42,13 +42,7 @@ const MenuItem = ({
             tabIndex={0}
             role="checkbox"
             aria-checked={isChecked}
-          ></Checkbox>
-
-          {hasChildren && (
-            <Button variant="ghost" size="sm" tabIndex={-1}>
-              <Folder />
-            </Button>
-          )}
+          />
         </span>
 
         <span className="menu-item-center px-5">{item.name}</span>

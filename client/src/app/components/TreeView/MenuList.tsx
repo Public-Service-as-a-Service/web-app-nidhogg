@@ -20,11 +20,11 @@ const MenuList = ({
     <List className="menu-list-container">
       {list.map((item) => (
         <MenuItem
-          key={item.name}
+          key={item.id}
           item={item}
           parent={parent}
           checkedItems={checkedItems}
-          isChecked={checkedItems[item.name] || false}
+          isChecked={!!checkedItems[item.id]}
           onToggle={onToggle}
         />
       ))}
