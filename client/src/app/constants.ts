@@ -26,6 +26,7 @@ export const ROUTES = {
   messages: "/messages",
   groups: "/groups",
   allEmployees: "/notifier/employee/employees",
+  searchEmployees: "/notifier/employee/employees/search",
   allOrganizations: "/notifier/organization/organizations",
 };
 
