@@ -8,6 +8,7 @@ export interface Employee {
   workMobile: string;
   workPhone: string;
   workTitle: string;
+  orgName: string;
   createDate: string;
   lastModifiedDate: string;
 }

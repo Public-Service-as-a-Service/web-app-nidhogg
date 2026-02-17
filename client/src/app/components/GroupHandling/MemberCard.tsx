@@ -26,7 +26,7 @@ const MemberCard = ({ member, editMode }: MemberCardProps) => {
                   {member.firstName} {member.lastName}
                 </p>
                 <p className="!p-0">{member.workTitle}</p>
-                <p className="!p-0">{member.orgId}</p>
+                <p className="!p-0">{member.orgName}</p>
               </div>
             </div>
           </Card.Text>

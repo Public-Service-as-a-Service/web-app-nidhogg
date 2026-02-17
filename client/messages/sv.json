@@ -95,6 +95,8 @@
     "editButton": "Redigera",
     "saveButton": "Spara",
     "groupDescription": "Beskrivning",
-    "membersLabel": "Gruppmedlemmar"
+    "membersLabel": "Gruppmedlemmar",
+    "noResults": "Inga resultat",
+    "page": "Sida"
   }
 }

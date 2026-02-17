@@ -7,7 +7,7 @@ interface SearchParams {
   query: string;
   page?: number;
   size?: number;
-  sort?: string[];
+  sort?: string;
 }
 
 interface SearchResponse {
@@ -20,16 +20,16 @@ interface SearchResponse {
 export const useSearchEmployees = () => {
   return useMutation<SearchResponse, Error, SearchParams>({
     mutationFn: async (params) => {
-      const response = await axios.post<SearchResponse>(
+      const response = await axios.get<SearchResponse>(
         `${process.env.NEXT_PUBLIC_API_URL}${ROUTES.searchEmployees}`,
         {
-          page: params.page || 0,
-          size: params.size || 10,
-          sort: params.sort || [],
-        },
-        {
           withCredentials: true,
-          params: { search: params.query },
+          params: {
+            search: params.query,
+            page: params.page || 0,
+            size: params.size || 5,
+            sort: params.sort,
+          },
         },
       );
       return response.data;
