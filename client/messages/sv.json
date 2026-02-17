@@ -6,7 +6,15 @@
   "Dashboard": {
     "newMessageButton": "Skapa nytt utskick",
     "sentMessages": "Dina senaste utskick",
-    "updateMessageButton": "Skicka nytt meddelande"
+    "viewMessageButton": "Visa mer"
+  },
+  "MessageDetails": {
+    "goBackButton": "Gå tillbaka",
+    "newMessageButton": "Nytt utskick",
+    "messageLabel": "Meddelande",
+    "recipientsLabel": "Mottagare",
+    "channelLabel": "Utskickskanal",
+    "notFound": "Meddelandet hittades inte"
   },
   "AppBar": {
     "logOut": "Logga ut",

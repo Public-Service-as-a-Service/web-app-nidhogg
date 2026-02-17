@@ -4,18 +4,23 @@ import { Button, Card } from "@sk-web-gui/react";
 import { useMessages } from "../services/useMessages";
 import { useTranslations } from "next-intl";
 import Loading from "./LoadingSpinner";
+import { useRouter } from "next/navigation";
 
 const MessageList = () => {
   const t = useTranslations("Dashboard");
+  const router = useRouter();
+
   const { data: messages = [], isLoading } = useMessages();
+
+  const handleClick = (id: string) => {
+    router.push(`/dashboard/messages/${id}`);
+  };
 
   if (isLoading) return <Loading />;
 
   return (
     <div>
-      <h1 className="pt-12 text-center text-h2-sm">
-        {t("sentMessages")}
-      </h1>
+      <h1 className="pt-12 text-center text-h2-sm">{t("sentMessages")}</h1>
       <div className="flex flex-col gap-10 w-full">
         {messages.map((item) => (
           <Card key={item.id}>
@@ -30,8 +35,12 @@ const MessageList = () => {
                 <p>{item.content}</p>
               </Card.Text>
               <div className="pt-24 flex justify-center">
-                <Button size="sm" variant="primary">
-                  {t("updateMessageButton")}
+                <Button
+                  size="sm"
+                  variant="primary"
+                  onClick={() => handleClick(item.id)}
+                >
+                  {t("viewMessageButton")}
                 </Button>
               </div>
             </Card.Body>
