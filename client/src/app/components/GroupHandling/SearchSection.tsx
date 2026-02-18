@@ -42,7 +42,7 @@ const SearchSection = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
         placeholder={t("searchPlaceholder")}
       />
-      <div className="flex flex-col gap-12 pb-28 pt-20">
+      <div className="flex flex-col gap-12 pt-20">
         {error && (
           <div>
             <h2 className="text-h3-sm">{t("errors.errorTitle")}</h2>
