@@ -5,6 +5,7 @@ import { JSX, useState } from "react";
 import { ProgressStepper } from "@sk-web-gui/react";
 import InfoStep from "@/app/components/CreateGroupSteps/InfoStep";
 import MembersStep from "@/app/components/CreateGroupSteps/MembersStep";
+import { useTranslations } from "next-intl";
 
 interface StepsProps {
   label: string;
@@ -16,9 +17,11 @@ const CreateGroup = () => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
+  const t = useTranslations("GroupHandling");
+
   const steps: StepsProps[] = [
     {
-      label: "Information",
+      label: t("steps.groupInfo"),
       content: (
         <InfoStep
           title={title}
@@ -30,7 +33,7 @@ const CreateGroup = () => {
       ),
     },
     {
-      label: "Medlemmar",
+      label: t("steps.groupMembers"),
       content: <MembersStep onPrev={() => setStep(0)} />,
     },
   ];

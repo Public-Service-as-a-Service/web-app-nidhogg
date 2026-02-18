@@ -23,7 +23,7 @@ const GroupView = ({ list = [] }: GroupCardProps) => {
     <div className="flex flex-col">
       <div className="flex justify-end pb-64">
         <Button size="lg" onClick={handleCreate}>
-          {t("addButton")}
+          {t("createGroupButton")}
           <UsersRound />
         </Button>
       </div>

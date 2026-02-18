@@ -3,6 +3,7 @@
 import { Button, Input, Textarea } from "@sk-web-gui/react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 interface InfoStepProps {
   title?: string;
@@ -20,22 +21,23 @@ const InfoStep = ({
   onNext,
 }: InfoStepProps) => {
   const router = useRouter();
+  const t = useTranslations("GroupHandling");
 
   return (
     <div className="flex flex-col gap-40">
-      <h1 className="text-h3-md !m-0">1. Ange information</h1>
+      <h1 className="text-h3-md !m-0">{t("infoStepTitle")}</h1>
       <div className="flex flex-col gap-8">
-        <p className="text-label-large">Gruppnamn</p>
+        <p className="text-label-large">{t("groupNameLabel")}</p>
         <Input
-          placeholder="Ange gruppnamn"
+          placeholder={t("groupNamePlaceholder")}
           value={title}
           onChange={(e) => setTitle && setTitle(e.target.value)}
         />
       </div>
       <div className="flex flex-col gap-8">
-        <p className="text-label-large">Beskrivning</p>
+        <p className="text-label-large">{t("groupDescription")}</p>
         <Textarea
-          placeholder="Ange en beskrivning av gruppen"
+          placeholder={t("groupDescriptionPlaceholder")}
           className="w-full min-h-[150px]"
           value={description}
           onChange={(e) => setDescription && setDescription(e.target.value)}
@@ -47,10 +49,10 @@ const InfoStep = ({
           onClick={() => router.push("/dashboard/groups")}
         >
           <ArrowLeft />
-          Tillbaka
+          {t("goBackButton")}
         </Button>
         <Button onClick={onNext}>
-          Nästa
+          {t("nextButton")}
           <ArrowRight />
         </Button>
       </div>
