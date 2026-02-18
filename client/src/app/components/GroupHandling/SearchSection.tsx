@@ -8,7 +8,7 @@ import MemberCard from "./MemberCard";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-const Groups = () => {
+const SearchSection = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [page, setPage] = useState<number>(0);
 
@@ -18,6 +18,7 @@ const Groups = () => {
     mutate: searchEmployees,
     data: result,
     isPending,
+    error,
   } = useSearchEmployees();
 
   useEffect(() => {
@@ -28,7 +29,7 @@ const Groups = () => {
           page: page,
         });
       }
-    }, 500);
+    }, 700);
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm, page, searchEmployees]);
 
@@ -39,10 +40,20 @@ const Groups = () => {
       <Input
         className="w-full"
         onChange={(e) => setSearchTerm(e.target.value)}
+        placeholder={t("searchPlaceholder")}
       />
       <div className="flex flex-col gap-12 pb-28 pt-20">
+        {error && (
+          <div>
+            <h2 className="text-h3-sm">{t("errors.errorTitle")}</h2>
+            <p>{t("errors.errorMessage")}</p>
+          </div>
+        )}
         {result?.content.length === 0 ? (
-          <p>{t("noResults")}</p>
+          <div>
+            <h2 className="text-h3-sm">{t("errors.noResultsTitle")}</h2>
+            <p>{t("errors.noResultsMessage")}</p>
+          </div>
         ) : (
           result?.content.map((employee) => (
             <MemberCard key={employee.id} member={employee} editMode={true} />
@@ -58,7 +69,10 @@ const Groups = () => {
               <ArrowLeft />
             </Button>
             <p className="self-center">
-              {t("page")} {page + 1}
+              {t("pagination", {
+                current: page + 1,
+                total: result?.totalPages ?? 0,
+              })}
             </p>
             <Button
               iconButton={true}
@@ -74,4 +88,4 @@ const Groups = () => {
   );
 };
 
-export default Groups;
+export default SearchSection;
