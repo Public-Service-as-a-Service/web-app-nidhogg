@@ -13,11 +13,21 @@ interface StepsProps {
 
 const CreateGroup = () => {
   const [step, setStep] = useState(0);
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
 
   const steps: StepsProps[] = [
     {
       label: "Information",
-      content: <InfoStep onNext={() => setStep(1)} />,
+      content: (
+        <InfoStep
+          title={title}
+          setTitle={setTitle}
+          description={description}
+          setDescription={setDescription}
+          onNext={() => setStep(1)}
+        />
+      ),
     },
     {
       label: "Medlemmar",

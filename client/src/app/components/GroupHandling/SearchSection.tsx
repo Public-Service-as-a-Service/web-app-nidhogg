@@ -45,13 +45,13 @@ const SearchSection = () => {
       <div className="flex flex-col gap-12 pt-20">
         {error && (
           <div>
-            <h2 className="text-h3-sm">{t("errors.errorTitle")}</h2>
+            <p className="text-label-large">{t("errors.errorTitle")}</p>
             <p>{t("errors.errorMessage")}</p>
           </div>
         )}
         {result?.content.length === 0 ? (
           <div>
-            <h2 className="text-h3-sm">{t("errors.noResultsTitle")}</h2>
+            <p className="text-label-large">{t("errors.noResultsTitle")}</p>
             <p>{t("errors.noResultsMessage")}</p>
           </div>
         ) : (
