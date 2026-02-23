@@ -6,6 +6,7 @@ import { ProgressStepper } from "@sk-web-gui/react";
 import InfoStep from "@/app/components/CreateGroupSteps/InfoStep";
 import MembersStep from "@/app/components/CreateGroupSteps/MembersStep";
 import { useTranslations } from "next-intl";
+import { Employee } from "@/app/interfaces/employee";
 
 interface StepsProps {
   label: string;
@@ -16,8 +17,29 @@ const CreateGroup = () => {
   const [step, setStep] = useState(0);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
+  const [memberIds, setMemberIds] = useState<string[]>([]);
+  const [memberById, setMemberById] = useState<Record<string, Employee>>({});
 
   const t = useTranslations("GroupHandling");
+
+  const handleBulkMembers = (members: Employee[]) => {
+    setMemberById((prev) => {
+      const next = { ...prev };
+      members.forEach((member) => {
+        next[member.id] = member;
+      });
+      return next;
+    });
+    setMemberIds((prev) => {
+      const next = new Set(prev);
+      members.forEach((member) => next.add(member.id));
+      return Array.from(next);
+    });
+  };
+
+  const selectedMembers = memberIds
+    .map((id) => memberById[id])
+    .filter((member): member is Employee => Boolean(member));
 
   const steps: StepsProps[] = [
     {
@@ -34,7 +56,14 @@ const CreateGroup = () => {
     },
     {
       label: t("steps.groupMembers"),
-      content: <MembersStep onPrev={() => setStep(0)} />,
+      content: (
+        <MembersStep
+          onPrev={() => setStep(0)}
+          members={selectedMembers}
+          memberIds={memberIds}
+          handleBulkMembers={handleBulkMembers}
+        />
+      ),
     },
   ];
 

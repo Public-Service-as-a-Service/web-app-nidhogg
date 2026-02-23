@@ -51,7 +51,7 @@ const InfoStep = ({
           <ArrowLeft />
           {t("goBackButton")}
         </Button>
-        <Button onClick={onNext}>
+        <Button onClick={onNext} disabled={!title || !description}>
           {t("nextButton")}
           <ArrowRight />
         </Button>

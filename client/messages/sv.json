@@ -101,6 +101,8 @@
     "membersLabel": "Gruppmedlemmar",
     "groupNameLabel": "Gruppnamn",
     "pagination": "Sida {current} av {total}",
+    "addSelectedButton": "Lägg till valda",
+    "cancelButton": "Avbryt",
     "searchLabel": "Sök efter medarbetare",
     "searchPlaceholder": "Sök",
     "groupNamePlaceholder": "Ange gruppnamn",
