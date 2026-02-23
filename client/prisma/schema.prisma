@@ -14,8 +14,8 @@ datasource db {
 }
 
 model User {
-  id       String    @id @default(uuid())
-  email    String    @unique
+  id       String  @id @default(uuid())
+  email    String  @unique
   password String
   groups   Group[]
 }
@@ -51,6 +51,8 @@ model MessageRecipient {
   message        Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
   employeeId     Int
   employee       Employee @relation(fields: [employeeId], references: [id])
+  firstName      String
+  lastName       String
   orgId          String
   workTitle      String
   deliveryStatus String
