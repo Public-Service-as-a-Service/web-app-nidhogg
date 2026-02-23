@@ -8,8 +8,11 @@ interface RecipientListProps {
 
 const RecipientItem = ({ recipient }: RecipientListProps) => {
   return (
-    <div className="py-8">
-      <p>{recipient?.workTitle}</p>
+    <div className="py-8 flex flex-row">
+      <p>
+        {recipient?.firstName} {recipient?.lastName}
+      </p>
+      <p className="pl-16">{recipient?.workTitle}</p>
       <hr />
     </div>
   );
