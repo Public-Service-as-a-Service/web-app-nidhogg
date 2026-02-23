@@ -5,12 +5,18 @@ import { useMessages } from "../services/useMessages";
 import { useTranslations } from "next-intl";
 import Loading from "./LoadingSpinner";
 import { useRouter } from "next/navigation";
+import { ArrowRight } from "lucide-react";
+import dayjs from "dayjs";
 
 const MessageList = () => {
   const t = useTranslations("Dashboard");
   const router = useRouter();
 
   const { data: messages = [], isLoading } = useMessages();
+
+  const handleNewMessage = () => {
+    router.push("/dashboard/messages");
+  };
 
   const handleClick = (id: string) => {
     router.push(`/dashboard/messages/${id}`);
@@ -19,28 +25,34 @@ const MessageList = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div>
-      <h1 className="pt-12 text-center text-h2-sm">{t("sentMessages")}</h1>
-      <div className="flex flex-col gap-10 w-full">
+    <div className="flex flex-col gap-40">
+      <div className="flex justify-end">
+        <Button size="lg" onClick={handleNewMessage}>
+          {t("newMessageButton")}
+        </Button>
+      </div>
+      <div className="flex flex-col gap-8">
+        <h1 className="text-h2-sm !m-0">{t("sentMessagesHeading")}</h1>
+        <p className="text-large">{t("sentMessagesInfo")}</p>
+      </div>
+      <div className="flex flex-col gap-16 w-full">
         {messages.map((item) => (
           <Card key={item.id}>
-            <Card.Body className="w-full">
-              <Card.Header>
-                <div className="flex flex-col md:flex-row justify-between">
-                  <h2>{item.title}</h2>
-                  <p>{new Date(item.createdAt).toLocaleString()}</p>
+            <Card.Body className="w-full pt-24">
+              <div className="flex flex-row items-center justify-between">
+                <div className="flex flex-col justify-center">
+                  <h2 className="text-h3-sm !mt-0">{item.title}</h2>
+                  <p className="text-small">
+                    {dayjs(item.createdAt).format("YYYY-MM-DD, HH:MM")}
+                  </p>
                 </div>
-              </Card.Header>
-              <Card.Text>
-                <p>{item.content}</p>
-              </Card.Text>
-              <div className="pt-24 flex justify-center">
                 <Button
-                  size="sm"
-                  variant="primary"
+                  iconButton
+                  rounded
+                  size="md"
                   onClick={() => handleClick(item.id)}
                 >
-                  {t("viewMessageButton")}
+                  <ArrowRight />
                 </Button>
               </div>
             </Card.Body>

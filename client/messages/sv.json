@@ -5,7 +5,8 @@
   },
   "Dashboard": {
     "newMessageButton": "Skapa nytt utskick",
-    "sentMessages": "Dina senaste utskick",
+    "sentMessagesHeading": "Dina senaste utskick",
+    "sentMessagesInfo": "Här samlas dina utskick.",
     "viewMessageButton": "Visa mer"
   },
   "MessageDetails": {
