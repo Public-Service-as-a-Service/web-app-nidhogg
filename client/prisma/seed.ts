@@ -65,9 +65,9 @@ async function main() {
       id: 5,
       personId: "P-005",
       orgId: "ORG-IT",
-      firstName: "IT",
-      lastName: "OnCall",
-      email: "oncall.it@myndighet.se",
+      firstName: "Marcus",
+      lastName: "Holm",
+      email: "marcus.holm@myndighet.se",
       workMobile: "0705555555",
       workPhone: "08555555",
       workTitle: "Systemtekniker",
@@ -76,9 +76,9 @@ async function main() {
       id: 6,
       personId: "P-006",
       orgId: "ORG-IT",
-      firstName: "Drift",
-      lastName: "Ansvarig",
-      email: "driftansvarig@myndighet.se",
+      firstName: "Karin",
+      lastName: "Sjöberg",
+      email: "karin.sjoberg@myndighet.se",
       workMobile: "0706666666",
       workPhone: "08666666",
       workTitle: "Driftchef",
@@ -87,9 +87,9 @@ async function main() {
       id: 7,
       personId: "P-007",
       orgId: "ORG-IT",
-      firstName: "Säkerhets",
-      lastName: "Expert",
-      email: "it.sakerhet@myndighet.se",
+      firstName: "Daniel",
+      lastName: "Ekström",
+      email: "daniel.ekstrom@myndighet.se",
       workMobile: "0707777777",
       workPhone: "08777777",
       workTitle: "CISO",
@@ -98,9 +98,9 @@ async function main() {
       id: 8,
       personId: "P-008",
       orgId: "ORG-TEST",
-      firstName: "Test",
-      lastName: "Användare 1",
-      email: "test.anvandare1@demo.se",
+      firstName: "Elin",
+      lastName: "Berg",
+      email: "elin.berg@demo.se",
       workMobile: "0708888888",
       workPhone: "08888888",
       workTitle: "Testare",
@@ -109,9 +109,9 @@ async function main() {
       id: 9,
       personId: "P-009",
       orgId: "ORG-TEST",
-      firstName: "Test",
-      lastName: "Användare 2",
-      email: "test.anvandare2@demo.se",
+      firstName: "Oskar",
+      lastName: "Fransson",
+      email: "oskar.fransson@demo.se",
       workMobile: "0709999999",
       workPhone: "08999999",
       workTitle: "Testare",
@@ -120,9 +120,9 @@ async function main() {
       id: 10,
       personId: "P-010",
       orgId: "ORG-TEST",
-      firstName: "Test",
-      lastName: "Användare 3",
-      email: "test.anvandare3@demo.se",
+      firstName: "Maja",
+      lastName: "Karlsson",
+      email: "maja.karlsson@demo.se",
       workMobile: "0700000000",
       workPhone: "08000000",
       workTitle: "Testare",
@@ -134,10 +134,11 @@ async function main() {
   });
 
   const employees = await prisma.employee.findMany();
+  
   const employeesByEmail = new Map(
     employees
       .filter((employee) => employee.email)
-      .map((employee) => [employee.email as string, employee])
+      .map((employee) => [employee.email as string, employee]),
   );
 
   const now = new Date();
@@ -146,7 +147,7 @@ async function main() {
   const buildRecipient = (
     email: string,
     deliveryStatus: string,
-    receivedAt: Date
+    receivedAt: Date,
   ) => {
     const employee = employeesByEmail.get(email);
     if (!employee) {
@@ -155,6 +156,8 @@ async function main() {
 
     return {
       employeeId: employee.id,
+      firstName: employee.firstName,
+      lastName: employee.lastName,
       orgId: employee.orgId,
       workTitle: employee.workTitle ?? "Okänd",
       deliveryStatus,
@@ -162,7 +165,7 @@ async function main() {
     };
   };
   const isRecipient = (
-    value: ReturnType<typeof buildRecipient>
+    value: ReturnType<typeof buildRecipient>,
   ): value is NonNullable<ReturnType<typeof buildRecipient>> => value !== null;
 
   const membershipMap: Record<string, string[]> = {
@@ -173,14 +176,14 @@ async function main() {
       "johan.persson@krismyndigheten.se",
     ],
     "IT-jour": [
-      "oncall.it@myndighet.se",
-      "driftansvarig@myndighet.se",
-      "it.sakerhet@myndighet.se",
+      "marcus.holm@myndighet.se",
+      "karin.sjoberg@myndighet.se",
+      "daniel.ekstrom@myndighet.se",
     ],
     Testgrupp: [
-      "test.anvandare1@demo.se",
-      "test.anvandare2@demo.se",
-      "test.anvandare3@demo.se",
+      "elin.berg@demo.se",
+      "oskar.fransson@demo.se",
+      "maja.karlsson@demo.se",
     ],
   };
 
@@ -218,17 +221,17 @@ async function main() {
         buildRecipient(
           "anna.andersson@krismyndigheten.se",
           "delivered",
-          minutesAgo(90)
+          minutesAgo(90),
         ),
         buildRecipient(
           "erik.nilsson@krismyndigheten.se",
           "delivered",
-          minutesAgo(80)
+          minutesAgo(80),
         ),
         buildRecipient(
           "sofia.lindberg@krismyndigheten.se",
           "pending",
-          minutesAgo(70)
+          minutesAgo(70),
         ),
       ].filter(isRecipient),
     },
@@ -236,20 +239,12 @@ async function main() {
       title: "Nu är det julkris",
       content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       recipients: [
+        buildRecipient("marcus.holm@myndighet.se", "delivered", minutesAgo(50)),
+        buildRecipient("karin.sjoberg@myndighet.se", "failed", minutesAgo(45)),
         buildRecipient(
-          "oncall.it@myndighet.se",
+          "daniel.ekstrom@myndighet.se",
           "delivered",
-          minutesAgo(50)
-        ),
-        buildRecipient(
-          "driftansvarig@myndighet.se",
-          "failed",
-          minutesAgo(45)
-        ),
-        buildRecipient(
-          "it.sakerhet@myndighet.se",
-          "delivered",
-          minutesAgo(40)
+          minutesAgo(40),
         ),
       ].filter(isRecipient),
     },
@@ -257,21 +252,9 @@ async function main() {
       title: "Krisen är här",
       content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       recipients: [
-        buildRecipient(
-          "test.anvandare1@demo.se",
-          "delivered",
-          minutesAgo(30)
-        ),
-        buildRecipient(
-          "test.anvandare2@demo.se",
-          "delivered",
-          minutesAgo(25)
-        ),
-        buildRecipient(
-          "test.anvandare3@demo.se",
-          "pending",
-          minutesAgo(20)
-        ),
+        buildRecipient("elin.berg@demo.se", "delivered", minutesAgo(30)),
+        buildRecipient("oskar.fransson@demo.se", "delivered", minutesAgo(25)),
+        buildRecipient("maja.karlsson@demo.se", "pending", minutesAgo(20)),
       ].filter(isRecipient),
     },
   ];
