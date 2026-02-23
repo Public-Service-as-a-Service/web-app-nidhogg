@@ -7,8 +7,11 @@ import Loading from "./LoadingSpinner";
 import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import dayjs from "dayjs";
+import { useState } from "react";
 
 const MessageList = () => {
+  const [amount, setAmount] = useState<number>(3);
+
   const t = useTranslations("Dashboard");
   const router = useRouter();
 
@@ -18,7 +21,7 @@ const MessageList = () => {
     router.push("/dashboard/messages");
   };
 
-  const handleClick = (id: string) => {
+  const handleViewMessage = (id: string) => {
     router.push(`/dashboard/messages/${id}`);
   };
 
@@ -36,7 +39,7 @@ const MessageList = () => {
         <p className="text-large">{t("sentMessagesInfo")}</p>
       </div>
       <div className="flex flex-col gap-16 w-full">
-        {messages.map((item) => (
+        {messages.slice(0, amount).map((item) => (
           <Card key={item.id}>
             <Card.Body className="w-full pt-24">
               <div className="flex flex-row items-center justify-between">
@@ -50,7 +53,7 @@ const MessageList = () => {
                   iconButton
                   rounded
                   size="md"
-                  onClick={() => handleClick(item.id)}
+                  onClick={() => handleViewMessage(item.id)}
                 >
                   <ArrowRight />
                 </Button>
@@ -58,6 +61,18 @@ const MessageList = () => {
             </Card.Body>
           </Card>
         ))}
+        {messages.length > 3 && (
+          <div className="flex flex-row place-content-end">
+            <Button
+              variant="secondary"
+              disabled={messages.length === amount}
+              onClick={() => setAmount(amount + 1)}
+            >
+              {t("showAllButton")}
+              <ArrowRight />
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
