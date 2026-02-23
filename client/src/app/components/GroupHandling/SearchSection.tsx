@@ -75,7 +75,8 @@ const SearchSection = ({
         placeholder={t("searchPlaceholder")}
         onClick={() => setModalOpen(true)}
       />
-      <Modal show={modalOpen} onClose={() => setModalOpen(false)}>
+      <Modal className="gap-6" show={modalOpen} onClose={() => setModalOpen(false)}>
+        <p className="text-label-large">{t("searchLabel")}</p>
         <Input
           className="w-full"
           onChange={(e) => setSearchTerm(e.target.value)}
