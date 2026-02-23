@@ -61,12 +61,11 @@ const MessageList = () => {
             </Card.Body>
           </Card>
         ))}
-        {messages.length > 3 && (
+        {messages.length > amount && (
           <div className="flex flex-row place-content-end">
             <Button
               variant="secondary"
-              disabled={messages.length === amount}
-              onClick={() => setAmount(amount + 1)}
+              onClick={() => setAmount(messages.length)}
             >
               {t("showAllButton")}
               <ArrowRight />
