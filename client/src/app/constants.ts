@@ -25,7 +25,8 @@ export const ROUTES = {
   logout: "/logout",
   messages: "/messages",
   groups: "/groups",
-  allEmployees: "/notifier/employee/employees",
+  allEmployees: "/notifier/employees",
+  searchEmployees: "/notifier/employees/search",
   allOrganizations: "/notifier/organization/organizations",
 };
 
