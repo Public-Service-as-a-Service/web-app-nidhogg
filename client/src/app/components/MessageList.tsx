@@ -5,12 +5,12 @@ import { useMessages } from "../services/useMessages";
 import { useTranslations } from "next-intl";
 import Loading from "./LoadingSpinner";
 import { useRouter } from "next/navigation";
-import { ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import dayjs from "dayjs";
 import { useState } from "react";
 
 const MessageList = () => {
-  const [amount, setAmount] = useState<number>(3);
+  const [amount, setAmount] = useState<number>(2);
 
   const t = useTranslations("Dashboard");
   const router = useRouter();
@@ -61,17 +61,25 @@ const MessageList = () => {
             </Card.Body>
           </Card>
         ))}
-        {messages.length > amount && (
-          <div className="flex flex-row place-content-end">
-            <Button
-              variant="secondary"
-              onClick={() => setAmount(messages.length)}
-            >
-              {t("showAllButton")}
-              <ArrowRight />
-            </Button>
-          </div>
-        )}
+        {messages.length > 2 &&
+          (amount === 2 ? (
+            <div className="flex flex-row place-content-end">
+              <Button
+                variant="secondary"
+                onClick={() => setAmount(messages.length)}
+              >
+                {t("showAllButton")}
+                <ArrowRight />
+              </Button>
+            </div>
+          ) : (
+            <div className="flex flex-row place-content-start">
+              <Button variant="secondary" onClick={() => setAmount(2)}>
+                {t("goBackButton")}
+                <ArrowLeft />
+              </Button>
+            </div>
+          ))}
       </div>
     </div>
   );

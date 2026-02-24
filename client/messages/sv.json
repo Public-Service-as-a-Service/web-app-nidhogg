@@ -7,7 +7,8 @@
     "newMessageButton": "Skapa nytt utskick",
     "sentMessagesHeading": "Dina senaste utskick",
     "sentMessagesInfo": "Här samlas dina utskick.",
-    "showAllButton": "Visa alla"
+    "showAllButton": "Visa alla",
+    "goBackButton": "Tillbaka"
   },
   "MessageDetails": {
     "goBackButton": "Gå tillbaka",
