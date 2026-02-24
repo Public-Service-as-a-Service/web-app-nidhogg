@@ -33,6 +33,21 @@ const SearchSection = () => {
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm, page, searchEmployees]);
 
+  const renderResults = () => {
+    if (!result?.content || result.content.length === 0) {
+      return (
+        <div>
+          <p className="text-label-large">{t("errors.noResultsTitle")}</p>
+          <p>{t("errors.noResultsMessage")}</p>
+        </div>
+      );
+    }
+
+    return result.content.map((employee) => (
+      <MemberCard key={employee.id} member={employee} editMode={true} />
+    ));
+  };
+
   if (isPending) return <Loading />;
 
   return (
@@ -49,16 +64,7 @@ const SearchSection = () => {
             <p>{t("errors.errorMessage")}</p>
           </div>
         )}
-        {result?.content.length === 0 ? (
-          <div>
-            <p className="text-label-large">{t("errors.noResultsTitle")}</p>
-            <p>{t("errors.noResultsMessage")}</p>
-          </div>
-        ) : (
-          result?.content.map((employee) => (
-            <MemberCard key={employee.id} member={employee} editMode={true} />
-          ))
-        )}
+        {renderResults()}
         {(result?.totalPages ?? 0) > 0 && (
           <div className="flex flex-row place-content-between">
             <Button
