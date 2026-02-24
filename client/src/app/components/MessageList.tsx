@@ -10,7 +10,7 @@ import dayjs from "dayjs";
 import { useState } from "react";
 
 const MessageList = () => {
-  const [amount, setAmount] = useState<number>(2);
+  const [amount, setAmount] = useState<number>(3);
 
   const t = useTranslations("Dashboard");
   const router = useRouter();
@@ -61,8 +61,8 @@ const MessageList = () => {
             </Card.Body>
           </Card>
         ))}
-        {messages.length > 2 &&
-          (amount === 2 ? (
+        {messages.length > 3 &&
+          (amount === 3 ? (
             <div className="flex flex-row place-content-end">
               <Button
                 variant="secondary"
@@ -74,7 +74,7 @@ const MessageList = () => {
             </div>
           ) : (
             <div className="flex flex-row place-content-start">
-              <Button variant="secondary" onClick={() => setAmount(2)}>
+              <Button variant="secondary" onClick={() => setAmount(3)}>
                 {t("goBackButton")}
                 <ArrowLeft />
               </Button>
