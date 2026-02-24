@@ -29,9 +29,16 @@ const SearchSection = ({
     data: result,
     isPending,
     error,
+    reset,
   } = useSearchEmployees();
 
   useEffect(() => {
+    if (!searchTerm) {
+      setPage(0);
+      reset();
+      return;
+    }
+
     const delayDebounceFn = setTimeout(() => {
       if (searchTerm) {
         searchEmployees({
@@ -41,7 +48,7 @@ const SearchSection = ({
       }
     }, 700);
     return () => clearTimeout(delayDebounceFn);
-  }, [searchTerm, page, searchEmployees]);
+  }, [searchTerm, page, searchEmployees, reset]);
 
   useEffect(() => {
     setCheckedIds((prev) => prev.filter((id) => !memberIds.includes(id)));
@@ -66,6 +73,8 @@ const SearchSection = ({
   };
 
   const renderResults = () => {
+    if (!searchTerm || isPending || !result) return null;
+
     if (!result?.content || result.content.length === 0) {
       return (
         <div>
@@ -105,15 +114,17 @@ const SearchSection = ({
             </div>
           )}
           {!isPending && renderResults()}
-          <div className="flex flex-row place-content-end">
-            <Button
-              variant="primary"
-              disabled={checkedIds.length === 0}
-              onClick={handleAddSelected}
-            >
-              {t("addSelectedButton")}
-            </Button>
-          </div>
+          {result?.content && result.content.length > 0 && (
+            <div className="flex flex-row place-content-end">
+              <Button
+                variant="primary"
+                disabled={checkedIds.length === 0}
+                onClick={handleAddSelected}
+              >
+                {t("addSelectedButton")}
+              </Button>
+            </div>
+          )}
           <SearchPagination
             page={page}
             totalPages={result?.totalPages ?? 0}
