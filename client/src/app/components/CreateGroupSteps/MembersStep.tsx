@@ -31,18 +31,18 @@ const MembersStep = ({
           memberIds={memberIds}
           handleBulkMembers={handleBulkMembers}
         />
-        <div className="flex flex-col gap-6 pt-8">
-          {members.map((m) => (
-            <div className="flex flex-row place-content-between" key={m.id}>
-              <p className="self-center">
-                {m.firstName} {m.lastName}
-              </p>
-              <Button iconButton={true}>
-                <Trash />
-              </Button>
-            </div>
-          ))}
-        </div>
+      </div>
+      <div className="flex flex-col gap-6">
+        {members.map((m) => (
+          <div className="flex flex-row place-content-between" key={m.id}>
+            <p className="self-center">
+              {m.firstName} {m.lastName}
+            </p>
+            <Button iconButton={true}>
+              <Trash />
+            </Button>
+          </div>
+        ))}
       </div>
       <div className="flex flex-row place-content-between">
         <Button variant="secondary" onClick={onPrev}>

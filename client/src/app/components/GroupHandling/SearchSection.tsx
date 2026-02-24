@@ -2,10 +2,10 @@
 
 import Loading from "@/app/components/LoadingSpinner";
 import { useSearchEmployees } from "@/app/services/useSearchEmployees";
-import { Button, Input, Modal } from "@sk-web-gui/react";
+import { Button, Input } from "@sk-web-gui/react";
 import { useEffect, useState } from "react";
 import MemberCard from "./MemberCard";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import SearchPagination from "./SearchPagination";
 import { useTranslations } from "next-intl";
 import { Employee } from "@/app/interfaces/employee";
 
@@ -21,7 +21,6 @@ const SearchSection = ({
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [page, setPage] = useState<number>(0);
   const [checkedIds, setCheckedIds] = useState<string[]>([]);
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const t = useTranslations("GroupHandling");
 
@@ -63,7 +62,7 @@ const SearchSection = ({
       [];
     handleBulkMembers(selectedMembers);
     setCheckedIds([]);
-    setModalOpen(false);
+    setSearchTerm("");
   };
 
   const renderResults = () => {
@@ -88,72 +87,41 @@ const SearchSection = ({
     ));
   };
 
-  if (isPending) return <Loading />;
-
   return (
-    <div>
+    <div className="flex flex-col gap-12">
       <Input
         className="w-full"
+        onChange={(e) => setSearchTerm(e.target.value)}
         placeholder={t("searchPlaceholder")}
-        onClick={() => setModalOpen(true)}
+        value={searchTerm}
       />
-      <Modal
-        className="gap-6"
-        show={modalOpen}
-        onClose={() => setModalOpen(false)}
-      >
-        <p className="text-label-large">{t("searchLabel")}</p>
-        <Input
-          className="w-full"
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder={t("searchPlaceholder")}
-          value={searchTerm}
-        />
-        <div className="flex flex-col gap-12 pt-20">
+      {searchTerm && (
+        <div className="flex flex-col gap-12">
+          {isPending && <Loading />}
           {error && (
             <div>
               <p className="text-label-large">{t("errors.errorTitle")}</p>
               <p>{t("errors.errorMessage")}</p>
             </div>
           )}
-          {renderResults()}
-          {searchTerm && (
-            <div className="flex flex-row place-content-end">
-              <Button
-                variant="primary"
-                disabled={checkedIds.length === 0}
-                onClick={handleAddSelected}
-              >
-                {t("addSelectedButton")}
-              </Button>
-            </div>
-          )}
-          {(result?.totalPages ?? 0) > 0 && (
-            <div className="flex flex-row place-content-between">
-              <Button
-                iconButton={true}
-                disabled={page === 0 && true}
-                onClick={() => setPage(page - 1)}
-              >
-                <ArrowLeft />
-              </Button>
-              <p className="self-center">
-                {t("pagination", {
-                  current: page + 1,
-                  total: result?.totalPages ?? 0,
-                })}
-              </p>
-              <Button
-                iconButton={true}
-                disabled={page + 1 === result?.totalPages && true}
-                onClick={() => setPage(page + 1)}
-              >
-                <ArrowRight />
-              </Button>
-            </div>
-          )}
+          {!isPending && renderResults()}
+          <div className="flex flex-row place-content-end">
+            <Button
+              variant="primary"
+              disabled={checkedIds.length === 0}
+              onClick={handleAddSelected}
+            >
+              {t("addSelectedButton")}
+            </Button>
+          </div>
+          <SearchPagination
+            page={page}
+            totalPages={result?.totalPages ?? 0}
+            onPreviousPage={() => setPage(page - 1)}
+            onNextPage={() => setPage(page + 1)}
+          />
         </div>
-      </Modal>
+      )}
     </div>
   );
 };
