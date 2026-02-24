@@ -66,6 +66,28 @@ const SearchSection = ({
     setModalOpen(false);
   };
 
+  const renderResults = () => {
+    if (!result?.content || result.content.length === 0) {
+      return (
+        <div>
+          <p className="text-label-large">{t("errors.noResultsTitle")}</p>
+          <p>{t("errors.noResultsMessage")}</p>
+        </div>
+      );
+    }
+
+    return result.content.map((employee) => (
+      <MemberCard
+        key={employee.id}
+        member={employee}
+        editMode={true}
+        checked={checkedIds.includes(employee.id)}
+        onCheckedChange={handleCheckedChange}
+        disabled={memberIds.includes(employee.id)}
+      />
+    ));
+  };
+
   if (isPending) return <Loading />;
 
   return (
@@ -75,7 +97,11 @@ const SearchSection = ({
         placeholder={t("searchPlaceholder")}
         onClick={() => setModalOpen(true)}
       />
-      <Modal className="gap-6" show={modalOpen} onClose={() => setModalOpen(false)}>
+      <Modal
+        className="gap-6"
+        show={modalOpen}
+        onClose={() => setModalOpen(false)}
+      >
         <p className="text-label-large">{t("searchLabel")}</p>
         <Input
           className="w-full"
@@ -90,23 +116,7 @@ const SearchSection = ({
               <p>{t("errors.errorMessage")}</p>
             </div>
           )}
-          {result?.content.length === 0 ? (
-            <div>
-              <p className="text-label-large">{t("errors.noResultsTitle")}</p>
-              <p>{t("errors.noResultsMessage")}</p>
-            </div>
-          ) : (
-            result?.content.map((employee) => (
-              <MemberCard
-                key={employee.id}
-                member={employee}
-                editMode={true}
-                checked={checkedIds.includes(employee.id)}
-                onCheckedChange={handleCheckedChange}
-                disabled={memberIds.includes(employee.id)}
-              />
-            ))
-          )}
+          {renderResults()}
           {searchTerm && (
             <div className="flex flex-row place-content-end">
               <Button
