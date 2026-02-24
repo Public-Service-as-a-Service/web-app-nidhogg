@@ -5,9 +5,10 @@ import { useMessages } from "../services/useMessages";
 import { useTranslations } from "next-intl";
 import Loading from "./LoadingSpinner";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import dayjs from "dayjs";
 import { useState } from "react";
+import MessageToggleButton from "./MessageToggleButton";
 
 const MessageList = () => {
   const [amount, setAmount] = useState<number>(3);
@@ -61,25 +62,13 @@ const MessageList = () => {
             </Card.Body>
           </Card>
         ))}
-        {messages.length > 3 &&
-          (amount === 3 ? (
-            <div className="flex flex-row place-content-end">
-              <Button
-                variant="secondary"
-                onClick={() => setAmount(messages.length)}
-              >
-                {t("showAllButton")}
-                <ArrowRight />
-              </Button>
-            </div>
-          ) : (
-            <div className="flex flex-row place-content-start">
-              <Button variant="secondary" onClick={() => setAmount(3)}>
-                {t("goBackButton")}
-                <ArrowLeft />
-              </Button>
-            </div>
-          ))}
+        <MessageToggleButton
+          messagesLength={messages.length}
+          amount={amount}
+          onToggle={setAmount}
+          showAllText={t("showAllButton")}
+          goBackText={t("goBackButton")}
+        />
       </div>
     </div>
   );
