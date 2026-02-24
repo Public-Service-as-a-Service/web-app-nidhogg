@@ -46,7 +46,7 @@ const MessageList = () => {
                 <div className="flex flex-col justify-center">
                   <h2 className="text-h3-sm !mt-0">{item.title}</h2>
                   <p className="text-small">
-                    {dayjs(item.createdAt).format("YYYY-MM-DD, HH:MM")}
+                    {dayjs(item.createdAt).format("YYYY-MM-DD, HH:mm")}
                   </p>
                 </div>
                 <Button
