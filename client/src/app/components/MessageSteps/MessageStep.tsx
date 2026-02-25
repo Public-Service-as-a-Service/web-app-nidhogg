@@ -4,6 +4,7 @@ import { Button, Chip } from "@sk-web-gui/react";
 import MessageForm from "./MessageForm";
 import CheckboxCard from "./CheckboxCard";
 import { useTranslations } from "next-intl";
+import { Employee } from "@/app/interfaces/employee";
 
 interface MessageStepProps {
   onPrev?: () => void;
@@ -12,7 +13,8 @@ interface MessageStepProps {
   messageBody?: string;
   setTitle?: (value: string) => void;
   setMessageBody?: (value: string) => void;
-  recipients: string[];
+  recipientGroups: string[];
+  recipientsById: Record<string, Employee>;
   allChecked: boolean;
   channels: string[];
   handleChannels: (name: string) => void;
@@ -25,13 +27,15 @@ const MessageStep = ({
   messageBody,
   setTitle,
   setMessageBody,
-  recipients,
+  recipientGroups,
+  recipientsById,
   allChecked,
   channels,
   handleChannels,
 }: MessageStepProps) => {
   const t = useTranslations("MessageStep");
   const isDisabled = !title || !messageBody || channels.length === 0;
+  const employeeRecipients = Object.values(recipientsById);
 
   return (
     <div className="flex flex-col gap-14">
@@ -45,7 +49,16 @@ const MessageStep = ({
             {allChecked ? (
               <Chip>{t("sendToAll")}</Chip>
             ) : (
-              recipients.map((item) => <Chip key={item}>{item}</Chip>)
+              <>
+                {recipientGroups.map((item) => (
+                  <Chip key={item}>{item}</Chip>
+                ))}
+                {employeeRecipients.map((employee) => (
+                  <Chip key={employee.personId}>
+                    {employee.firstName} {employee.lastName}
+                  </Chip>
+                ))}
+              </>
             )}
           </div>
           <MessageForm

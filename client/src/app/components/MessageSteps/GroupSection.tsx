@@ -4,19 +4,22 @@ import { FormControl } from "@sk-web-gui/react";
 import TreeView from "../TreeView/TreeView";
 import GroupSelector from "./GroupSelector";
 import { useTranslations } from "next-intl";
+import { Employee } from "@/app/interfaces/employee";
 
 interface GroupSectionProps {
   allChecked: boolean;
-  handleRecipients: (name: string) => void;
-  handleBulkRecipients: (name: string[]) => void;
-  selectedItems: string[];
+  handleGroupRecipients: (name: string) => void;
+  handleEmployeeRecipients: (recipients: Record<string, Employee>) => void;
+  selectedGroups: string[];
+  selectedEmployees: Record<string, Employee>;
 }
 
 const GroupSection = ({
   allChecked,
-  handleRecipients,
-  handleBulkRecipients,
-  selectedItems,
+  handleGroupRecipients,
+  handleEmployeeRecipients,
+  selectedGroups,
+  selectedEmployees,
 }: GroupSectionProps) => {
   const t = useTranslations("GroupSection");
 
@@ -42,8 +45,8 @@ const GroupSection = ({
         placeholder={t("selectGroups")}
         list={mockPredefinedGroups}
         allChecked={allChecked}
-        handleRecipients={handleRecipients}
-        selectedItems={selectedItems}
+        handleRecipients={handleGroupRecipients}
+        selectedItems={selectedGroups}
         defaultGroup={true}
       />
       <GroupSelector
@@ -51,8 +54,8 @@ const GroupSection = ({
         placeholder={t("selectGroups")}
         list={mockSavedGroups}
         allChecked={allChecked}
-        handleRecipients={handleRecipients}
-        selectedItems={selectedItems}
+        handleRecipients={handleGroupRecipients}
+        selectedItems={selectedGroups}
         defaultGroup={false}
       />
       <FormControl className="w-full" disabled={allChecked}>
@@ -64,8 +67,8 @@ const GroupSection = ({
         </p>
         <TreeView
           aria-labelledby="organization-label"
-          handleRecipients={handleBulkRecipients}
-          selectedItems={selectedItems}
+          handleRecipients={handleEmployeeRecipients}
+          selectedItems={selectedEmployees}
         />
       </FormControl>
     </div>

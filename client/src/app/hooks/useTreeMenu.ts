@@ -44,6 +44,7 @@ export function useTreeMenu() {
       name: `${emp.firstName} ${emp.lastName}`,
       type: "emp",
       parentId: emp.orgId,
+      employee: emp,
       children: [],
     }));
 

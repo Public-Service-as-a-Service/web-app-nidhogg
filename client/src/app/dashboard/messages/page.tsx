@@ -7,6 +7,7 @@ import RecipientsStep from "@/app/components/MessageSteps/RecipientsStep";
 import MessageStep from "@/app/components/MessageSteps/MessageStep";
 import ViewStep from "@/app/components/MessageSteps/ViewStep";
 import { ProgressStepper } from "@sk-web-gui/react";
+import { Employee } from "@/app/interfaces/employee";
 
 interface StepsProps {
   label: string;
@@ -17,28 +18,34 @@ const Messages = () => {
   const [step, setStep] = useState(0);
   const [title, setTitle] = useState<string>("");
   const [messageBody, setMessageBody] = useState<string>("");
-  const [recipients, setRecipients] = useState<string[]>([]);
+  const [recipientGroups, setRecipientGroups] = useState<string[]>([]);
+  const [recipientsById, setRecipientsById] = useState<
+    Record<string, Employee>
+  >({});
   const [channels, setChannels] = useState<string[]>([]);
   const [allChecked, setAllChecked] = useState<boolean>(false);
 
   const handleAllCheckedChange = (checked: boolean) => {
     setAllChecked(checked);
     if (checked) {
-      setRecipients([]);
+      setRecipientGroups([]);
+      setRecipientsById({});
     }
   };
 
   const toggleItem = (list: string[], item: string) =>
     list.includes(item) ? list.filter((i) => i !== item) : [...list, item];
 
-  const handleRecipients = (recipient: string) => {
+  const handleGroupRecipients = (recipient: string) => {
     if (allChecked) return;
-    setRecipients((prev) => toggleItem(prev, recipient));
+    setRecipientGroups((prev) => toggleItem(prev, recipient));
   };
 
-  const handleBulkRecipients = (names: string[]) => {
+  const handleEmployeeRecipients = (
+    nextRecipients: Record<string, Employee>,
+  ) => {
     if (allChecked) return;
-    setRecipients(names);
+    setRecipientsById(nextRecipients);
   };
 
   const handleChannels = (channel: string) => {
@@ -53,9 +60,10 @@ const Messages = () => {
       content: (
         <RecipientsStep
           onNext={() => setStep(1)}
-          recipients={recipients}
-          handleRecipients={handleRecipients}
-          handleBulkRecipients={handleBulkRecipients}
+          recipientGroups={recipientGroups}
+          recipientsById={recipientsById}
+          handleGroupRecipients={handleGroupRecipients}
+          handleEmployeeRecipients={handleEmployeeRecipients}
           allChecked={allChecked}
           setAllChecked={handleAllCheckedChange}
         />
@@ -71,7 +79,8 @@ const Messages = () => {
           messageBody={messageBody}
           setTitle={setTitle}
           setMessageBody={setMessageBody}
-          recipients={recipients}
+          recipientGroups={recipientGroups}
+          recipientsById={recipientsById}
           allChecked={allChecked}
           channels={channels}
           handleChannels={handleChannels}
@@ -85,7 +94,8 @@ const Messages = () => {
           onPrev={() => setStep(1)}
           title={title}
           messageBody={messageBody}
-          recipients={recipients}
+          recipientGroups={recipientGroups}
+          recipientsById={recipientsById}
           allChecked={allChecked}
           channels={channels}
         />
@@ -95,14 +105,14 @@ const Messages = () => {
 
   return (
     <MainWrapper>
-       <ProgressStepper
-          steps={steps.map((s) => s.label)}
-          labelPosition="bottom"
-          current={step}
-          size="sm"
-          className="pb-40"
-       />
-       {steps[step].content}
+      <ProgressStepper
+        steps={steps.map((s) => s.label)}
+        labelPosition="bottom"
+        current={step}
+        size="sm"
+        className="pb-40"
+      />
+      {steps[step].content}
     </MainWrapper>
   );
 };

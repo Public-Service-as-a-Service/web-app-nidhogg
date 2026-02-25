@@ -5,27 +5,34 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import CheckboxCard from "./CheckboxCard";
 import GroupSection from "./GroupSection";
+import { Employee } from "@/app/interfaces/employee";
 
 interface RecipientStepProps {
   onNext?: () => void;
-  recipients: string[];
-  handleRecipients: (name: string) => void;
-  handleBulkRecipients: (names: string[]) => void;
+  recipientGroups: string[];
+  recipientsById: Record<string, Employee>;
+  handleGroupRecipients: (name: string) => void;
+  handleEmployeeRecipients: (recipients: Record<string, Employee>) => void;
   allChecked: boolean;
   setAllChecked: (allChecked: boolean) => void;
 }
 
 const RecipientsStep = ({
   onNext,
-  recipients,
-  handleRecipients,
-  handleBulkRecipients,
+  recipientGroups,
+  recipientsById,
+  handleGroupRecipients,
+  handleEmployeeRecipients,
   allChecked,
   setAllChecked,
 }: RecipientStepProps) => {
   const router = useRouter();
   const t = useTranslations("RecipientsStep");
-  const isDisabled = recipients.length === 0 && !allChecked;
+  
+  const isDisabled =
+    recipientGroups.length === 0 &&
+    Object.keys(recipientsById).length === 0 &&
+    !allChecked;
 
   const handleAllChecked = (isChecked: boolean) => {
     setAllChecked(isChecked);
@@ -37,8 +44,8 @@ const RecipientsStep = ({
 
   const commonProps = {
     allChecked,
-    handleItems: handleRecipients,
-    items: recipients,
+    handleItems: handleGroupRecipients,
+    items: recipientGroups,
   };
 
   return (
@@ -63,9 +70,10 @@ const RecipientsStep = ({
         </div>
         <GroupSection
           allChecked={allChecked}
-          handleRecipients={handleRecipients}
-          handleBulkRecipients={handleBulkRecipients}
-          selectedItems={recipients}
+          handleGroupRecipients={handleGroupRecipients}
+          handleEmployeeRecipients={handleEmployeeRecipients}
+          selectedGroups={recipientGroups}
+          selectedEmployees={recipientsById}
         />
       </div>
       <div className="flex justify-between">

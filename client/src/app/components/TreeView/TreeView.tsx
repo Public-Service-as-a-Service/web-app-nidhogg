@@ -4,11 +4,12 @@ import "./styles.css";
 import { TreeMenuItem } from "@/app/interfaces/tree-menu";
 import { useTreeMenu } from "@/app/hooks/useTreeMenu";
 import Loading from "../LoadingSpinner";
+import { Employee } from "@/app/interfaces/employee";
 
 interface TreeViewProps {
   "aria-labelledby"?: string;
-  handleRecipients: (names: string[]) => void;
-  selectedItems: string[];
+  handleRecipients: (recipients: Record<string, Employee>) => void;
+  selectedItems: Record<string, Employee>;
 }
 
 const TreeView = ({
@@ -22,7 +23,7 @@ const TreeView = ({
 
   const checkNode = (node: TreeMenuItem): boolean => {
     if (node.type === "emp") {
-      const isChecked = selectedItems.includes(node.name);
+      const isChecked = !!selectedItems[node.id];
       if (isChecked) checkedItems[node.id] = true;
       return isChecked;
     }
@@ -44,21 +45,16 @@ const TreeView = ({
   items.forEach(checkNode);
 
   const toggleItem = (item: TreeMenuItem) => {
-    const newSelected = [...selectedItems];
+    const nextSelected = { ...selectedItems };
 
     const isChecked = !!checkedItems[item.id];
 
     const toggleChildren = (node: TreeMenuItem, shouldCheck: boolean) => {
-      if (node.type === "emp") {
+      if (node.type === "emp" && node.employee) {
         if (shouldCheck) {
-          if (!newSelected.includes(node.name)) {
-            newSelected.push(node.name);
-          }
+          nextSelected[node.id] = node.employee;
         } else {
-          const index = newSelected.indexOf(node.name);
-          if (index !== -1) {
-            newSelected.splice(index, 1);
-          }
+          delete nextSelected[node.id];
         }
       }
 
@@ -67,7 +63,7 @@ const TreeView = ({
 
     toggleChildren(item, !isChecked);
 
-    handleRecipients(newSelected);
+    handleRecipients(nextSelected);
   };
 
   if (isLoading) return <Loading />;
