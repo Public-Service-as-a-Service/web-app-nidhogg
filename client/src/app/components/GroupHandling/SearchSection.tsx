@@ -10,12 +10,12 @@ import { useTranslations } from "next-intl";
 import { Employee } from "@/app/interfaces/employee";
 
 interface SearchSectionProps {
-  memberIds: string[];
+  memberIdSet: Set<string>;
   handleBulkMembers: (recipientIds: Employee[]) => void;
 }
 
 const SearchSection = ({
-  memberIds,
+  memberIdSet,
   handleBulkMembers,
 }: SearchSectionProps) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -51,8 +51,8 @@ const SearchSection = ({
   }, [searchTerm, page, searchEmployees, reset]);
 
   useEffect(() => {
-    setCheckedIds((prev) => prev.filter((id) => !memberIds.includes(id)));
-  }, [memberIds]);
+    setCheckedIds((prev) => prev.filter((id) => !memberIdSet.has(id)));
+  }, [memberIdSet]);
 
   const handleCheckedChange = (memberId: string, isChecked: boolean) => {
     setCheckedIds((prev) =>
@@ -91,48 +91,50 @@ const SearchSection = ({
         editMode={true}
         checked={checkedIds.includes(employee.id)}
         onCheckedChange={handleCheckedChange}
-        disabled={memberIds.includes(employee.id)}
+        disabled={memberIdSet.has(employee.id)}
       />
     ));
   };
 
   return (
-    <div className="flex flex-col gap-12">
+    <div className="flex flex-col">
       <Input
         className="w-full"
         onChange={(e) => setSearchTerm(e.target.value)}
         placeholder={t("searchPlaceholder")}
         value={searchTerm}
       />
-      {searchTerm && (
-        <div className="flex flex-col gap-12">
-          {isPending && <Loading />}
-          {error && (
-            <div>
-              <p className="text-label-large">{t("errors.errorTitle")}</p>
-              <p>{t("errors.errorMessage")}</p>
-            </div>
-          )}
-          {!isPending && renderResults()}
-          {result?.content && result.content.length > 0 && (
-            <div className="flex flex-row place-content-end">
-              <Button
-                variant="primary"
-                disabled={checkedIds.length === 0}
-                onClick={handleAddSelected}
-              >
-                {t("addSelectedButton")}
-              </Button>
-            </div>
-          )}
-          <SearchPagination
-            page={page}
-            totalPages={result?.totalPages ?? 0}
-            onPreviousPage={() => setPage(page - 1)}
-            onNextPage={() => setPage(page + 1)}
-          />
-        </div>
-      )}
+      <div className="flex flex-col gap-12 pt-12">
+        {searchTerm && (
+          <>
+            {isPending && <Loading />}
+            {error && (
+              <div>
+                <p className="text-label-large">{t("errors.errorTitle")}</p>
+                <p>{t("errors.errorMessage")}</p>
+              </div>
+            )}
+            {!isPending && renderResults()}
+            {result?.content && result.content.length > 0 && (
+              <div className="flex flex-row place-content-end">
+                <Button
+                  variant="primary"
+                  disabled={checkedIds.length === 0}
+                  onClick={handleAddSelected}
+                >
+                  {t("addSelectedButton")}
+                </Button>
+              </div>
+            )}
+            <SearchPagination
+              page={page}
+              totalPages={result?.totalPages ?? 0}
+              onPreviousPage={() => setPage(page - 1)}
+              onNextPage={() => setPage(page + 1)}
+            />
+          </>
+        )}
+      </div>
     </div>
   );
 };

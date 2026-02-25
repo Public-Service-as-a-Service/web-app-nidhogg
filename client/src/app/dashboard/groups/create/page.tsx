@@ -17,29 +17,23 @@ const CreateGroup = () => {
   const [step, setStep] = useState(0);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [memberIds, setMemberIds] = useState<string[]>([]);
-  const [memberById, setMemberById] = useState<Record<string, Employee>>({});
+  const [membersById, setMembersById] = useState<Record<string, Employee>>({});
 
   const t = useTranslations("GroupHandling");
 
   const handleBulkMembers = (members: Employee[]) => {
-    setMemberById((prev) => {
+    setMembersById((prev) => {
       const next = { ...prev };
-      members.forEach((member) => {
+
+      for (const member of members) {
         next[member.id] = member;
-      });
+      }
+
       return next;
-    });
-    setMemberIds((prev) => {
-      const next = new Set(prev);
-      members.forEach((member) => next.add(member.id));
-      return Array.from(next);
     });
   };
 
-  const selectedMembers = memberIds
-    .map((id) => memberById[id])
-    .filter((member): member is Employee => Boolean(member));
+  const selectedMembers = Object.values(membersById);
 
   const steps: StepsProps[] = [
     {
@@ -60,7 +54,6 @@ const CreateGroup = () => {
         <MembersStep
           onPrev={() => setStep(0)}
           members={selectedMembers}
-          memberIds={memberIds}
           handleBulkMembers={handleBulkMembers}
         />
       ),
