@@ -5,12 +5,13 @@ import TreeView from "../TreeView/TreeView";
 import GroupSelector from "./GroupSelector";
 import { useTranslations } from "next-intl";
 import { Employee } from "@/app/interfaces/employee";
+import { GroupRecipient } from "../../dashboard/messages/page";
 
 interface GroupSectionProps {
   allChecked: boolean;
-  handleGroupRecipients: (name: string) => void;
+  handleGroupRecipients: (group: GroupRecipient) => void;
   handleEmployeeRecipients: (recipients: Record<string, Employee>) => void;
-  selectedGroups: string[];
+  selectedGroups: Record<string, GroupRecipient>;
   selectedEmployees: Record<string, Employee>;
 }
 

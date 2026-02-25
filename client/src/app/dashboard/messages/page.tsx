@@ -9,6 +9,11 @@ import ViewStep from "@/app/components/MessageSteps/ViewStep";
 import { ProgressStepper } from "@sk-web-gui/react";
 import { Employee } from "@/app/interfaces/employee";
 
+export interface GroupRecipient {
+  id: number;
+  name: string;
+}
+
 interface StepsProps {
   label: string;
   content: JSX.Element;
@@ -16,19 +21,23 @@ interface StepsProps {
 
 const Messages = () => {
   const [step, setStep] = useState(0);
-  const [title, setTitle] = useState<string>("");
-  const [messageBody, setMessageBody] = useState<string>("");
-  const [recipientGroups, setRecipientGroups] = useState<string[]>([]);
+
+  const [allChecked, setAllChecked] = useState<boolean>(false);
+  const [recipientGroups, setRecipientGroups] = useState<
+    Record<string, GroupRecipient>
+  >({});
   const [recipientsById, setRecipientsById] = useState<
     Record<string, Employee>
   >({});
+
+  const [title, setTitle] = useState<string>("");
+  const [messageBody, setMessageBody] = useState<string>("");
   const [channels, setChannels] = useState<string[]>([]);
-  const [allChecked, setAllChecked] = useState<boolean>(false);
 
   const handleAllCheckedChange = (checked: boolean) => {
     setAllChecked(checked);
     if (checked) {
-      setRecipientGroups([]);
+      setRecipientGroups({});
       setRecipientsById({});
     }
   };
@@ -36,9 +45,18 @@ const Messages = () => {
   const toggleItem = (list: string[], item: string) =>
     list.includes(item) ? list.filter((i) => i !== item) : [...list, item];
 
-  const handleGroupRecipients = (recipient: string) => {
+  const handleGroupRecipients = (group: GroupRecipient) => {
     if (allChecked) return;
-    setRecipientGroups((prev) => toggleItem(prev, recipient));
+    const key = String(group.id);
+    setRecipientGroups((prev) => {
+      const next = { ...prev };
+      if (next[key]) {
+        delete next[key];
+      } else {
+        next[key] = group;
+      }
+      return next;
+    });
   };
 
   const handleEmployeeRecipients = (

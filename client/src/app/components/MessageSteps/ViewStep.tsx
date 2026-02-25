@@ -3,12 +3,13 @@
 import { Button, Label } from "@sk-web-gui/react";
 import { useTranslations } from "next-intl";
 import { Employee } from "@/app/interfaces/employee";
+import { GroupRecipient } from "../../dashboard/messages/page";
 
 interface ViewStepProps {
   onPrev?: () => void;
   title?: string;
   messageBody?: string;
-  recipientGroups: string[];
+  recipientGroups: Record<string, GroupRecipient>;
   recipientsById: Record<string, Employee>;
   allChecked: boolean;
   channels: string[];
@@ -24,7 +25,9 @@ const ViewStep = ({
   channels,
 }: ViewStepProps) => {
   const t = useTranslations("ViewStep");
+
   const employeeRecipients = Object.values(recipientsById);
+  const groupRecipients = Object.values(recipientGroups);
 
   return (
     <div className="flex flex-col gap-14">
@@ -45,8 +48,8 @@ const ViewStep = ({
               <Label>{t("sendToAll")}</Label>
             ) : (
               <>
-                {recipientGroups.map((item) => (
-                  <Label key={item}>{item}</Label>
+                {groupRecipients.map((group) => (
+                  <Label key={group.id}>{group.name}</Label>
                 ))}
                 {employeeRecipients.map((employee) => (
                   <Label key={employee.personId}>
