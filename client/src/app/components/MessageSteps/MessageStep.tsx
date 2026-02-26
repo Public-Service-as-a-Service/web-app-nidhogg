@@ -42,7 +42,6 @@ const MessageStep = ({
   return (
     <div className="flex flex-col gap-14">
       <h1 className="text-center text-h2-sm">{t("sectionTitle")}</h1>
-
       <div className="flex flex-col gap-8 pb-28">
         <div>
           <p className="text-label-medium mb-8 mt-0">{t("recipients")}</p>
@@ -78,7 +77,6 @@ const MessageStep = ({
         <Button variant="tertiary" onClick={onPrev} className="self-start">
           {t("goBackButton")}
         </Button>
-
         <Button disabled={isDisabled} onClick={onNext} className="self-start">
           {t("reviewButton")}
         </Button>
