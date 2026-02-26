@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, Label } from "@sk-web-gui/react";
+import RecipientList from "./RecipientList";
 import { useTranslations } from "next-intl";
 import { Employee } from "@/app/interfaces/employee";
 import { GroupRecipient } from "../../dashboard/messages/page";
@@ -26,9 +27,6 @@ const ViewStep = ({
 }: ViewStepProps) => {
   const t = useTranslations("ViewStep");
 
-  const employeeRecipients = Object.values(recipientsById);
-  const groupRecipients = Object.values(recipientGroups);
-
   return (
     <div className="flex flex-col gap-14">
       <h1 className="text-center text-h2-sm">{t("sectionTitle")}</h1>
@@ -43,22 +41,12 @@ const ViewStep = ({
         </div>
         <div className="flex flex-col">
           <p className="text-label-medium">{t("recipientsLabel")}</p>
-          <div className="flex flex-wrap gap-8 my-4">
-            {allChecked ? (
-              <Label>{t("sendToAll")}</Label>
-            ) : (
-              <>
-                {groupRecipients.map((group) => (
-                  <Label key={group.id}>{group.name}</Label>
-                ))}
-                {employeeRecipients.map((employee) => (
-                  <Label key={employee.personId}>
-                    {employee.firstName} {employee.lastName}
-                  </Label>
-                ))}
-              </>
-            )}
-          </div>
+          <RecipientList
+            recipientGroups={recipientGroups}
+            recipientsById={recipientsById}
+            allChecked={allChecked}
+            component={Label}
+          />
         </div>
         <div className="flex flex-col">
           <p className="text-label-medium">{t("channelsLabel")}</p>

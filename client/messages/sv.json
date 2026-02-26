@@ -79,6 +79,10 @@
     "sendButton": "Skicka",
     "sendToAll": "Alla medarbetare"
   },
+  "MessageStepsCommon": {
+    "showAll": "Visa alla mottagare ({amount})",
+    "showLess": "Dölj mottagare"
+  },
   "ProgressSteps": {
     "recipients": "Mottagare",
     "message": "Meddelande",

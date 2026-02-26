@@ -3,6 +3,7 @@
 import { Button, Chip } from "@sk-web-gui/react";
 import MessageForm from "./MessageForm";
 import CheckboxCard from "./CheckboxCard";
+import RecipientList from "./RecipientList";
 import { useTranslations } from "next-intl";
 import { Employee } from "@/app/interfaces/employee";
 import { GroupRecipient } from "../../dashboard/messages/page";
@@ -38,31 +39,19 @@ const MessageStep = ({
 
   const isDisabled = !title || !messageBody || channels.length === 0;
 
-  const employeeRecipients = Object.values(recipientsById);
-  const groupRecipients = Object.values(recipientGroups);
-
   return (
     <div className="flex flex-col gap-14">
       <h1 className="text-center text-h2-sm">{t("sectionTitle")}</h1>
+
       <div className="flex flex-col gap-8 pb-28">
         <div>
           <p className="text-label-medium mb-8 mt-0">{t("recipients")}</p>
-          <div className="flex flex-wrap gap-8">
-            {allChecked ? (
-              <Chip>{t("sendToAll")}</Chip>
-            ) : (
-              <>
-                {groupRecipients.map((group) => (
-                  <Chip key={group.id}>{group.name}</Chip>
-                ))}
-                {employeeRecipients.map((employee) => (
-                  <Chip key={employee.personId}>
-                    {employee.firstName} {employee.lastName}
-                  </Chip>
-                ))}
-              </>
-            )}
-          </div>
+          <RecipientList
+            recipientGroups={recipientGroups}
+            recipientsById={recipientsById}
+            allChecked={allChecked}
+            component={Chip}
+          />
           <MessageForm
             title={title}
             messageBody={messageBody}
@@ -89,6 +78,7 @@ const MessageStep = ({
         <Button variant="tertiary" onClick={onPrev} className="self-start">
           {t("goBackButton")}
         </Button>
+
         <Button disabled={isDisabled} onClick={onNext} className="self-start">
           {t("reviewButton")}
         </Button>
