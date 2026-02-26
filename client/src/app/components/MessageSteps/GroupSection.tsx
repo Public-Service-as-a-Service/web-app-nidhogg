@@ -25,13 +25,13 @@ const GroupSection = ({
   const t = useTranslations("GroupSection");
 
   const mockPredefinedGroups = [
-    { id: 1, name: "Krisgrupp", default: true },
-    { id: 2, name: "IT-jour", default: true },
+    { id: 101, name: "Krisgrupp", default: true },
+    { id: 102, name: "IT-jour", default: true },
   ];
 
   const mockSavedGroups = [
-    { id: 1, name: "Team Nidhogg", default: false },
-    { id: 2, name: "Nidhoggs krishanterare", default: false },
+    { id: 201, name: "Team Nidhogg", default: false },
+    { id: 202, name: "Nidhoggs krishanterare", default: false },
   ];
 
   const commonProps = {

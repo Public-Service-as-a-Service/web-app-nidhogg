@@ -31,7 +31,9 @@ const GroupSelector = ({
   const isDefault = defaultGroup === true;
   const filteredGroups = list.filter((g) => g.default === isDefault);
 
-  const currentSelection = Object.values(selectedItems)
+  const selectedValues = Object.values(selectedItems);
+
+  const currentSelection = selectedValues
     .filter((selected) =>
       filteredGroups.some((group) => group.id === selected.id),
     )
