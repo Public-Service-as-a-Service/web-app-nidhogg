@@ -34,6 +34,13 @@ const GroupSection = ({
     { id: 2, name: "Nidhoggs krishanterare", default: false },
   ];
 
+  const commonProps = {
+    placeholder: t("selectGroups"),
+    allChecked,
+    handleRecipients: handleGroupRecipients,
+    selectedItems: selectedGroups,
+  };
+
   return (
     <div
       className={`flex flex-col gap-14 ${
@@ -43,21 +50,15 @@ const GroupSection = ({
       <p className="text-label-large pt-10">{t("sectionTitle")}</p>
       <GroupSelector
         label={t("predefinedGroups")}
-        placeholder={t("selectGroups")}
         list={mockPredefinedGroups}
-        allChecked={allChecked}
-        handleRecipients={handleGroupRecipients}
-        selectedItems={selectedGroups}
         defaultGroup={true}
+        {...commonProps}
       />
       <GroupSelector
         label={t("savedGroups")}
-        placeholder={t("selectGroups")}
         list={mockSavedGroups}
-        allChecked={allChecked}
-        handleRecipients={handleGroupRecipients}
-        selectedItems={selectedGroups}
         defaultGroup={false}
+        {...commonProps}
       />
       <FormControl className="w-full" disabled={allChecked}>
         <p
