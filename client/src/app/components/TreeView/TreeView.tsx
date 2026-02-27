@@ -45,16 +45,16 @@ const TreeView = ({
   items.forEach(checkNode);
 
   const toggleItem = (item: TreeMenuItem) => {
-    const nextSelected = { ...selectedItems };
+    const newSelected = { ...selectedItems };
 
     const isChecked = !!checkedItems[item.id];
 
     const toggleChildren = (node: TreeMenuItem, shouldCheck: boolean) => {
       if (node.type === "emp" && node.employee) {
         if (shouldCheck) {
-          nextSelected[node.id] = node.employee;
+          newSelected[node.id] = node.employee;
         } else {
-          delete nextSelected[node.id];
+          delete newSelected[node.id];
         }
       }
 
@@ -63,7 +63,7 @@ const TreeView = ({
 
     toggleChildren(item, !isChecked);
 
-    handleRecipients(nextSelected);
+    handleRecipients(newSelected);
   };
 
   if (isLoading) return <Loading />;
