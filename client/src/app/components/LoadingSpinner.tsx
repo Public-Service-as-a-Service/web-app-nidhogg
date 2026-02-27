@@ -2,7 +2,7 @@ import { Spinner } from "@sk-web-gui/react";
 
 const Loading = () => {
   return (
-    <div className="fixed inset-0 flex items-center justify-center">
+    <div className="flex items-center justify-center py-100">
       <Spinner />
     </div>
   );
