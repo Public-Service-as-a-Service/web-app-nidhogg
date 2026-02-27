@@ -72,18 +72,22 @@ const Messages = () => {
 
   const t_steps = useTranslations("ProgressSteps");
 
+  const commonProps = {
+    recipientGroups,
+    recipientsById,
+    allChecked,
+  };
+
   const steps: StepsProps[] = [
     {
       label: t_steps("recipients"),
       content: (
         <RecipientsStep
           onNext={() => setStep(1)}
-          recipientGroups={recipientGroups}
-          recipientsById={recipientsById}
           handleGroupRecipients={handleGroupRecipients}
           handleEmployeeRecipients={handleEmployeeRecipients}
-          allChecked={allChecked}
           setAllChecked={handleAllCheckedChange}
+          {...commonProps}
         />
       ),
     },
@@ -97,11 +101,9 @@ const Messages = () => {
           messageBody={messageBody}
           setTitle={setTitle}
           setMessageBody={setMessageBody}
-          recipientGroups={recipientGroups}
-          recipientsById={recipientsById}
-          allChecked={allChecked}
           channels={channels}
           handleChannels={handleChannels}
+          {...commonProps}
         />
       ),
     },
@@ -112,10 +114,8 @@ const Messages = () => {
           onPrev={() => setStep(1)}
           title={title}
           messageBody={messageBody}
-          recipientGroups={recipientGroups}
-          recipientsById={recipientsById}
-          allChecked={allChecked}
           channels={channels}
+          {...commonProps}
         />
       ),
     },
