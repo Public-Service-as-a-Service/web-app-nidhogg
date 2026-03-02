@@ -2,6 +2,8 @@
 
 import { Button, Label } from "@sk-web-gui/react";
 import { useTranslations } from "next-intl";
+import { useSendMessage } from "@/app/services/useSendMessage";
+import { useRouter } from "next/navigation";
 
 interface ViewStepProps {
   onPrev?: () => void;
@@ -21,12 +23,23 @@ const ViewStep = ({
   channels,
 }: ViewStepProps) => {
   const t = useTranslations("ViewStep");
+  const router = useRouter();
+  const mutation = useSendMessage();
+
+  const handleSend = () => {
+    mutation.mutate({
+      title,
+      content: messageBody,
+      sender: "user@test.se",
+      recipientEmployeeIds: [1],
+      messageType: "SMS",
+    });
+    router.push("/dashboard");
+  };
 
   return (
     <div className="flex flex-col gap-14">
-      <h1 className="text-center text-h2-sm">
-        {t("sectionTitle")}
-      </h1>
+      <h1 className="text-center text-h2-sm">{t("sectionTitle")}</h1>
       <div className="flex flex-col gap-14 pb-28">
         <div className="flex flex-col">
           <p className="text-label-medium">{t("titleLabel")}</p>
@@ -59,7 +72,7 @@ const ViewStep = ({
         <Button variant="tertiary" onClick={onPrev}>
           {t("goBackButton")}
         </Button>
-        <Button>{t("sendButton")}</Button>
+        <Button onClick={handleSend}>{t("sendButton")}</Button>
       </div>
     </div>
   );

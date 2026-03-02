@@ -23,11 +23,11 @@ export const SESSION_STORAGE = {
 export const ROUTES = {
   login: "/login",
   logout: "/logout",
-  messages: "/messages",
   groups: "/groups",
   allEmployees: "/notifier/employees",
   searchEmployees: "/notifier/employees/search",
   allOrganizations: "/notifier/organization/organizations",
+  messages: "/notifier/messages"
 };
 
 export const tailwindBreakPoint = {

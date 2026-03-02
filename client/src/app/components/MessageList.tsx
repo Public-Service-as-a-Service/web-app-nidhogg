@@ -16,13 +16,13 @@ const MessageList = () => {
   const t = useTranslations("Dashboard");
   const router = useRouter();
 
-  const { data: messages = [], isLoading } = useMessages();
+  const { data: messages = [], isLoading } = useMessages("user@test.se");
 
   const handleNewMessage = () => {
     router.push("/dashboard/messages");
   };
 
-  const handleViewMessage = (id: string) => {
+  const handleViewMessage = (id: number) => {
     router.push(`/dashboard/messages/${id}`);
   };
 
