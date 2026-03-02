@@ -11,7 +11,7 @@ interface ViewStepProps {
   title?: string;
   messageBody?: string;
   recipientGroups: Record<string, GroupRecipient>;
-  recipientsById: Record<string, Employee>;
+  recipientEmployees: Record<string, Employee>;
   allChecked: boolean;
   channels: string[];
 }
@@ -21,7 +21,7 @@ const ViewStep = ({
   title = "",
   messageBody = "",
   recipientGroups,
-  recipientsById,
+  recipientEmployees,
   allChecked,
   channels,
 }: ViewStepProps) => {
@@ -43,7 +43,7 @@ const ViewStep = ({
           <p className="text-label-medium">{t("recipientsLabel")}</p>
           <RecipientList
             recipientGroups={recipientGroups}
-            recipientsById={recipientsById}
+            recipientEmployees={recipientEmployees}
             allChecked={allChecked}
             component={Label}
           />

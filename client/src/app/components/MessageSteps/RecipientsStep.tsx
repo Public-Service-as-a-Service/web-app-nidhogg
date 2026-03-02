@@ -11,7 +11,7 @@ import { GroupRecipient } from "../../dashboard/messages/page";
 interface RecipientStepProps {
   onNext?: () => void;
   recipientGroups: Record<string, GroupRecipient>;
-  recipientsById: Record<string, Employee>;
+  recipientEmployees: Record<string, Employee>;
   handleGroupRecipients: (group: GroupRecipient) => void;
   handleEmployeeRecipients: (recipients: Record<string, Employee>) => void;
   allChecked: boolean;
@@ -21,7 +21,7 @@ interface RecipientStepProps {
 const RecipientsStep = ({
   onNext,
   recipientGroups,
-  recipientsById,
+  recipientEmployees,
   handleGroupRecipients,
   handleEmployeeRecipients,
   allChecked,
@@ -32,7 +32,7 @@ const RecipientsStep = ({
 
   const isDisabled =
     Object.keys(recipientGroups).length === 0 &&
-    Object.keys(recipientsById).length === 0 &&
+    Object.keys(recipientEmployees).length === 0 &&
     !allChecked;
 
   const handleAllChecked = (isChecked: boolean) => {
@@ -60,7 +60,7 @@ const RecipientsStep = ({
           handleGroupRecipients={handleGroupRecipients}
           handleEmployeeRecipients={handleEmployeeRecipients}
           selectedGroups={recipientGroups}
-          selectedEmployees={recipientsById}
+          selectedEmployees={recipientEmployees}
         />
       </div>
       <div className="flex justify-between">

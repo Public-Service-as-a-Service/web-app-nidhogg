@@ -16,7 +16,7 @@ interface MessageStepProps {
   setTitle?: (value: string) => void;
   setMessageBody?: (value: string) => void;
   recipientGroups: Record<string, GroupRecipient>;
-  recipientsById: Record<string, Employee>;
+  recipientEmployees: Record<string, Employee>;
   allChecked: boolean;
   channels: string[];
   handleChannels: (name: string) => void;
@@ -30,7 +30,7 @@ const MessageStep = ({
   setTitle,
   setMessageBody,
   recipientGroups,
-  recipientsById,
+  recipientEmployees,
   allChecked,
   channels,
   handleChannels,
@@ -47,7 +47,7 @@ const MessageStep = ({
           <p className="text-label-medium mb-8 mt-0">{t("recipients")}</p>
           <RecipientList
             recipientGroups={recipientGroups}
-            recipientsById={recipientsById}
+            recipientEmployees={recipientEmployees}
             allChecked={allChecked}
             component={Chip}
           />

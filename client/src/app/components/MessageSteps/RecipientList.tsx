@@ -8,14 +8,14 @@ import { GroupRecipient } from "../../dashboard/messages/page";
 
 interface RecipientListProps {
   recipientGroups: Record<string, GroupRecipient>;
-  recipientsById: Record<string, Employee>;
+  recipientEmployees: Record<string, Employee>;
   allChecked: boolean;
   component: React.ComponentType<{ children: React.ReactNode }>;
 }
 
 const RecipientList = ({
   recipientGroups,
-  recipientsById,
+  recipientEmployees,
   allChecked,
   component: Component,
 }: RecipientListProps) => {
@@ -23,7 +23,7 @@ const RecipientList = ({
 
   const t = useTranslations("MessageStepsCommon");
 
-  const employeeRecipients = Object.values(recipientsById);
+  const employeeRecipients = Object.values(recipientEmployees);
   const groupRecipients = Object.values(recipientGroups);
 
   const allRecipients = [

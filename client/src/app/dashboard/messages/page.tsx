@@ -26,7 +26,7 @@ const Messages = () => {
   const [recipientGroups, setRecipientGroups] = useState<
     Record<string, GroupRecipient>
   >({});
-  const [recipientsById, setRecipientsById] = useState<
+  const [recipientEmployees, setRecipientEmployees] = useState<
     Record<string, Employee>
   >({});
 
@@ -38,7 +38,7 @@ const Messages = () => {
     setAllChecked(checked);
     if (checked) {
       setRecipientGroups({});
-      setRecipientsById({});
+      setRecipientEmployees({});
     }
   };
 
@@ -63,7 +63,7 @@ const Messages = () => {
     nextRecipients: Record<string, Employee>,
   ) => {
     if (allChecked) return;
-    setRecipientsById(nextRecipients);
+    setRecipientEmployees(nextRecipients);
   };
 
   const handleChannels = (channel: string) => {
@@ -74,7 +74,7 @@ const Messages = () => {
 
   const commonProps = {
     recipientGroups,
-    recipientsById,
+    recipientEmployees,
     allChecked,
   };
 
