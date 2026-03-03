@@ -88,8 +88,12 @@
   },
   "GroupHandling": {
     "sectionTitle": "Dina grupper",
+    "infoStepTitle": "1. Ange information",
+    "memberStepTitle": "2. Lägg till gruppmedlemmar",
+    "addedMembersHeading": "Tillagda medlemmar",
     "goBackButton": "Tillbaka",
-    "addButton": "Skapa grupp",
+    "nextButton": "Nästa",
+    "createGroupButton": "Skapa grupp",
     "deleteButton": "Radera",
     "notFound": "Gruppen hittades inte",
     "showAllButton": "Visa alla",
@@ -98,13 +102,23 @@
     "saveButton": "Spara",
     "groupDescription": "Beskrivning",
     "membersLabel": "Gruppmedlemmar",
+    "groupNameLabel": "Gruppnamn",
     "pagination": "Sida {current} av {total}",
+    "addSelectedButton": "Lägg till valda",
+    "cancelButton": "Avbryt",
+    "searchLabel": "Sök efter medarbetare",
     "searchPlaceholder": "Sök",
+    "groupNamePlaceholder": "Ange gruppnamn",
+    "groupDescriptionPlaceholder": "Ange en beskrivning av gruppen",
     "errors": {
       "errorTitle": "Något gick fel",
       "errorMessage": "Prova att ladda om sidan eller försök igen om en liten stund",
       "noResultsTitle": "Inga resultat",
       "noResultsMessage": "Vi hittade inga träffar på din sökning"
+    },
+    "steps": {
+      "groupInfo": "Information",
+      "groupMembers": "Medlemmar"
     }
   }
 }

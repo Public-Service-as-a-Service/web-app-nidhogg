@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Group } from "@/app/interfaces/group";
 import { Button } from "@sk-web-gui/react";
 import { UsersRound, ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface GroupCardProps {
   list: Group[];
@@ -12,12 +13,17 @@ interface GroupCardProps {
 
 const GroupView = ({ list = [] }: GroupCardProps) => {
   const t = useTranslations("GroupHandling");
+  const router = useRouter();
+
+  const handleCreate = () => {
+    router.push("/dashboard/groups/create");
+  };
 
   return (
     <div className="flex flex-col">
       <div className="flex justify-end pb-64">
-        <Button size="lg">
-          {t("addButton")}
+        <Button size="lg" onClick={handleCreate}>
+          {t("createGroupButton")}
           <UsersRound />
         </Button>
       </div>
