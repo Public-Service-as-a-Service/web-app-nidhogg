@@ -6,6 +6,7 @@ import GroupSelector from "./GroupSelector";
 import { useTranslations } from "next-intl";
 import { Employee } from "@/app/interfaces/employee";
 import { GroupRecipient } from "../../dashboard/messages/page";
+import { useGroups } from "@/app/services/useGroups";
 
 interface GroupSectionProps {
   allChecked: boolean;
@@ -29,10 +30,8 @@ const GroupSection = ({
     { id: 102, name: "IT-jour", default: true },
   ];
 
-  const mockSavedGroups = [
-    { id: 201, name: "Team Nidhogg", default: false },
-    { id: 202, name: "Nidhoggs krishanterare", default: false },
-  ];
+  const { data: groups } = useGroups(1); //ska vara email
+  const customGroups = groups?.map((g) => ({ ...g, default: false })) || [];
 
   const commonProps = {
     placeholder: t("selectGroups"),
@@ -56,7 +55,7 @@ const GroupSection = ({
       />
       <GroupSelector
         label={t("savedGroups")}
-        list={mockSavedGroups}
+        list={customGroups}
         defaultGroup={false}
         {...commonProps}
       />

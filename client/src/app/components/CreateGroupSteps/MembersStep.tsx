@@ -6,24 +6,42 @@ import SearchSection from "../GroupHandling/SearchSection";
 import { useTranslations } from "next-intl";
 import { Employee } from "@/app/interfaces/employee";
 import { useMemo } from "react";
+import { useCreateGroup } from "@/app/services/useCreateGroup";
+import { useRouter } from "next/navigation";
 
 interface MemberStepProps {
   onPrev: () => void;
   members: Employee[];
   handleBulkMembers: (recipientIds: Employee[]) => void;
+  title: string;
+  description: string;
 }
 
 const MembersStep = ({
   onPrev,
   members,
   handleBulkMembers,
+  title,
+  description,
 }: MemberStepProps) => {
   const t = useTranslations("GroupHandling");
+  const router = useRouter();
+  const mutation = useCreateGroup();
 
   const memberIdSet = useMemo(
     () => new Set(members.map((member) => member.id)),
     [members],
   );
+
+  const handleCreateGroup = () => {
+    mutation.mutate({
+      name: title,
+      description: description,
+      creatorId: "user@test.se",
+      employees: [...memberIdSet],
+    });
+    router.push("/dashboard/groups");
+  };
 
   return (
     <div className="flex flex-col gap-40">
@@ -55,7 +73,7 @@ const MembersStep = ({
           <ArrowLeft />
           {t("goBackButton")}
         </Button>
-        <Button disabled={members.length === 0}>
+        <Button disabled={members.length === 0} onClick={handleCreateGroup}>
           {t("createGroupButton")} <Users />
         </Button>
       </div>

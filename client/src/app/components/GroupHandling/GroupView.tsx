@@ -37,7 +37,8 @@ const GroupView = ({ list = [] }: GroupCardProps) => {
       </div>
       <div className="flex justify-end">
         <Button variant="secondary" rounded={true}>
-          {t("showAllButton")}
+          {t("showAllButton")} 
+          {/* LÄGG TILL FUNKTION!!! */}
           <ArrowRight />
         </Button>
       </div>
