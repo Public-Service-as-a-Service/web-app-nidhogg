@@ -1,16 +1,20 @@
 "use client";
 
 import { Button, Label } from "@sk-web-gui/react";
+import RecipientList from "./RecipientList";
 import { useTranslations } from "next-intl";
 import { useSendMessage } from "@/app/services/useSendMessage";
 import { useRouter } from "next/navigation";
 import { useUserEmail } from "@/app/hooks/useUserEmail";
+import { Employee } from "@/app/interfaces/employee";
+import { GroupRecipient } from "../../dashboard/messages/page";
 
 interface ViewStepProps {
   onPrev?: () => void;
   title?: string;
   messageBody?: string;
-  recipients: string[];
+  recipientGroups: Record<string, GroupRecipient>;
+  recipientEmployees: Record<string, Employee>;
   allChecked: boolean;
   channels: string[];
 }
@@ -19,7 +23,8 @@ const ViewStep = ({
   onPrev,
   title = "",
   messageBody = "",
-  recipients,
+  recipientGroups,
+  recipientEmployees,
   allChecked,
   channels,
 }: ViewStepProps) => {
@@ -53,13 +58,12 @@ const ViewStep = ({
         </div>
         <div className="flex flex-col">
           <p className="text-label-medium">{t("recipientsLabel")}</p>
-          <div className="flex flex-wrap gap-8 my-4">
-            {allChecked ? (
-              <Label>{t("sendToAll")}</Label>
-            ) : (
-              recipients.map((item) => <Label key={item}>{item}</Label>)
-            )}
-          </div>
+          <RecipientList
+            recipientGroups={recipientGroups}
+            recipientEmployees={recipientEmployees}
+            allChecked={allChecked}
+            component={Label}
+          />
         </div>
         <div className="flex flex-col">
           <p className="text-label-medium">{t("channelsLabel")}</p>

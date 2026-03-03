@@ -5,27 +5,35 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import CheckboxCard from "./CheckboxCard";
 import GroupSection from "./GroupSection";
+import { Employee } from "@/app/interfaces/employee";
+import { GroupRecipient } from "../../dashboard/messages/page";
 
 interface RecipientStepProps {
   onNext?: () => void;
-  recipients: string[];
-  handleRecipients: (name: string) => void;
-  handleBulkRecipients: (names: string[]) => void;
+  recipientGroups: Record<string, GroupRecipient>;
+  recipientEmployees: Record<string, Employee>;
+  handleGroupRecipients: (group: GroupRecipient) => void;
+  handleEmployeeRecipients: (recipients: Record<string, Employee>) => void;
   allChecked: boolean;
   setAllChecked: (allChecked: boolean) => void;
 }
 
 const RecipientsStep = ({
   onNext,
-  recipients,
-  handleRecipients,
-  handleBulkRecipients,
+  recipientGroups,
+  recipientEmployees,
+  handleGroupRecipients,
+  handleEmployeeRecipients,
   allChecked,
   setAllChecked,
 }: RecipientStepProps) => {
   const router = useRouter();
   const t = useTranslations("RecipientsStep");
-  const isDisabled = recipients.length === 0 && !allChecked;
+
+  const isDisabled =
+    Object.keys(recipientGroups).length === 0 &&
+    Object.keys(recipientEmployees).length === 0 &&
+    !allChecked;
 
   const handleAllChecked = (isChecked: boolean) => {
     setAllChecked(isChecked);
@@ -35,37 +43,24 @@ const RecipientsStep = ({
     router.push("/dashboard");
   };
 
-  const commonProps = {
-    allChecked,
-    handleItems: handleRecipients,
-    items: recipients,
-  };
-
   return (
     <div className="flex flex-col gap-14">
-      <h1 className="text-center text-h2-sm">
-        {t("sectionTitle")}
-      </h1>
+      <h1 className="text-center text-h2-sm">{t("sectionTitle")}</h1>
       <div className="flex flex-col gap-14 pb-28">
         <div className="flex flex-col md:flex-row gap-8">
           <CheckboxCard
-            {...commonProps}
-            label={t("allManagersLabel")}
-            description={t("allManagersDesc")}
-            disabled={allChecked}
-          />
-          <CheckboxCard
-            {...commonProps}
             label={t("allEmployeesLabel")}
             description={t("allEmployeesDesc")}
             handleAllChecked={handleAllChecked}
+            allChecked={allChecked}
           />
         </div>
         <GroupSection
           allChecked={allChecked}
-          handleRecipients={handleRecipients}
-          handleBulkRecipients={handleBulkRecipients}
-          selectedItems={recipients}
+          handleGroupRecipients={handleGroupRecipients}
+          handleEmployeeRecipients={handleEmployeeRecipients}
+          selectedGroups={recipientGroups}
+          selectedEmployees={recipientEmployees}
         />
       </div>
       <div className="flex justify-between">

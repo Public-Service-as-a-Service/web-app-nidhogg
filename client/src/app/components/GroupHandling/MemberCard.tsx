@@ -3,15 +3,29 @@
 import { Card, Checkbox, Avatar, Button } from "@sk-web-gui/react";
 import { Employee } from "@/app/interfaces/employee";
 import { ArrowRight } from "lucide-react";
+import type { ChangeEvent } from "react";
 
 interface MemberCardProps {
   member: Employee;
   editMode: boolean;
+  checked?: boolean;
+  onCheckedChange?: (memberId: string, isChecked: boolean) => void;
+  disabled?: boolean;
 }
 
-const MemberCard = ({ member, editMode }: MemberCardProps) => {
+const MemberCard = ({
+  member,
+  editMode,
+  checked = false,
+  onCheckedChange,
+  disabled = false,
+}: MemberCardProps) => {
   const initials =
     `${member.firstName?.charAt(0) || ""}${member.lastName?.charAt(0) || ""}`.toUpperCase();
+
+  const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
+    onCheckedChange?.(member.id, e.target.checked);
+  };
 
   return (
     <Card>
@@ -19,7 +33,14 @@ const MemberCard = ({ member, editMode }: MemberCardProps) => {
         <div className="flex flex-row justify-between">
           <Card.Text>
             <div className="flex flex-row items-center">
-              {editMode && <Checkbox className="pr-16" />}
+              {editMode && (
+                <Checkbox
+                  className="pr-16"
+                  onChange={handleCheck}
+                  checked={checked}
+                  disabled={disabled}
+                />
+              )}
               <Avatar rounded={true} initials={initials} />
               <div className="flex flex-col pl-12 gap-2">
                 <p className="text-small font-bold !p-0">
