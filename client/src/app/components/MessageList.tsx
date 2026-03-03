@@ -18,7 +18,7 @@ const MessageList = () => {
   const router = useRouter();
 
   const email = useUserEmail();
-  const { data: messages = [], isLoading } = useMessages(email || "");
+  const { data: messages = [], isLoading } = useMessages(email);
 
   const handleViewMessage = (id: number) => {
     router.push(`/dashboard/messages/${id}`);

@@ -4,6 +4,7 @@ import { Button, Label } from "@sk-web-gui/react";
 import { useTranslations } from "next-intl";
 import { useSendMessage } from "@/app/services/useSendMessage";
 import { useRouter } from "next/navigation";
+import { useUserEmail } from "@/app/hooks/useUserEmail";
 
 interface ViewStepProps {
   onPrev?: () => void;
@@ -25,12 +26,13 @@ const ViewStep = ({
   const t = useTranslations("ViewStep");
   const router = useRouter();
   const mutation = useSendMessage();
+  const email = useUserEmail();
 
   const handleSend = () => {
     mutation.mutate({
       title,
       content: messageBody,
-      sender: "user@test.se",
+      sender: email,
       recipientEmployeeIds: [1],
       messageType: "SMS",
     });
