@@ -3,7 +3,10 @@
 import { Button, Chip } from "@sk-web-gui/react";
 import MessageForm from "./MessageForm";
 import CheckboxCard from "./CheckboxCard";
+import RecipientList from "./RecipientList";
 import { useTranslations } from "next-intl";
+import { Employee } from "@/app/interfaces/employee";
+import { GroupRecipient } from "../../dashboard/messages/page";
 
 interface MessageStepProps {
   onPrev?: () => void;
@@ -12,7 +15,8 @@ interface MessageStepProps {
   messageBody?: string;
   setTitle?: (value: string) => void;
   setMessageBody?: (value: string) => void;
-  recipients: string[];
+  recipientGroups: Record<string, GroupRecipient>;
+  recipientEmployees: Record<string, Employee>;
   allChecked: boolean;
   channels: string[];
   handleChannels: (name: string) => void;
@@ -25,29 +29,28 @@ const MessageStep = ({
   messageBody,
   setTitle,
   setMessageBody,
-  recipients,
+  recipientGroups,
+  recipientEmployees,
   allChecked,
   channels,
   handleChannels,
 }: MessageStepProps) => {
   const t = useTranslations("MessageStep");
+
   const isDisabled = !title || !messageBody || channels.length === 0;
 
   return (
     <div className="flex flex-col gap-14">
-      <h1 className="text-center text-h2-sm">
-        {t("sectionTitle")}
-      </h1>
+      <h1 className="text-center text-h2-sm">{t("sectionTitle")}</h1>
       <div className="flex flex-col gap-8 pb-28">
         <div>
           <p className="text-label-medium mb-8 mt-0">{t("recipients")}</p>
-          <div className="flex flex-wrap gap-8">
-            {allChecked ? (
-              <Chip>{t("sendToAll")}</Chip>
-            ) : (
-              recipients.map((item) => <Chip key={item}>{item}</Chip>)
-            )}
-          </div>
+          <RecipientList
+            recipientGroups={recipientGroups}
+            recipientEmployees={recipientEmployees}
+            allChecked={allChecked}
+            component={Chip}
+          />
           <MessageForm
             title={title}
             messageBody={messageBody}

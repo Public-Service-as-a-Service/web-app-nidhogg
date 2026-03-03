@@ -7,6 +7,12 @@ import RecipientsStep from "@/app/components/MessageSteps/RecipientsStep";
 import MessageStep from "@/app/components/MessageSteps/MessageStep";
 import ViewStep from "@/app/components/MessageSteps/ViewStep";
 import { ProgressStepper } from "@sk-web-gui/react";
+import { Employee } from "@/app/interfaces/employee";
+
+export interface GroupRecipient {
+  id: number;
+  name: string;
+}
 
 interface StepsProps {
   label: string;
@@ -15,30 +21,49 @@ interface StepsProps {
 
 const Messages = () => {
   const [step, setStep] = useState(0);
+
+  const [allChecked, setAllChecked] = useState<boolean>(false);
+  const [recipientGroups, setRecipientGroups] = useState<
+    Record<string, GroupRecipient>
+  >({});
+  const [recipientEmployees, setRecipientEmployees] = useState<
+    Record<string, Employee>
+  >({});
+
   const [title, setTitle] = useState<string>("");
   const [messageBody, setMessageBody] = useState<string>("");
-  const [recipients, setRecipients] = useState<string[]>([]);
   const [channels, setChannels] = useState<string[]>([]);
-  const [allChecked, setAllChecked] = useState<boolean>(false);
 
   const handleAllCheckedChange = (checked: boolean) => {
     setAllChecked(checked);
     if (checked) {
-      setRecipients([]);
+      setRecipientGroups({});
+      setRecipientEmployees({});
     }
   };
 
   const toggleItem = (list: string[], item: string) =>
     list.includes(item) ? list.filter((i) => i !== item) : [...list, item];
 
-  const handleRecipients = (recipient: string) => {
+  const handleGroupRecipients = (group: GroupRecipient) => {
     if (allChecked) return;
-    setRecipients((prev) => toggleItem(prev, recipient));
+    const key = String(group.id);
+    setRecipientGroups((prev) => {
+      const next = { ...prev };
+      if (next[key]) {
+        delete next[key];
+      } else {
+        next[key] = group;
+      }
+      return next;
+    });
   };
 
-  const handleBulkRecipients = (names: string[]) => {
+  const handleEmployeeRecipients = (
+    nextRecipients: Record<string, Employee>,
+  ) => {
     if (allChecked) return;
-    setRecipients(names);
+    setRecipientEmployees(nextRecipients);
   };
 
   const handleChannels = (channel: string) => {
@@ -47,17 +72,22 @@ const Messages = () => {
 
   const t_steps = useTranslations("ProgressSteps");
 
+  const commonProps = {
+    recipientGroups,
+    recipientEmployees,
+    allChecked,
+  };
+
   const steps: StepsProps[] = [
     {
       label: t_steps("recipients"),
       content: (
         <RecipientsStep
           onNext={() => setStep(1)}
-          recipients={recipients}
-          handleRecipients={handleRecipients}
-          handleBulkRecipients={handleBulkRecipients}
-          allChecked={allChecked}
+          handleGroupRecipients={handleGroupRecipients}
+          handleEmployeeRecipients={handleEmployeeRecipients}
           setAllChecked={handleAllCheckedChange}
+          {...commonProps}
         />
       ),
     },
@@ -71,10 +101,9 @@ const Messages = () => {
           messageBody={messageBody}
           setTitle={setTitle}
           setMessageBody={setMessageBody}
-          recipients={recipients}
-          allChecked={allChecked}
           channels={channels}
           handleChannels={handleChannels}
+          {...commonProps}
         />
       ),
     },
@@ -85,9 +114,8 @@ const Messages = () => {
           onPrev={() => setStep(1)}
           title={title}
           messageBody={messageBody}
-          recipients={recipients}
-          allChecked={allChecked}
           channels={channels}
+          {...commonProps}
         />
       ),
     },
@@ -95,14 +123,14 @@ const Messages = () => {
 
   return (
     <MainWrapper>
-       <ProgressStepper
-          steps={steps.map((s) => s.label)}
-          labelPosition="bottom"
-          current={step}
-          size="sm"
-          className="pb-40"
-       />
-       {steps[step].content}
+      <ProgressStepper
+        steps={steps.map((s) => s.label)}
+        labelPosition="bottom"
+        current={step}
+        size="sm"
+        className="pb-40"
+      />
+      {steps[step].content}
     </MainWrapper>
   );
 };
