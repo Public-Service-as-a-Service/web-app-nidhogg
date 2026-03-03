@@ -33,12 +33,15 @@ const ViewStep = ({
   const mutation = useSendMessage();
   const email = useUserEmail();
 
+  const employeeRecipients = Object.values(recipientEmployees);
+  const employeeRecipientIds = employeeRecipients.map((emp) => emp.id);
+
   const handleSend = () => {
     mutation.mutate({
       title,
       content: messageBody,
       sender: email,
-      recipientEmployeeIds: [1],
+      recipientEmployeeIds: employeeRecipientIds,
       messageType: "SMS",
     });
     router.push("/dashboard");
