@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import dayjs from "dayjs";
 import { useState } from "react";
-import MessageToggleButton from "./MessageToggleButton";
+import ShowAllToggleButton from "./ShowAllToggleButton";
 
 const MessageList = () => {
   const [amount, setAmount] = useState<number>(3);
@@ -62,9 +62,10 @@ const MessageList = () => {
             </Card.Body>
           </Card>
         ))}
-        <MessageToggleButton
-          messagesLength={messages.length}
-          amount={amount}
+        <ShowAllToggleButton
+          totalCount={messages.length}
+          visibleCount={amount}
+          collapsedCount={3}
           onToggle={setAmount}
           showAllText={t("showAllButton")}
           goBackText={t("goBackButton")}
