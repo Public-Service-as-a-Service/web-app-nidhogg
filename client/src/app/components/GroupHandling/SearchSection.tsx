@@ -10,7 +10,7 @@ import { useTranslations } from "next-intl";
 import { Employee } from "@/app/interfaces/employee";
 
 interface SearchSectionProps {
-  memberIdSet: Set<string>;
+  memberIdSet: Set<number>;
   handleBulkMembers: (recipientIds: Employee[]) => void;
 }
 
@@ -20,7 +20,7 @@ const SearchSection = ({
 }: SearchSectionProps) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [page, setPage] = useState<number>(0);
-  const [checkedIds, setCheckedIds] = useState<string[]>([]);
+  const [checkedIds, setCheckedIds] = useState<number[]>([]);
 
   const t = useTranslations("GroupHandling");
 
@@ -54,7 +54,7 @@ const SearchSection = ({
     setCheckedIds((prev) => prev.filter((id) => !memberIdSet.has(id)));
   }, [memberIdSet]);
 
-  const handleCheckedChange = (memberId: string, isChecked: boolean) => {
+  const handleCheckedChange = (memberId: number, isChecked: boolean) => {
     setCheckedIds((prev) =>
       isChecked
         ? Array.from(new Set([...prev, memberId]))
