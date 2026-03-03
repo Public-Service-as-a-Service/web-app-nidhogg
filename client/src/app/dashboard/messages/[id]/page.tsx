@@ -9,14 +9,16 @@ import dayjs from "dayjs";
 import { ArrowLeft } from "lucide-react";
 import RecipientList from "@/app/components/RecipientList";
 import { useTranslations } from "next-intl";
+import { useUserEmail } from "@/app/hooks/useUserEmail";
 
 const MessageDetails = () => {
   const params = useParams();
-  const id = String(params.id);
+  const id = Number(params.id);
+  const email = useUserEmail();
   const router = useRouter();
   const t = useTranslations("MessageDetails");
 
-  const { data: message, isLoading } = useMessage(id);
+  const { data: message, isLoading } = useMessage(id, email);
 
   if (isLoading) return <Loading />;
 
