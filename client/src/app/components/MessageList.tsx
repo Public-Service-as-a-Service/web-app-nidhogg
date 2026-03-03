@@ -9,6 +9,7 @@ import { ArrowRight } from "lucide-react";
 import dayjs from "dayjs";
 import { useState } from "react";
 import MessageToggleButton from "./MessageToggleButton";
+import { useUserEmail } from "../hooks/useUserEmail";
 
 const MessageList = () => {
   const [amount, setAmount] = useState<number>(3);
@@ -16,11 +17,8 @@ const MessageList = () => {
   const t = useTranslations("Dashboard");
   const router = useRouter();
 
-  const { data: messages = [], isLoading } = useMessages("user@test.se");
-
-  const handleNewMessage = () => {
-    router.push("/dashboard/messages");
-  };
+  const email = useUserEmail();
+  const { data: messages = [], isLoading } = useMessages(email || "");
 
   const handleViewMessage = (id: number) => {
     router.push(`/dashboard/messages/${id}`);
@@ -31,7 +29,7 @@ const MessageList = () => {
   return (
     <div className="flex flex-col gap-40">
       <div className="flex justify-end">
-        <Button size="lg" onClick={handleNewMessage}>
+        <Button size="lg" onClick={() => router.push("/dashboard/messages")}>
           {t("newMessageButton")}
         </Button>
       </div>

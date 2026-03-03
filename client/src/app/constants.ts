@@ -18,6 +18,7 @@ export const PATHS = [
 
 export const SESSION_STORAGE = {
   sessionActive: "sessionActive",
+  userEmail: "userEmail",
 };
 
 export const ROUTES = {
@@ -27,7 +28,7 @@ export const ROUTES = {
   allEmployees: "/notifier/employees",
   searchEmployees: "/notifier/employees/search",
   allOrganizations: "/notifier/organization/organizations",
-  messages: "/notifier/messages"
+  messages: "/notifier/messages",
 };
 
 export const tailwindBreakPoint = {
