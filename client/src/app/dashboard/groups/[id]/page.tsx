@@ -10,6 +10,7 @@ import { useState } from "react";
 import dayjs from "dayjs";
 import { Button } from "@sk-web-gui/react";
 import { ArrowLeft, SquarePen, Save, Trash2 } from "lucide-react";
+import { useDeleteGroup } from "@/app/services/useDeleteGroup";
 
 const EditGroup = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -20,9 +21,17 @@ const EditGroup = () => {
   const router = useRouter();
 
   const { data: group, isLoading } = useGroup(id);
+  const deleteMutation = useDeleteGroup();
 
   const handleEditMode = () => {
     setIsEditing((prev) => !prev);
+  };
+
+  const handleDelete = (id: number) => {
+    if (window.confirm("Är du säker?")) {
+      deleteMutation.mutate(id);
+      router.push("/dashboard/groups");
+    }
   };
 
   if (isLoading) return <Loading />;
@@ -39,47 +48,47 @@ const EditGroup = () => {
 
   return (
     <MainWrapper>
-       <div className="flex justify-between pb-40">
-          <Button variant="secondary">
-            {t("deleteButton")}
-            <Trash2 />
+      <div className="flex justify-between pb-40">
+        <Button variant="secondary" onClick={() => handleDelete(id)}>
+          {t("deleteButton")}
+          <Trash2 />
+        </Button>
+        {!isEditing ? (
+          <Button onClick={handleEditMode}>
+            {t("editButton")}
+            <SquarePen />
           </Button>
-          {!isEditing ? (
-            <Button onClick={handleEditMode}>
-              {t("editButton")}
-              <SquarePen />
-            </Button>
-          ) : (
-            <Button onClick={handleEditMode}>
-              {t("saveButton")}
-              <Save />
-            </Button>
-          )}
-       </div>
-       <div className="flex flex-col gap-16">
-          <div className="flex flex-col gap-10">
-            <h1 className="text-h2-sm !m-0">{group.name}</h1>
-            <p className="text-small">
-              {t("wasCreated")}
-              {dayjs(group.createdAt).format("YYYY-MM-DD")}
-            </p>
-          </div>
-          <div className="flex flex-col">
-            <p className="text-label-large !m-0">{t("groupDescription")}</p>
-            <p>{group.description}</p>
-          </div>
-       </div>
-       <MemberSection members={group.employees} editMode={isEditing} />
-       <div className="flex justify-start">
-          <Button
-            variant="secondary"
-            rounded={true}
-            onClick={() => router.back()}
-          >
-            <ArrowLeft />
-            {t("goBackButton")}
+        ) : (
+          <Button onClick={handleEditMode}>
+            {t("saveButton")}
+            <Save />
           </Button>
-       </div>
+        )}
+      </div>
+      <div className="flex flex-col gap-16">
+        <div className="flex flex-col gap-10">
+          <h1 className="text-h2-sm !m-0">{group.name}</h1>
+          <p className="text-small">
+            {t("wasCreated")}
+            {dayjs(group.createdAt).format("YYYY-MM-DD")}
+          </p>
+        </div>
+        <div className="flex flex-col">
+          <p className="text-label-large !m-0">{t("groupDescription")}</p>
+          <p>{group.description}</p>
+        </div>
+      </div>
+      <MemberSection members={group.employees} editMode={isEditing} />
+      <div className="flex justify-start">
+        <Button
+          variant="secondary"
+          rounded={true}
+          onClick={() => router.back()}
+        >
+          <ArrowLeft />
+          {t("goBackButton")}
+        </Button>
+      </div>
     </MainWrapper>
   );
 };
