@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { useLogout } from "../services/useLogout";
-import { PATHS } from "../constants";
+import { PAGE_ROUTES, PATHS } from "../constants";
 import { useState } from "react";
 import Link from "next/link";
 import { isProtectedPage } from "@/middleware";
@@ -19,7 +19,7 @@ const AppBarHeader = () => {
 
   const handleLogout = () => {
     mutate(undefined, {
-      onSuccess: () => router.push("/"),
+      onSuccess: () => router.push(PAGE_ROUTES.home),
       onError: () => console.error("Logout failed."),
     });
   };

@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { Employee } from "../interfaces/employee";
-import { ROUTES } from "../constants";
+import { API_ENDPOINTS } from "../constants";
 
 interface SearchParams {
   query: string;
@@ -21,7 +21,7 @@ export const useSearchEmployees = () => {
   return useMutation<SearchResponse, Error, SearchParams>({
     mutationFn: async (params) => {
       const response = await axios.get<SearchResponse>(
-        `${process.env.NEXT_PUBLIC_API_URL}${ROUTES.searchEmployees}`,
+        `${process.env.NEXT_PUBLIC_API_URL}${API_ENDPOINTS.searchEmployees}`,
         {
           withCredentials: true,
           params: {

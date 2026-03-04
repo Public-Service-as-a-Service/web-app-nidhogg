@@ -10,6 +10,7 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import MessageToggleButton from "./MessageToggleButton";
 import { useUserEmail } from "../hooks/useUserEmail";
+import { PAGE_ROUTES } from "../constants";
 
 const MessageList = () => {
   const [amount, setAmount] = useState<number>(3);
@@ -24,8 +25,12 @@ const MessageList = () => {
     dayjs(b.createdAt).diff(dayjs(a.createdAt)),
   );
 
+  const handleNewMessage = () => {
+    router.push(PAGE_ROUTES.dashboardMessages);
+  };
+
   const handleViewMessage = (id: number) => {
-    router.push(`/dashboard/messages/${id}`);
+    router.push(PAGE_ROUTES.dashboardMessageDetails(id));
   };
 
   if (isLoading) return <Loading />;
@@ -33,7 +38,7 @@ const MessageList = () => {
   return (
     <div className="flex flex-col gap-40">
       <div className="flex justify-end">
-        <Button size="lg" onClick={() => router.push("/dashboard/messages")}>
+        <Button size="lg" onClick={handleNewMessage}>
           {t("newMessageButton")}
         </Button>
       </div>

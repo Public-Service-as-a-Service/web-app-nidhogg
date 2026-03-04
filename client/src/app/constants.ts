@@ -6,11 +6,37 @@ export const STORE = {
   userId: "userId",
 };
 
+export const PAGE_ROUTES = {
+  home: "/",
+  dashboard: "/dashboard",
+  dashboardMessages: "/dashboard/messages",
+  dashboardMessageDetails: (id: number) => `/dashboard/messages/${id}`,
+  dashboardGroups: "/dashboard/groups",
+  dashboardGroupCreate: "/dashboard/groups/create",
+  dashboardGroupDetails: (id: number | string) => `/dashboard/groups/${id}`,
+} as const;
+
+export const API_ENDPOINTS = {
+  login: "/login",
+  logout: "/logout",
+  messages: "/notifier/messages",
+  messageById: (id: number, email: string) => `/notifier/messages/${id}/${email}`,
+  groups: "/groups",
+  groupById: (id: number | string) => `/groups/${id}`,
+  allEmployees: "/notifier/employees",
+  searchEmployees: "/notifier/employees/search",
+  allOrganizations: "/notifier/organization/organizations",
+} as const;
+
 export const PATHS = [
-  { url: "/dashboard", title: "Dashboard", isVisible: true },
-  { url: "/dashboard/messages", title: "Skapa nytt utskick", isVisible: true },
+  { url: PAGE_ROUTES.dashboard, title: "Dashboard", isVisible: true },
   {
-    url: "/dashboard/groups",
+    url: PAGE_ROUTES.dashboardMessages,
+    title: "Skapa nytt utskick",
+    isVisible: true,
+  },
+  {
+    url: PAGE_ROUTES.dashboardGroups,
     title: "Hantera sparade grupper",
     isVisible: true,
   },
@@ -19,16 +45,6 @@ export const PATHS = [
 export const SESSION_STORAGE = {
   sessionActive: "sessionActive",
   userEmail: "userEmail",
-};
-
-export const ROUTES = {
-  login: "/login",
-  logout: "/logout",
-  groups: "/groups",
-  allEmployees: "/notifier/employees",
-  searchEmployees: "/notifier/employees/search",
-  allOrganizations: "/notifier/organization/organizations",
-  messages: "/notifier/messages",
 };
 
 export const tailwindBreakPoint = {

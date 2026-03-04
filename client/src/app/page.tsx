@@ -7,6 +7,7 @@ import { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
 import { Button, Input } from "@sk-web-gui/react";
 import Loading from "./components/LoadingSpinner";
+import { PAGE_ROUTES } from "./constants";
 
 export type Credentials = {
   email: string;
@@ -29,7 +30,7 @@ const Login = () => {
 
     mutate(credentials, {
       onSuccess: () => {
-        router.push("/dashboard");
+        router.push(PAGE_ROUTES.dashboard);
       },
       onError: (error: AxiosError) => {
         console.log(error);

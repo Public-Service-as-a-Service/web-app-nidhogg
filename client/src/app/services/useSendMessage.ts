@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { ROUTES } from "../constants";
+import { API_ENDPOINTS } from "../constants";
 
 export interface SendMessagePayload {
   title: string;
@@ -14,7 +14,7 @@ export const useSendMessage = () => {
   return useMutation<unknown, AxiosError, SendMessagePayload>({
     mutationFn: async (payload: SendMessagePayload) => {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}${ROUTES.messages}`,
+        `${process.env.NEXT_PUBLIC_API_URL}${API_ENDPOINTS.messages}`,
         payload,
         {
           withCredentials: true,

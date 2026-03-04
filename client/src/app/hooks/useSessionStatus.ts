@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLogout } from "../services/useLogout";
 import { useRouter } from "next/navigation";
-import { SESSION_STORAGE } from "../constants";
+import { PAGE_ROUTES, SESSION_STORAGE } from "../constants";
 
 const useSessionStatus = () => {
   const { mutate } = useLogout();
@@ -14,7 +14,7 @@ const useSessionStatus = () => {
     } else {
       mutate(undefined, {
         onSuccess: () => {
-          router.push("/");
+          router.push(PAGE_ROUTES.home);
         },
       });
     }
