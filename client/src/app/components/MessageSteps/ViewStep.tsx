@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useUserEmail } from "@/app/hooks/useUserEmail";
 import { Employee } from "@/app/interfaces/employee";
 import { GroupRecipient } from "../../dashboard/messages/page";
+import Loading from "../LoadingSpinner";
 
 interface ViewStepProps {
   onPrev?: () => void;
@@ -45,15 +46,25 @@ const ViewStep = ({
     else if (hasTeams) messageType = "TEAMS";
     else if (hasSMS) messageType = "SMS";
 
-    mutation.mutate({
-      title,
-      content: messageBody,
-      sender: email,
-      recipientEmployeeIds: employeeRecipientIds,
-      messageType,
-    });
-    router.push("/dashboard");
+    mutation.mutate(
+      {
+        title,
+        content: messageBody,
+        sender: email,
+        recipientEmployeeIds: employeeRecipientIds,
+        messageType,
+      },
+      {
+        onSuccess: () => {
+          router.push("/dashboard");
+        },
+      },
+    );
   };
+
+  if (mutation.isPending) {
+    return <Loading />;
+  }
 
   return (
     <div className="flex flex-col gap-14">
