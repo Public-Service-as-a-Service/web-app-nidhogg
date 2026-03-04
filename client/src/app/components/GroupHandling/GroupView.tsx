@@ -6,6 +6,7 @@ import { Group } from "@/app/interfaces/group";
 import { Button } from "@sk-web-gui/react";
 import { UsersRound, ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { PAGE_ROUTES } from "@/app/constants";
 
 interface GroupCardProps {
   list: Group[];
@@ -16,7 +17,7 @@ const GroupView = ({ list = [] }: GroupCardProps) => {
   const router = useRouter();
 
   const handleCreate = () => {
-    router.push("/dashboard/groups/create");
+    router.push(PAGE_ROUTES.dashboardGroupCreate);
   };
 
   return (

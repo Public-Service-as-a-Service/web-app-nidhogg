@@ -7,6 +7,7 @@ import CheckboxCard from "./CheckboxCard";
 import GroupSection from "./GroupSection";
 import { Employee } from "@/app/interfaces/employee";
 import { GroupRecipient } from "../../dashboard/messages/page";
+import { PAGE_ROUTES } from "@/app/constants";
 
 interface RecipientStepProps {
   onNext?: () => void;
@@ -40,7 +41,7 @@ const RecipientsStep = ({
   };
 
   const handleGoBack = () => {
-    router.push("/dashboard");
+    router.push(PAGE_ROUTES.dashboard);
   };
 
   return (
