@@ -20,13 +20,14 @@ const MessageDetails = () => {
 
   const { data: message, isLoading } = useMessage(id, email);
 
-  const messageType = () => {
-    if (message?.messageType === "TEAMS") {
-      return "Microsoft Teams";
-    } else if (message?.messageType === "SMS") {
-      return "SMS";
-    } else {
-      return "SMS och Microsoft Teams";
+  const getMessageType = () => {
+    switch (message?.messageType) {
+      case "TEAMS":
+        return t("channels.teams");
+      case "SMS":
+        return t("channels.sms");
+      default:
+        return t("channels.both");
     }
   };
 
@@ -59,7 +60,7 @@ const MessageDetails = () => {
         </div>
         <div className="gap-8 p-8">
           <p className="text-label-large">{t("channelLabel")}</p>
-          <p>{messageType()}</p>
+          <p>{getMessageType()}</p>
         </div>
       </div>
       <div className="pt-40 flex place-content-between">

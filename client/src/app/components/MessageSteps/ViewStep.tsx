@@ -38,13 +38,16 @@ const ViewStep = ({
   const employeeRecipientIds = employeeRecipients.map((emp) => emp.id);
 
   const handleSend = () => {
-    const hasSMS = channels.includes("SMS");
-    const hasTeams = channels.includes("Microsoft Teams");
+    const getMessageType = (channels: string[]) => {
+      const hasSMS = channels.includes("SMS");
+      const hasTeams = channels.includes("Microsoft Teams");
 
-    let messageType = "";
-    if (hasSMS && hasTeams) messageType = "TEAMS_AND_SMS";
-    else if (hasTeams) messageType = "TEAMS";
-    else if (hasSMS) messageType = "SMS";
+      if (hasTeams) return "TEAMS";
+      if (hasSMS) return "SMS";
+      if (hasSMS && hasTeams) return "TEAMS_AND_SMS";
+
+      return "NONE";
+    };
 
     mutation.mutate(
       {
@@ -52,7 +55,7 @@ const ViewStep = ({
         content: messageBody,
         sender: email,
         recipientEmployeeIds: employeeRecipientIds,
-        messageType,
+        messageType: getMessageType(channels),
       },
       {
         onSuccess: () => {
