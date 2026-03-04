@@ -20,6 +20,16 @@ const MessageDetails = () => {
 
   const { data: message, isLoading } = useMessage(id, email);
 
+  const messageType = () => {
+    if (message?.messageType === "TEAMS") {
+      return "Microsoft Teams";
+    } else if (message?.messageType === "SMS") {
+      return "SMS";
+    } else {
+      return "SMS och Microsoft Teams";
+    }
+  };
+
   if (isLoading) return <Loading />;
 
   if (!message) {
@@ -49,7 +59,7 @@ const MessageDetails = () => {
         </div>
         <div className="gap-8 p-8">
           <p className="text-label-large">{t("channelLabel")}</p>
-          <p>{message?.messageType}</p>
+          <p>{messageType()}</p>
         </div>
       </div>
       <div className="pt-40 flex place-content-between">
