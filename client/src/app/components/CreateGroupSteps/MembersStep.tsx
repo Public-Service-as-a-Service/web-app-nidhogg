@@ -8,6 +8,7 @@ import { Employee } from "@/app/interfaces/employee";
 import { useMemo } from "react";
 import { useCreateGroup } from "@/app/services/useCreateGroup";
 import { useRouter } from "next/navigation";
+import Loading from "../LoadingSpinner";
 
 interface MemberStepProps {
   onPrev: () => void;
@@ -34,14 +35,24 @@ const MembersStep = ({
   );
 
   const handleCreateGroup = () => {
-    mutation.mutate({
-      name: title,
-      description: description,
-      creatorId: "user@test.se",
-      employees: [...memberIdSet],
-    });
-    router.push("/dashboard/groups");
+    mutation.mutate(
+      {
+        name: title,
+        description: description,
+        creatorId: "user@test.se",
+        employees: [...memberIdSet],
+      },
+      {
+        onSuccess: () => {
+          router.push("/dashboard/groups");
+        },
+      },
+    );
   };
+
+  if (mutation.isPending) {
+    return <Loading />;
+  }
 
   return (
     <div className="flex flex-col gap-40">
