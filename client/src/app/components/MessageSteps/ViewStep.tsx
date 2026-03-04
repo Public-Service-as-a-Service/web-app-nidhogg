@@ -37,12 +37,20 @@ const ViewStep = ({
   const employeeRecipientIds = employeeRecipients.map((emp) => emp.id);
 
   const handleSend = () => {
+    const hasSMS = channels.includes("SMS");
+    const hasTeams = channels.includes("Microsoft Teams");
+
+    let messageType = "";
+    if (hasSMS && hasTeams) messageType = "TEAMS_AND_SMS";
+    else if (hasTeams) messageType = "TEAMS";
+    else if (hasSMS) messageType = "SMS";
+
     mutation.mutate({
       title,
       content: messageBody,
       sender: email,
       recipientEmployeeIds: employeeRecipientIds,
-      messageType: "SMS",
+      messageType,
     });
     router.push("/dashboard");
   };
