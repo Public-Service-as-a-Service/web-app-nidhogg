@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Organization } from "../interfaces/organization";
-import { ROUTES } from "../constants";
+import { API_ENDPOINTS } from "../constants";
 
 export const useOrganizations = () => {
   return useQuery<Organization[]>({
     queryKey: ["organization"],
     queryFn: async () => {
       const response = await axios.get<Organization[]>(
-        `${process.env.NEXT_PUBLIC_API_URL}${ROUTES.allOrganizations}`,
+        `${process.env.NEXT_PUBLIC_API_URL}${API_ENDPOINTS.allOrganizations}`,
         {
           withCredentials: true,
         },

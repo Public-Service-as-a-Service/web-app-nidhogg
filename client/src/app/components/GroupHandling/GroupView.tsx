@@ -8,6 +8,7 @@ import { UsersRound } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ShowAllToggleButton from "../ShowAllToggleButton";
+import { PAGE_ROUTES } from "@/app/constants";
 
 interface GroupCardProps {
   groups: Group[];
@@ -18,13 +19,14 @@ const GroupView = ({ groups = [] }: GroupCardProps) => {
   const t = useTranslations("GroupHandling");
   const router = useRouter();
 
+  const handleCreate = () => {
+    router.push(PAGE_ROUTES.dashboardGroupCreate);
+  };
+
   return (
     <div className="flex flex-col">
       <div className="flex justify-end pb-64">
-        <Button
-          size="lg"
-          onClick={() => router.push("/dashboard/groups/create")}
-        >
+        <Button size="lg" onClick={handleCreate}>
           {t("createGroupButton")}
           <UsersRound />
         </Button>

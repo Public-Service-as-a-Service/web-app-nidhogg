@@ -6,6 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import dayjs from "dayjs";
+import { PAGE_ROUTES } from "@/app/constants";
 
 interface GroupCardProps {
   item: Group;
@@ -16,7 +17,7 @@ const GroupCard = ({ item }: GroupCardProps) => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(`/dashboard/groups/${item.id}`);
+    router.push(PAGE_ROUTES.dashboardGroupDetails(item.id));
   };
 
   return (

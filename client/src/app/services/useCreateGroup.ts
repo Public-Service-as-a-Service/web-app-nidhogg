@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { ROUTES } from "../constants";
+import { API_ENDPOINTS } from "../constants";
 
 export interface CreateGroupPayload {
   name: string;
@@ -13,7 +13,7 @@ export const useCreateGroup = () => {
   return useMutation<unknown, AxiosError, CreateGroupPayload>({
     mutationFn: async (payload: CreateGroupPayload) => {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}${ROUTES.groups}`,
+        `${process.env.NEXT_PUBLIC_API_URL}${API_ENDPOINTS.groups}`,
         payload,
         {
           withCredentials: true,

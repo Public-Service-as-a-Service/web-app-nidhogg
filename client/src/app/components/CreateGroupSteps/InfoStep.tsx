@@ -4,6 +4,7 @@ import { Button, Input, Textarea } from "@sk-web-gui/react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { PAGE_ROUTES } from "@/app/constants";
 
 interface InfoStepProps {
   title?: string;
@@ -46,7 +47,7 @@ const InfoStep = ({
       <div className="flex flex-row place-content-between">
         <Button
           variant="secondary"
-          onClick={() => router.push("/dashboard/groups")}
+          onClick={() => router.push(PAGE_ROUTES.dashboardGroups)}
         >
           <ArrowLeft />
           {t("goBackButton")}

@@ -9,6 +9,7 @@ import { ArrowRight } from "lucide-react";
 import dayjs from "dayjs";
 import { useState } from "react";
 import ShowAllToggleButton from "./ShowAllToggleButton";
+import { PAGE_ROUTES } from "../constants";
 
 const MessageList = () => {
   const [amount, setAmount] = useState<number>(3);
@@ -19,11 +20,11 @@ const MessageList = () => {
   const { data: messages = [], isLoading } = useMessages();
 
   const handleNewMessage = () => {
-    router.push("/dashboard/messages");
+    router.push(PAGE_ROUTES.dashboardMessages);
   };
 
   const handleViewMessage = (id: string) => {
-    router.push(`/dashboard/messages/${id}`);
+    router.push(PAGE_ROUTES.dashboardMessageDetails(id));
   };
 
   if (isLoading) return <Loading />;
