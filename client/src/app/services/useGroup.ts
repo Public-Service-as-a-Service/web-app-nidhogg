@@ -3,16 +3,16 @@ import axios from "axios";
 import { Group } from "../interfaces/group";
 import { ROUTES } from "../constants";
 
-export const useGroup = (id: number) => {
+export const useGroup = (groupId: number) => {
   return useQuery<Group>({
-    queryKey: ["groups", id],
+    queryKey: ["groups", groupId],
     queryFn: async () => {
       const response = await axios.get<Group>(
-        `${process.env.NEXT_PUBLIC_API_URL}${ROUTES.groups}/${id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}${ROUTES.groups}/${groupId}`,
         { withCredentials: true },
       );
       return response.data;
     },
-    enabled: !!id,
+    enabled: !!groupId,
   });
 };

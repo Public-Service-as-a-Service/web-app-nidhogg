@@ -30,7 +30,7 @@ const GroupSection = ({
     { id: 102, name: "IT-jour", default: true },
   ];
 
-  const { data: groups } = useGroups(1); //ska vara email
+  const { data: groups } = useGroups("user@test.se"); //byt ut till useUserEmail
   const customGroups = groups?.map((g) => ({ ...g, default: false })) || [];
 
   const commonProps = {

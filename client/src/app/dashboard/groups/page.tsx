@@ -6,7 +6,7 @@ import Loading from "@/app/components/LoadingSpinner";
 import { useGroups } from "@/app/services/useGroups";
 
 const Groups = () => {
-  const { data: groups = [], isLoading } = useGroups();
+  const { data: groups = [], isLoading } = useGroups("user@test.se"); //byt ut till useUserEmail
 
   if (isLoading) return <Loading />;
 
