@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
-  PAGE_ROUTE_MATCHERS,
   PAGE_ROUTES,
   PATHS,
   STORE,
@@ -22,7 +21,7 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: [PAGE_ROUTES.home, PAGE_ROUTE_MATCHERS.protected],
+  matcher: ["/", "/dashboard/:path*"],
 };
 
 export const isProtectedPage = (pathname: string) => {

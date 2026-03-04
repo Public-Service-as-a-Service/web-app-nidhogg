@@ -16,10 +16,6 @@ export const PAGE_ROUTES = {
   dashboardGroupDetails: (id: number | string) => `/dashboard/groups/${id}`,
 } as const;
 
-export const PAGE_ROUTE_MATCHERS = {
-  protected: `${PAGE_ROUTES.dashboard}/:path*`,
-} as const;
-
 export const API_ENDPOINTS = {
   login: "/login",
   logout: "/logout",
