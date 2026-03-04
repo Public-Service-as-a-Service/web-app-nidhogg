@@ -49,7 +49,7 @@ const MessageDetails = () => {
         </div>
         <div className="gap-8 p-8">
           <p className="text-label-large">{t("channelLabel")}</p>
-          <p>???</p>
+          <p>{message?.messageType}</p>
         </div>
       </div>
       <div className="pt-40 flex place-content-between">

@@ -12,6 +12,7 @@ export interface Message {
   title: string;
   content: string | null;
   sender: string;
+  messageType: string;
   createdAt: string;
   recipients: MessageRecipient[];
 }

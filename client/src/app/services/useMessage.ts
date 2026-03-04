@@ -8,7 +8,7 @@ export const useMessage = (id: number, email: string) => {
     queryKey: ["messages", id, email],
     queryFn: async () => {
       const response = await axios.get<Message>(
-        `${process.env.NEXT_PUBLIC_API_URL}${ROUTES.messages}/${id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}${ROUTES.messages}/${id}/${email}`,
         {
           params: {
             sender: email,
