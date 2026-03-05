@@ -49,11 +49,14 @@ const Login = () => {
   return isPending ? (
     <Loading />
   ) : (
-    <div className="min-h-screen px-20 pt-100 pb-40 md:pt-[130px]" data-cy="login">
-      <div className="mx-auto flex min-h-full w-full max-w-[300px] flex-col">
+    <div
+      className="min-h-screen px-20 pt-100 pb-40 md:pt-[130px]"
+      data-cy="login"
+    >
+      <div className="mx-auto flex min-h-full w-full max-w-[300px] lg:max-w-[500px] flex-col">
         <div className="mb-40">
-          <h1 className="text-h2-sm">{t("welcomeHeading")}</h1>
-          <p>{t("welcomeMessage")}</p>
+          <h1 className="text-h2-sm md:text-h2-lg lg:text-h1-lg">{t("welcomeHeading")}</h1>
+          <p className="md:text-large lg:text-h3-sm">{t("welcomeMessage")}</p>
         </div>
         <form onSubmit={handleLogin} className="flex flex-1 flex-col gap-16">
           {error && <div>{error}</div>}
@@ -77,7 +80,7 @@ const Login = () => {
               }
             />
           </div>
-          <div className="mt-auto flex justify-end pt-[132px]">
+          <div className="mt-auto flex justify-end pt-80">
             <Button type="submit" size="lg">
               {t("logInButton")} <LogIn />
             </Button>
