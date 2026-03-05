@@ -26,7 +26,7 @@
   },
   "LogIn": {
     "welcomeHeading": "Välkommen!",
-    "welcomeMessage": "Vänligen logga in med ditt användarnamn och lösenord nedan.",
+    "welcomeMessage": "Vänligen logga in med din e-postadress och ditt lösenord nedan.",
     "logInButton": "Logga in",
     "emailPlaceholder": "E-postadress",
     "passwordPlaceholder": "Lösenord",
