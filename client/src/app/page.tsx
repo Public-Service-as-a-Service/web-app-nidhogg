@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 import { Button, Input } from "@sk-web-gui/react";
 import Loading from "./components/LoadingSpinner";
 import { PAGE_ROUTES } from "./constants";
+import { LogIn } from "lucide-react";
 
 export type Credentials = {
   email: string;
@@ -48,29 +49,39 @@ const Login = () => {
   return isPending ? (
     <Loading />
   ) : (
-    <div className="flex flex-col justify-center h-screen" data-cy="login">
-      <div className="flex flex-col items-center gap-4 p-4">
-        <h1>{t("welcomeMessage")}</h1>
-        <form
-          onSubmit={handleLogin}
-          className="flex flex-col items-center gap-16"
-        >
+    <div className="min-h-screen px-20 pt-100 pb-40 md:pt-[130px]" data-cy="login">
+      <div className="mx-auto flex min-h-full w-full max-w-[300px] flex-col">
+        <div className="mb-40">
+          <h1 className="text-h2-sm">{t("welcomeHeading")}</h1>
+          <p>{t("welcomeMessage")}</p>
+        </div>
+        <form onSubmit={handleLogin} className="flex flex-1 flex-col gap-16">
           {error && <div>{error}</div>}
-          <Input
-            type="email"
-            placeholder={t("emailPlaceholder")}
-            onChange={(e) =>
-              setCredentials({ ...credentials, email: e.target.value })
-            }
-          />
-          <Input
-            type="password"
-            placeholder={t("passwordPlaceholder")}
-            onChange={(e) =>
-              setCredentials({ ...credentials, password: e.target.value })
-            }
-          />
-          <Button type="submit">{t("logInButton")}</Button>
+          <div className="flex flex-col w-full">
+            <p className="text-label-large">{t("emailPlaceholder")}</p>
+            <Input
+              type="email"
+              placeholder={t("emailPlaceholder")}
+              onChange={(e) =>
+                setCredentials({ ...credentials, email: e.target.value })
+              }
+            />
+          </div>
+          <div className="flex flex-col w-full">
+            <p className="text-label-large">{t("passwordPlaceholder")}</p>
+            <Input
+              type="password"
+              placeholder={t("passwordPlaceholder")}
+              onChange={(e) =>
+                setCredentials({ ...credentials, password: e.target.value })
+              }
+            />
+          </div>
+          <div className="mt-auto flex justify-end pt-[132px]">
+            <Button type="submit" size="lg">
+              {t("logInButton")} <LogIn />
+            </Button>
+          </div>
         </form>
       </div>
     </div>
