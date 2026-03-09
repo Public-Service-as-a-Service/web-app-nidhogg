@@ -21,13 +21,12 @@ const MessageDetails = () => {
   const { data: message, isLoading } = useMessage(id, email);
 
   const getMessageType = () => {
-    switch (message?.messageType) {
-      case "TEAMS":
-        return t("channels.teams");
-      case "SMS":
-        return t("channels.sms");
-      default:
-        return t("channels.both");
+    if (message?.messageType === "TEAMS") {
+      return t("channels.teams");
+    } else if (message?.messageType === "SMS") {
+      return t("channels.sms");
+    } else {
+      return t("channels.both");
     }
   };
 
