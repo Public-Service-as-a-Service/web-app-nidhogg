@@ -4,9 +4,10 @@ import { FormControl, FormLabel, Combobox } from "@sk-web-gui/react";
 import { GroupRecipient } from "../../dashboard/messages/page";
 
 interface ListItem {
-  id: number;
+  id: number | string;
   name: string;
   default: boolean;
+  endpoint?: string;
 }
 
 interface GroupSelectorProps {
@@ -50,7 +51,11 @@ const GroupSelector = ({
               key={group.id}
               value={group.name}
               onChange={() =>
-                handleRecipients({ id: group.id, name: group.name })
+                handleRecipients({
+                  id: group.id,
+                  name: group.name,
+                  endpoint: group.endpoint,
+                })
               }
             >
               {group.name}

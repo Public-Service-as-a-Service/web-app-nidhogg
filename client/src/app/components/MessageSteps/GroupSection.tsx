@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import { Employee } from "@/app/interfaces/employee";
 import { GroupRecipient } from "../../dashboard/messages/page";
 import { useGroups } from "@/app/services/useGroups";
+import { API_ENDPOINTS } from "@/app/constants";
 
 interface GroupSectionProps {
   allChecked: boolean;
@@ -25,9 +26,13 @@ const GroupSection = ({
 }: GroupSectionProps) => {
   const t = useTranslations("GroupSection");
 
-  const mockPredefinedGroups = [
-    { id: 101, name: "Krisgrupp", default: true },
-    { id: 102, name: "IT-jour", default: true },
+  const recipientDefault = [
+    {
+      id: "managers",
+      name: "Alla chefer",
+      endpoint: API_ENDPOINTS.allManagers,
+      default: true,
+    },
   ];
 
   const { data: groups } = useGroups("user@test.se"); //byt ut till useUserEmail
@@ -49,7 +54,7 @@ const GroupSection = ({
       <p className="text-label-large pt-10">{t("sectionTitle")}</p>
       <GroupSelector
         label={t("predefinedGroups")}
-        list={mockPredefinedGroups}
+        list={recipientDefault}
         defaultGroup={true}
         {...commonProps}
       />
