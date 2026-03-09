@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Message } from "../interfaces/message";
 import { API_ENDPOINTS } from "../constants";
+import dayjs from "dayjs";
 
 export const useMessages = (email: string) => {
   return useQuery<Message[]>({
@@ -16,5 +17,9 @@ export const useMessages = (email: string) => {
       );
       return response.data;
     },
+    select: (messages) =>
+      [...messages].sort((a, b) =>
+        dayjs(b.createdAt).diff(dayjs(a.createdAt)),
+      ),
   });
 };

@@ -21,10 +21,6 @@ const MessageList = () => {
   const email = useUserEmail();
   const { data: messages = [], isLoading } = useMessages(email);
 
-  const sortedMessages = [...messages].sort((a, b) =>
-    dayjs(b.createdAt).diff(dayjs(a.createdAt)),
-  );
-
   const handleNewMessage = () => {
     router.push(PAGE_ROUTES.dashboardMessages);
   };
@@ -47,7 +43,7 @@ const MessageList = () => {
         <p className="text-large">{t("sentMessagesInfo")}</p>
       </div>
       <div className="flex flex-col gap-16 w-full">
-        {sortedMessages.slice(0, amount).map((item) => (
+        {messages.slice(0, amount).map((item) => (
           <Card key={item.id}>
             <Card.Body className="w-full pt-24">
               <div className="flex flex-row items-center justify-between">
