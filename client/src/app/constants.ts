@@ -3,7 +3,7 @@ export const SESSION = {
 };
 
 export const STORE = {
-  userId: "userId",
+  authToken: "token",
 };
 
 export const PAGE_ROUTES = {
@@ -17,8 +17,8 @@ export const PAGE_ROUTES = {
 } as const;
 
 export const API_ENDPOINTS = {
-  login: "/login",
-  logout: "/logout",
+  login: "/users/auth/login",
+  logout: "/users/auth/logout",
   messages: "/messages",
   messageById: (id: string) => `/messages/${id}`,
   groups: "/groups",

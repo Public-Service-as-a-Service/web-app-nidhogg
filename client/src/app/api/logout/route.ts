@@ -3,7 +3,7 @@ import { STORE } from "@/app/constants";
 
 export async function POST() {
   const cookieStore = await cookies();
-  cookieStore.delete(STORE.userId);
+  cookieStore.delete(STORE.authToken);
 
   return new Response(JSON.stringify({ success: true }), {
     status: 200,
