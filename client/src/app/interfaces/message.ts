@@ -5,14 +5,14 @@ export interface MessageRecipient {
   orgId: string;
   workTitle: string;
   deliveryStatus: string;
-  receivedAt: string;
 }
 
 export interface Message {
-  id: string;
+  id: number;
   title: string;
   content: string | null;
   sender: string;
+  messageType: string;
   createdAt: string;
   recipients: MessageRecipient[];
 }

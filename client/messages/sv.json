@@ -16,7 +16,12 @@
     "messageLabel": "Meddelande",
     "recipientsLabel": "Mottagare",
     "channelLabel": "Utskickskanal",
-    "notFound": "Meddelandet hittades inte"
+    "notFound": "Meddelandet hittades inte",
+    "channels": {
+      "sms": "SMS",
+      "teams": "Microsoft Teams",
+      "both": "SMS och Microsoft Teams"
+    }
   },
   "AppBar": {
     "logOut": "Logga ut",
