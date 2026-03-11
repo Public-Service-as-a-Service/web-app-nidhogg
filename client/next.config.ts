@@ -6,12 +6,12 @@ const nextConfig: NextConfig = {
     return {
       fallback: [
         {
+          source: "/api/notifier/:path*",
+          destination: "http://localhost:8087/api/notifier/:path*",
+        },
+        {
           source: "/api/:path*",
           destination: "http://localhost:8081/api/:path*",
-        },
-         {
-          source: "/api/notifier/:path*",
-          destination: "http://localhost:8082/api/notifier/:path*",
         },
       ],
     };
