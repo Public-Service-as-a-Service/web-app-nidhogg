@@ -18,7 +18,7 @@ export async function getAuthenticatedEmail(): Promise<
 
   try {
     const payload = decodeJwt<AuthPayload>(token);
-    const email = payload.email ?? payload.sub;
+    const email = payload.email;
 
     if (!email || typeof email !== "string") {
       return { response: unauthorized() };
