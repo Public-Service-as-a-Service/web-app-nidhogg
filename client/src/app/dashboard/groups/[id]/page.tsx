@@ -8,12 +8,16 @@ import { useParams, useRouter } from "next/navigation";
 import MemberSection from "@/app/components/GroupHandling/MemberSection";
 import { useState } from "react";
 import dayjs from "dayjs";
-import { Button } from "@sk-web-gui/react";
+import { Button, Input, Textarea } from "@sk-web-gui/react";
 import { ArrowLeft, SquarePen, Save, Trash2 } from "lucide-react";
 import { useDeleteGroup } from "@/app/services/useDeleteGroup";
+import { PAGE_ROUTES } from "@/app/constants";
 
 const EditGroup = () => {
   const [isEditing, setIsEditing] = useState(false);
+
+  const [newTitle, setNewTitle] = useState("");
+  const [newDescription, setNewDescription] = useState("");
 
   const params = useParams();
   const id = Number(params.id);
@@ -30,7 +34,7 @@ const EditGroup = () => {
   const handleDelete = (id: number) => {
     if (window.confirm("Är du säker?")) {
       deleteMutation.mutate(id);
-      router.push("/dashboard/groups");
+      router.push(PAGE_ROUTES.dashboardGroups);
     }
   };
 
@@ -67,15 +71,42 @@ const EditGroup = () => {
       </div>
       <div className="flex flex-col gap-16">
         <div className="flex flex-col gap-10">
-          <h1 className="text-h2-sm !m-0">{group.name}</h1>
+          {!isEditing ? (
+            <h1 className="text-h2-sm !m-0">{group.name}</h1>
+          ) : (
+            <div>
+              <p className="text-label-large">Titel</p>
+              {/* Lägg till översättning!!! */}
+              <Input
+                placeholder={group.name}
+                value={newTitle}
+                onChange={(e) => setNewTitle(e.target.value)}
+                className="w-full"
+              />
+            </div>
+          )}
           <p className="text-small">
             {t("wasCreated")}
             {dayjs(group.createdAt).format("YYYY-MM-DD")}
           </p>
         </div>
         <div className="flex flex-col">
-          <p className="text-label-large !m-0">{t("groupDescription")}</p>
-          <p>{group.description}</p>
+          {!isEditing ? (
+            <div>
+              <p className="text-label-large !m-0">{t("groupDescription")}</p>
+              <p>{group.description}</p>
+            </div>
+          ) : (
+            <div className="w-full">
+              <p className="text-label-large !m-0">{t("groupDescription")}</p>
+              <Textarea
+                placeholder={group.description}
+                value={newDescription}
+                onChange={(e) => setNewDescription(e.target.value)}
+                className="w-full"
+              />
+            </div>
+          )}
         </div>
       </div>
       <MemberSection members={group.employees} editMode={isEditing} />
