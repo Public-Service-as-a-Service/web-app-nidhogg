@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Group } from "../interfaces/group";
 import { API_ENDPOINTS } from "../constants";
+import dayjs from "dayjs";
 
 export const useGroups = (creatorId: string) => {
   return useQuery<Group[]>({
@@ -16,5 +17,7 @@ export const useGroups = (creatorId: string) => {
       );
       return response.data;
     },
+    select: (groups) =>
+      [...groups].sort((a, b) => dayjs(b.createdAt).diff(dayjs(a.createdAt))),
   });
 };

@@ -5,7 +5,7 @@ import { API_ENDPOINTS } from "../constants";
 export interface CreateGroupPayload {
   name: string;
   description: string;
-  creatorId: string; //email
+  creatorId: string;
   employees: number[];
 }
 
