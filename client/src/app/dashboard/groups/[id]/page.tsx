@@ -11,6 +11,7 @@ import dayjs from "dayjs";
 import { Button } from "@sk-web-gui/react";
 import { ArrowLeft, SquarePen, Save, Trash2 } from "lucide-react";
 import { useDeleteGroup } from "@/app/services/useDeleteGroup";
+import { PAGE_ROUTES } from "@/app/constants";
 
 const EditGroup = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -28,9 +29,9 @@ const EditGroup = () => {
   };
 
   const handleDelete = (id: number) => {
-    if (window.confirm("Är du säker?")) {
+    if (window.confirm(t("deleteConfirm"))) {
       deleteMutation.mutate(id);
-      router.push("/dashboard/groups");
+      router.push(PAGE_ROUTES.dashboardGroups);
     }
   };
 

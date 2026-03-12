@@ -9,6 +9,7 @@ import { useMemo } from "react";
 import { useCreateGroup } from "@/app/services/useCreateGroup";
 import { useRouter } from "next/navigation";
 import Loading from "../LoadingSpinner";
+import { PAGE_ROUTES } from "@/app/constants";
 
 interface MemberStepProps {
   onPrev: () => void;
@@ -44,7 +45,7 @@ const MembersStep = ({
       },
       {
         onSuccess: () => {
-          router.push("/dashboard/groups");
+          router.push(PAGE_ROUTES.dashboardGroups);
         },
       },
     );
