@@ -27,7 +27,7 @@ const GroupSection = ({
 }: GroupSectionProps) => {
   const t = useTranslations("GroupSection");
 
-  const recipientDefault = [
+  const defaultGroups = [
     {
       id: "managers",
       name: t("allManagers"),
@@ -55,7 +55,7 @@ const GroupSection = ({
       <p className="text-label-large pt-10">{t("sectionTitle")}</p>
       <GroupSelector
         label={t("predefinedGroups")}
-        list={recipientDefault}
+        list={defaultGroups}
         defaultGroup={true}
         {...commonProps}
       />
