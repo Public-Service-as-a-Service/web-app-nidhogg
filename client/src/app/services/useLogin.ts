@@ -12,10 +12,11 @@ export const useLogin = () => {
         credentials,
         {
           withCredentials: true,
-        }
+        },
       );
       if (response) {
         sessionStorage.setItem(SESSION_STORAGE.sessionActive, "true");
+        sessionStorage.setItem(SESSION_STORAGE.userEmail, credentials.email);
       }
       return response;
     },

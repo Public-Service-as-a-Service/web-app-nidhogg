@@ -10,7 +10,7 @@ export const PAGE_ROUTES = {
   home: "/",
   dashboard: "/dashboard",
   dashboardMessages: "/dashboard/messages",
-  dashboardMessageDetails: (id: string) => `/dashboard/messages/${id}`,
+  dashboardMessageDetails: (id: number) => `/dashboard/messages/${id}`,
   dashboardGroups: "/dashboard/groups",
   dashboardGroupCreate: "/dashboard/groups/create",
   dashboardGroupDetails: (id: number | string) => `/dashboard/groups/${id}`,
@@ -19,8 +19,9 @@ export const PAGE_ROUTES = {
 export const API_ENDPOINTS = {
   login: "/login",
   logout: "/logout",
-  messages: "/messages",
-  messageById: (id: string) => `/messages/${id}`,
+  messages: "/notifier/messages",
+  messageById: (id: number, email: string) =>
+    `/notifier/messages/${id}/${email}`,
   groups: "/notifier/groups",
   groupById: (id: number | string) => `/notifier/groups/${id}`,
   allEmployees: "/notifier/employees",
@@ -45,6 +46,7 @@ export const PATHS = [
 
 export const SESSION_STORAGE = {
   sessionActive: "sessionActive",
+  userEmail: "userEmail",
 };
 
 export const tailwindBreakPoint = {

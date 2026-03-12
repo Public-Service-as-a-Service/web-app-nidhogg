@@ -16,7 +16,12 @@
     "messageLabel": "Meddelande",
     "recipientsLabel": "Mottagare",
     "channelLabel": "Utskickskanal",
-    "notFound": "Meddelandet hittades inte"
+    "notFound": "Meddelandet hittades inte",
+    "channels": {
+      "sms": "SMS",
+      "teams": "Microsoft Teams",
+      "both": "SMS och Microsoft Teams"
+    }
   },
   "AppBar": {
     "logOut": "Logga ut",
@@ -25,7 +30,8 @@
     "closeButton": "Stäng"
   },
   "LogIn": {
-    "welcomeMessage": "Välkommen",
+    "welcomeHeading": "Välkommen!",
+    "welcomeMessage": "Vänligen logga in med din e-postadress och ditt lösenord nedan.",
     "logInButton": "Logga in",
     "emailPlaceholder": "E-postadress",
     "passwordPlaceholder": "Lösenord",

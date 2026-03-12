@@ -3,8 +3,12 @@
 import { Button, Label } from "@sk-web-gui/react";
 import RecipientList from "./RecipientList";
 import { useTranslations } from "next-intl";
+import { useSendMessage } from "@/app/services/useSendMessage";
+import { useRouter } from "next/navigation";
+import { useUserEmail } from "@/app/hooks/useUserEmail";
 import { Employee } from "@/app/interfaces/employee";
 import { GroupRecipient } from "../../dashboard/messages/page";
+import Loading from "../LoadingSpinner";
 
 interface ViewStepProps {
   onPrev?: () => void;
@@ -26,6 +30,44 @@ const ViewStep = ({
   channels,
 }: ViewStepProps) => {
   const t = useTranslations("ViewStep");
+  const router = useRouter();
+  const mutation = useSendMessage();
+  const email = useUserEmail();
+
+  const employeeRecipients = Object.values(recipientEmployees);
+  const employeeRecipientIds = employeeRecipients.map((emp) => emp.id);
+
+  const handleSend = () => {
+    const getMessageType = (channels: string[]) => {
+      const hasSMS = channels.includes("SMS");
+      const hasTeams = channels.includes("Microsoft Teams");
+
+      if (hasTeams) return "TEAMS";
+      if (hasSMS) return "SMS";
+      if (hasSMS && hasTeams) return "TEAMS_AND_SMS";
+
+      return "NONE";
+    };
+
+    mutation.mutate(
+      {
+        title,
+        content: messageBody,
+        sender: email,
+        recipientEmployeeIds: employeeRecipientIds,
+        messageType: getMessageType(channels),
+      },
+      {
+        onSuccess: () => {
+          router.push("/dashboard");
+        },
+      },
+    );
+  };
+
+  if (mutation.isPending) {
+    return <Loading />;
+  }
 
   return (
     <div className="flex flex-col gap-14">
@@ -61,7 +103,7 @@ const ViewStep = ({
         <Button variant="tertiary" onClick={onPrev}>
           {t("goBackButton")}
         </Button>
-        <Button>{t("sendButton")}</Button>
+        <Button onClick={handleSend}>{t("sendButton")}</Button>
       </div>
     </div>
   );

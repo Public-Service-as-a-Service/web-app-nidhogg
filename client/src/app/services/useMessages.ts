@@ -2,18 +2,24 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Message } from "../interfaces/message";
 import { API_ENDPOINTS } from "../constants";
+import dayjs from "dayjs";
 
-export const useMessages = () => {
+export const useMessages = (email: string) => {
   return useQuery<Message[]>({
-    queryKey: ["messages"],
+    queryKey: ["messages", email],
     queryFn: async () => {
       const response = await axios.get<Message[]>(
         `${process.env.NEXT_PUBLIC_API_URL}${API_ENDPOINTS.messages}`,
         {
+          params: { sender: email },
           withCredentials: true,
-        }
+        },
       );
       return response.data;
     },
+    select: (messages) =>
+      [...messages].sort((a, b) =>
+        dayjs(b.createdAt).diff(dayjs(a.createdAt)),
+      ),
   });
 };
