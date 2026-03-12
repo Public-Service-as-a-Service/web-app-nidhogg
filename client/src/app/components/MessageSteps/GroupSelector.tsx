@@ -2,12 +2,15 @@
 
 import { FormControl, FormLabel, Combobox } from "@sk-web-gui/react";
 import { GroupRecipient } from "../../dashboard/messages/page";
+import { Employee } from "@/app/interfaces/employee";
 
 interface ListItem {
   id: number | string;
   name: string;
   default: boolean;
   endpoint?: string;
+  employees?: Employee[];
+  recipientIds?: number[];
 }
 
 interface GroupSelectorProps {
@@ -55,6 +58,8 @@ const GroupSelector = ({
                   id: group.id,
                   name: group.name,
                   endpoint: group.endpoint,
+                  employees: group.employees,
+                  recipientIds: group.recipientIds,
                 })
               }
             >
