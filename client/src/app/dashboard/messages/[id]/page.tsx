@@ -9,14 +9,26 @@ import dayjs from "dayjs";
 import { ArrowLeft } from "lucide-react";
 import RecipientList from "@/app/components/RecipientList";
 import { useTranslations } from "next-intl";
+import { useUserEmail } from "@/app/hooks/useUserEmail";
 
 const MessageDetails = () => {
   const params = useParams();
-  const id = String(params.id);
+  const id = Number(params.id);
+  const email = useUserEmail();
   const router = useRouter();
   const t = useTranslations("MessageDetails");
 
-  const { data: message, isLoading } = useMessage(id);
+  const { data: message, isLoading } = useMessage(id, email);
+
+  const getMessageType = () => {
+    if (message?.messageType === "TEAMS") {
+      return t("channels.teams");
+    } else if (message?.messageType === "SMS") {
+      return t("channels.sms");
+    } else {
+      return t("channels.both");
+    }
+  };
 
   if (isLoading) return <Loading />;
 
@@ -47,7 +59,7 @@ const MessageDetails = () => {
         </div>
         <div className="gap-8 p-8">
           <p className="text-label-large">{t("channelLabel")}</p>
-          <p>???</p>
+          <p>{getMessageType()}</p>
         </div>
       </div>
       <div className="pt-40 flex place-content-between">

@@ -9,10 +9,11 @@ export const useLogout = () => {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}${API_ENDPOINTS.logout}`,
         {},
-        { withCredentials: true }
+        { withCredentials: true },
       );
       if (response) {
         sessionStorage.removeItem(SESSION_STORAGE.sessionActive);
+        sessionStorage.removeItem(SESSION_STORAGE.userEmail);
       }
       return response;
     },

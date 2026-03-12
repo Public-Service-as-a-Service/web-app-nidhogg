@@ -9,7 +9,7 @@ interface MemberCardProps {
   member: Employee;
   editMode: boolean;
   checked?: boolean;
-  onCheckedChange?: (memberId: string, isChecked: boolean) => void;
+  onCheckedChange?: (memberId: number, isChecked: boolean) => void;
   disabled?: boolean;
 }
 
