@@ -1,9 +1,8 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 
-const apiProxyTarget = (
-  process.env.API_PROXY_TARGET ?? "http://localhost:8087"
-).replace(/\/$/, "");
+const apiProxyTargetNotifier = process.env.API_PROXY_TARGET_NOTIFIER;
+const apiProxyTargetUsers = process.env.API_PROXY_TARGET_USERS;
 
 const nextConfig: NextConfig = {
   output: "standalone",
@@ -11,8 +10,12 @@ const nextConfig: NextConfig = {
     return {
       fallback: [
         {
-          source: "/api/:path*",
-          destination: `${apiProxyTarget}/api/:path*`,
+          source: "/api/users/:path*",
+          destination: `${apiProxyTargetUsers}/api/:path*`,
+        },
+        {
+          source: "/api/notifier/:path*",
+          destination: `${apiProxyTargetNotifier}/api/:path*`,
         },
       ],
     };

@@ -6,14 +6,14 @@ import {
 } from "./app/constants";
 
 export function middleware(req: NextRequest) {
-  const userId = req.cookies.get(STORE.userId)?.value;
+  const authToken = req.cookies.get(STORE.authToken)?.value;
   const { pathname } = req.nextUrl;
 
-  if (isProtectedPage(pathname) && !userId) {
+  if (isProtectedPage(pathname) && !authToken) {
     return NextResponse.redirect(new URL(PAGE_ROUTES.home, req.url));
   }
 
-  if (pathname === PAGE_ROUTES.home && userId) {
+  if (pathname === PAGE_ROUTES.home && authToken) {
     return NextResponse.redirect(new URL(PAGE_ROUTES.dashboard, req.url));
   }
 

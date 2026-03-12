@@ -3,7 +3,7 @@ export const SESSION = {
 };
 
 export const STORE = {
-  userId: "userId",
+  authToken: "token",
 };
 
 export const PAGE_ROUTES = {
