@@ -1,13 +1,18 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 
+const apiProxyTarget = (
+  process.env.API_PROXY_TARGET ?? "http://localhost:8087"
+).replace(/\/$/, "");
+
 const nextConfig: NextConfig = {
+  output: "standalone",
   async rewrites() {
     return {
       fallback: [
         {
           source: "/api/:path*",
-          destination: "http://localhost:8087/api/:path*",
+          destination: `${apiProxyTarget}/api/:path*`,
         },
       ],
     };
