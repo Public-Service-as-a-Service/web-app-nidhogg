@@ -1,7 +1,7 @@
 ARG NODE_VERSION=22-slim
 
-ARG API_PROXY_TARGET_NOTIFIER=http://host.docker.internal:8087
-ARG API_PROXY_TARGET_USERS=http://host.docker.internal:8081
+ARG API_PROXY_TARGET_NOTIFIER=http://api-service-notifier:8082
+ARG API_PROXY_TARGET_USERS=http://api-service-webappusers:8081
 
 FROM node:${NODE_VERSION} AS base
 
@@ -45,6 +45,9 @@ ENV NODE_ENV=production
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
 
+ENV API_PROXY_TARGET_NOTIFIER=${API_PROXY_TARGET_NOTIFIER}
+ENV API_PROXY_TARGET_USERS=${API_PROXY_TARGET_USERS}
+
 COPY --from=builder --chown=node:node /app/public ./public
 COPY --from=builder --chown=node:node /app/messages ./messages
 COPY --from=builder --chown=node:node /app/prisma ./prisma
@@ -52,7 +55,6 @@ COPY --from=builder --chown=node:node /app/.next/standalone ./
 COPY --from=builder --chown=node:node /app/.next/static ./.next/static
 
 USER node
-
 EXPOSE 3000
 
 CMD ["node", "server.js"]
