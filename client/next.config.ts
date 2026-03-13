@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
       fallback: [
         {
           source: "/api/:path*",
-          destination: "http://localhost:8087/api/:path*",
+          destination: "http://localhost:8082/api/:path*",
         },
       ],
     };

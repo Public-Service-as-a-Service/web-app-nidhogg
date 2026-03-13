@@ -2,7 +2,7 @@
 
 import { Card, Checkbox, Avatar, Button } from "@sk-web-gui/react";
 import { Employee } from "@/app/interfaces/employee";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Trash2 } from "lucide-react";
 import type { ChangeEvent } from "react";
 
 interface MemberCardProps {
@@ -10,6 +10,7 @@ interface MemberCardProps {
   editMode: boolean;
   checked?: boolean;
   onCheckedChange?: (memberId: number, isChecked: boolean) => void;
+  onRemove?: (memberId: number) => void;
   disabled?: boolean;
 }
 
@@ -18,6 +19,7 @@ const MemberCard = ({
   editMode,
   checked = false,
   onCheckedChange,
+  onRemove,
   disabled = false,
 }: MemberCardProps) => {
   const initials =
@@ -27,13 +29,15 @@ const MemberCard = ({
     onCheckedChange?.(member.id, e.target.checked);
   };
 
+  const isRemoveMode = editMode && !!onRemove;
+
   return (
     <Card>
       <Card.Body className="w-full pb-16">
         <div className="flex flex-row justify-between">
           <Card.Text>
             <div className="flex flex-row items-center">
-              {editMode && (
+              {editMode && !isRemoveMode && (
                 <Checkbox
                   className="pr-16"
                   onChange={handleCheck}
@@ -52,9 +56,21 @@ const MemberCard = ({
             </div>
           </Card.Text>
           <div className="flex items-center">
-            <Button iconButton={true} rounded={true} size="md">
-              <ArrowRight />
-            </Button>
+            {isRemoveMode ? (
+              <Button
+                iconButton={true}
+                rounded={true}
+                size="md"
+                variant="secondary"
+                onClick={() => onRemove(member.id)}
+              >
+                <Trash2 />
+              </Button>
+            ) : (
+              <Button iconButton={true} rounded={true} size="md">
+                <ArrowRight />
+              </Button>
+            )}
           </div>
         </div>
       </Card.Body>
