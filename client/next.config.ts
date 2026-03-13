@@ -11,11 +11,11 @@ const nextConfig: NextConfig = {
       fallback: [
         {
           source: "/api/users/:path*",
-          destination: `${apiProxyTargetUsers}/api/users/:path*`,
+          destination: `/${apiProxyTargetUsers}/api/users/:path*`,
         },
         {
           source: "/api/notifier/:path*",
-          destination: `${apiProxyTargetNotifier}/api/notifier/:path*`,
+          destination: `/${apiProxyTargetNotifier}/api/notifier/:path*`,
         },
       ],
     };
