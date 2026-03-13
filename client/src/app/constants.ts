@@ -17,8 +17,8 @@ export const PAGE_ROUTES = {
 } as const;
 
 export const API_ENDPOINTS = {
-  login: "/login",
-  logout: "/logout",
+  login: "/users/auth/login",
+  logout: "/users/auth/logout",
   messages: "/notifier/messages",
   messageById: (id: number, email: string) => `/notifier/messages/${id}/${email}`,
   groups: "/groups",

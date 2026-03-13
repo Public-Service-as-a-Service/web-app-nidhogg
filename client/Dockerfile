@@ -1,17 +1,24 @@
 ARG NODE_VERSION=22-slim
 
-ARG API_PROXY_TARGET=http://host.docker.internal:8087
+ARG API_PROXY_TARGET_NOTIFIER=http://host.docker.internal:8087
+ARG API_PROXY_TARGET_USERS=http://host.docker.internal:8081
 
 FROM node:${NODE_VERSION} AS base
+
+ARG API_PROXY_TARGET_NOTIFIER
+ARG API_PROXY_TARGET_USERS
+
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
+
+ENV API_PROXY_TARGET_NOTIFIER=${API_PROXY_TARGET_NOTIFIER} \
+    API_PROXY_TARGET_USERS=${API_PROXY_TARGET_USERS}
 
 # ============================================
 # Stage 1: Install dependencies
 # ============================================
 FROM base AS dependencies
 
-# Prisma schema is copied before install so @prisma/client postinstall can generate correctly.
 COPY package.json yarn.lock ./
 COPY prisma ./prisma
 
@@ -23,9 +30,6 @@ RUN --mount=type=cache,target=/usr/local/share/.cache/yarn \
 # ============================================
 FROM base AS builder
 ENV NODE_ENV=production
-
-ARG API_PROXY_TARGET
-ENV API_PROXY_TARGET=${API_PROXY_TARGET}
 
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
