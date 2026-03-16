@@ -114,6 +114,8 @@
     "searchPlaceholder": "Sök",
     "groupNamePlaceholder": "Ange gruppnamn",
     "groupDescriptionPlaceholder": "Ange en beskrivning av gruppen",
+    "addMembers": "Lägg till medlemmar",
+    "deleteConfirm": "Är du säker?",
     "errors": {
       "errorTitle": "Något gick fel",
       "errorMessage": "Prova att ladda om sidan eller försök igen om en liten stund",

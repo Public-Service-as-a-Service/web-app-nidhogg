@@ -58,7 +58,6 @@ const MembersStep = ({
     <div className="flex flex-col gap-40">
       <h1 className="text-h3-md !m-0">{t("memberStepTitle")}</h1>
       <div className="flex flex-col gap-8">
-        <p className="text-label-large">{t("searchLabel")}</p>
         <SearchSection
           memberIdSet={memberIdSet}
           handleBulkMembers={handleBulkMembers}

@@ -1,51 +1,75 @@
 "use client";
 
-import { useGroup } from "@/app/services/useGroup";
-import Loading from "@/app/components/LoadingSpinner";
-import { useTranslations } from "next-intl";
-import MainWrapper from "@/app/components/MainWrapper";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
-import MemberSection from "@/app/components/GroupHandling/MemberSection";
-import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@sk-web-gui/react";
-import { ArrowLeft, SquarePen, Save, Trash2 } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
+
+import Loading from "@/app/components/LoadingSpinner";
+import MainWrapper from "@/app/components/MainWrapper";
+import MemberSection from "@/app/components/GroupHandling/MemberSection";
+import GroupInformation from "@/app/components/GroupHandling/GroupInformation";
+import EditButtons from "@/app/components/GroupHandling/EditButtons";
+import SearchSection from "@/app/components/GroupHandling/SearchSection";
+
+import { useGroup } from "@/app/services/useGroup";
 import { useDeleteGroup } from "@/app/services/useDeleteGroup";
+import { useUpdateGroup } from "@/app/services/useUpdateGroup";
 import { PAGE_ROUTES } from "@/app/constants";
 import { Employee } from "@/app/interfaces/employee";
-import { useUpdateGroup } from "@/app/services/useUpdateGroup";
-import GroupInformation from "@/app/components/GroupHandling/GroupInformation";
+import { Group } from "@/app/interfaces/group";
 
 const EditGroup = () => {
-  const [isEditing, setIsEditing] = useState(false);
-
-  const [newTitle, setNewTitle] = useState("");
-  const [newDescription, setNewDescription] = useState("");
-  const [members, setMembers] = useState<Employee[]>([]);
-
-  const params = useParams();
-  const id = Number(params.id);
   const t = useTranslations("GroupHandling");
   const router = useRouter();
+  const { id: paramId } = useParams();
+  const id = Number(paramId);
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
+  const [newTitle, setNewTitle] = useState("");
+  const [newDescription, setNewDescription] = useState("");
+  const [membersById, setMembersById] = useState<Record<number, Employee>>({});
 
   const { data: group, isLoading } = useGroup(id);
-  const deleteMutation = useDeleteGroup();
   const updateMutation = useUpdateGroup();
+  const deleteMutation = useDeleteGroup();
+
+  const syncState = useCallback((group?: Group | null) => {
+    if (!group) return;
+    setNewTitle(group.name);
+    setNewDescription(group.description);
+    setMembersById(Object.fromEntries(group.employees.map((e) => [e.id, e])));
+  }, []);
 
   useEffect(() => {
-    if (!group) return;
+    if (group) syncState(group);
+  }, [group, syncState]);
 
-    setNewTitle(group.name);
-    setNewDescription(group.description);
-    setMembers(group.employees);
-  }, [group]);
+  const selectedMembers = useMemo(
+    () => Object.values(membersById),
+    [membersById],
+  );
 
-  const handleEditMode = () => {
-    if (!group) return;
+  const memberIdSet = useMemo(
+    () => new Set(selectedMembers.map((m) => m.id)),
+    [selectedMembers],
+  );
 
-    setNewTitle(group.name);
-    setNewDescription(group.description);
-    setMembers(group.employees);
-    setIsEditing(true);
+  const handleBulkMembers = (members: Employee[]) => {
+    setMembersById((prev) => ({
+      ...prev,
+      ...Object.fromEntries(members.map((m) => [m.id, m])),
+    }));
+  };
+
+  const handleRemoveMember = (memberId: number) => {
+    setMembersById((prev) => {
+      const next = { ...prev };
+      delete next[memberId];
+      return next;
+    });
   };
 
   const handleSave = () => {
@@ -55,62 +79,47 @@ const EditGroup = () => {
         payload: {
           name: newTitle,
           description: newDescription,
-          employees: members.map((member) => member.id),
+          employees: Array.from(memberIdSet),
         },
       },
       {
-        onSuccess: (updatedGroup) => {
-          setNewTitle(updatedGroup.name);
-          setNewDescription(updatedGroup.description);
-          setMembers(updatedGroup.employees);
+        onSuccess: (updated) => {
+          syncState(updated);
           setIsEditing(false);
         },
       },
     );
   };
 
-  const handleRemoveMember = (memberId: number) => {
-    setMembers((prev) => prev.filter((member) => member.id !== memberId));
-  };
-
-  const handleDelete = (id: number) => {
-    if (window.confirm("Är du säker?")) {
-      deleteMutation.mutate(id);
-      router.push(PAGE_ROUTES.dashboardGroups);
+  const handleDelete = () => {
+    if (window.confirm(t("deleteConfirm"))) {
+      deleteMutation.mutate(id, {
+        onSuccess: () => router.push(PAGE_ROUTES.dashboardGroups),
+      });
     }
   };
 
   if (isLoading) return <Loading />;
 
-  if (!group) {
+  if (!group)
     return (
       <MainWrapper>
-        <div className="pt-44 text-center">
-          <h1 className="text-h2-sm">{t("notFound")}</h1>
-        </div>
+        <h1 className="pt-44 text-center text-h2-sm">{t("notFound")}</h1>
       </MainWrapper>
     );
-  }
 
   return (
     <MainWrapper>
-      <div className="flex justify-between pb-40">
-        <Button variant="secondary" onClick={() => handleDelete(id)}>
-          {t("deleteButton")}
-          <Trash2 />
-        </Button>
-        {!isEditing ? (
-          <Button onClick={handleEditMode}>
-            {t("editButton")}
-            <SquarePen />
-          </Button>
-        ) : (
-          <Button onClick={handleSave} disabled={updateMutation.isPending}>
-            {t("saveButton")}
-            <Save />
-          </Button>
-        )}
-      </div>
+      <EditButtons
+        isEditing={isEditing}
+        isPending={updateMutation.isPending}
+        onDelete={handleDelete}
+        onEditMode={() => {
+          syncState(group);
+          setIsEditing(true);
+        }}
+        onSave={handleSave}
+      />
       <GroupInformation
         isEditing={isEditing}
         title={newTitle}
@@ -121,21 +130,45 @@ const EditGroup = () => {
         onTitleChange={setNewTitle}
         onDescriptionChange={setNewDescription}
       />
-      <MemberSection
-        members={members}
-        editMode={isEditing}
-        onRemoveMember={handleRemoveMember}
-      />
-      <div className="flex justify-start">
-        <Button
-          variant="secondary"
-          rounded={true}
-          onClick={() => router.back()}
-        >
-          <ArrowLeft />
-          {t("goBackButton")}
-        </Button>
-      </div>
+      {isEditing ? (
+        <div className="space-y-4">
+          {!isAdding ? (
+            <>
+              <Button
+                className="w-full"
+                variant="secondary"
+                onClick={() => setIsAdding(true)}
+              >
+                {t("addMembers")}
+              </Button>
+              <MemberSection
+                members={selectedMembers}
+                editMode={isEditing}
+                onRemoveMember={handleRemoveMember}
+              />
+            </>
+          ) : (
+            <SearchSection
+              memberIdSet={memberIdSet}
+              handleBulkMembers={handleBulkMembers}
+              onCancel={() => setIsAdding(false)}
+            />
+          )}
+        </div>
+      ) : (
+        <>
+          <MemberSection
+            members={selectedMembers}
+            editMode={false}
+            onRemoveMember={handleRemoveMember}
+          />
+          <div className="mt-4">
+            <Button variant="secondary" rounded onClick={() => router.back()}>
+              <ArrowLeft /> {t("goBackButton")}
+            </Button>
+          </div>
+        </>
+      )}
     </MainWrapper>
   );
 };
