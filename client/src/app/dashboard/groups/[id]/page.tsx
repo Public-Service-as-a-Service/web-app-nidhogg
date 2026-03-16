@@ -132,7 +132,7 @@ const EditGroup = () => {
         onDescriptionChange={setNewDescription}
       />
       {isEditing ? (
-        <div className="space-y-4">
+        <div>
           {!isAdding ? (
             <>
               <Button
@@ -163,7 +163,7 @@ const EditGroup = () => {
             editMode={false}
             onRemoveMember={handleRemoveMember}
           />
-          <div className="mt-4">
+          <div>
             <Button variant="secondary" rounded onClick={() => router.back()}>
               <ArrowLeft /> {t("goBackButton")}
             </Button>
