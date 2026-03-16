@@ -120,6 +120,7 @@ const EditGroup = () => {
           setIsEditing(true);
         }}
         onSave={handleSave}
+        disabled={newTitle === "" || newDescription === ""}
       />
       <GroupInformation
         isEditing={isEditing}

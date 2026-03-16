@@ -10,6 +10,7 @@ interface EditButtonsProps {
   onDelete: () => void;
   onEditMode: () => void;
   onSave: () => void;
+  disabled: boolean;
 }
 
 const EditButtons = ({
@@ -18,6 +19,7 @@ const EditButtons = ({
   onDelete,
   onEditMode,
   onSave,
+  disabled,
 }: EditButtonsProps) => {
   const t = useTranslations("GroupHandling");
 
@@ -33,7 +35,7 @@ const EditButtons = ({
           <SquarePen />
         </Button>
       ) : (
-        <Button onClick={onSave} disabled={isPending}>
+        <Button onClick={onSave} disabled={isPending || disabled}>
           {t("saveButton")}
           <Save />
         </Button>
