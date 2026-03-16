@@ -9,6 +9,8 @@ import { useMemo } from "react";
 import { useCreateGroup } from "@/app/services/useCreateGroup";
 import { useRouter } from "next/navigation";
 import Loading from "../LoadingSpinner";
+import { PAGE_ROUTES } from "@/app/constants";
+import { useUserEmail } from "@/app/hooks/useUserEmail";
 
 interface MemberStepProps {
   onPrev: () => void;
@@ -28,6 +30,7 @@ const MembersStep = ({
   const t = useTranslations("GroupHandling");
   const router = useRouter();
   const mutation = useCreateGroup();
+  const email = useUserEmail();
 
   const memberIdSet = useMemo(
     () => new Set(members.map((member) => member.id)),
@@ -39,12 +42,12 @@ const MembersStep = ({
       {
         name: title,
         description: description,
-        creatorId: "user@test.se",
+        creatorId: email,
         employees: [...memberIdSet],
       },
       {
         onSuccess: () => {
-          router.push("/dashboard/groups");
+          router.push(PAGE_ROUTES.dashboardGroups);
         },
       },
     );

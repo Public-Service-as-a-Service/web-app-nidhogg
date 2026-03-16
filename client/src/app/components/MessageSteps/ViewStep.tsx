@@ -3,8 +3,13 @@
 import { Button, Label } from "@sk-web-gui/react";
 import RecipientList from "./RecipientList";
 import { useTranslations } from "next-intl";
+import { useSendMessage } from "@/app/services/useSendMessage";
+import { useRouter } from "next/navigation";
+import { useUserEmail } from "@/app/hooks/useUserEmail";
 import { Employee } from "@/app/interfaces/employee";
 import { GroupRecipient } from "../../dashboard/messages/page";
+import Loading from "../LoadingSpinner";
+import { PAGE_ROUTES } from "@/app/constants";
 
 interface ViewStepProps {
   onPrev?: () => void;
@@ -26,6 +31,57 @@ const ViewStep = ({
   channels,
 }: ViewStepProps) => {
   const t = useTranslations("ViewStep");
+  const router = useRouter();
+  const mutation = useSendMessage();
+  const email = useUserEmail();
+
+  const employeeRecipients = Object.values(recipientEmployees);
+  const employeeRecipientIds = employeeRecipients.map((emp) => emp.id);
+
+  const groupRecipients = Object.values(recipientGroups);
+  const groupRecipientIds = groupRecipients.flatMap((group) => {
+    if (group.employees?.length) {
+      return group.employees.map((employee) => employee.id);
+    }
+
+    return group.recipientIds ?? [];
+  });
+
+  const recipientEmployeeIds = Array.from(
+    new Set([...employeeRecipientIds, ...groupRecipientIds]),
+  );
+
+  const handleSend = () => {
+    const getMessageType = (channels: string[]) => {
+      const hasSMS = channels.includes("SMS");
+      const hasTeams = channels.includes("Microsoft Teams");
+
+      if (hasSMS && hasTeams) return "TEAMS_AND_SMS";
+      if (hasTeams) return "TEAMS";
+      if (hasSMS) return "SMS";
+
+      return "NONE";
+    };
+
+    mutation.mutate(
+      {
+        title,
+        content: messageBody,
+        sender: email,
+        recipientEmployeeIds,
+        messageType: getMessageType(channels),
+      },
+      {
+        onSuccess: () => {
+          router.push(PAGE_ROUTES.dashboard);
+        },
+      },
+    );
+  };
+
+  if (mutation.isPending) {
+    return <Loading />;
+  }
 
   return (
     <div className="flex flex-col gap-14">
@@ -61,7 +117,7 @@ const ViewStep = ({
         <Button variant="tertiary" onClick={onPrev}>
           {t("goBackButton")}
         </Button>
-        <Button>{t("sendButton")}</Button>
+        <Button onClick={handleSend}>{t("sendButton")}</Button>
       </div>
     </div>
   );

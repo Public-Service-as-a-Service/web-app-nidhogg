@@ -8,6 +8,7 @@ import { Employee } from "@/app/interfaces/employee";
 import { GroupRecipient } from "../../dashboard/messages/page";
 import { useGroups } from "@/app/services/useGroups";
 import { API_ENDPOINTS } from "@/app/constants";
+import { useUserEmail } from "@/app/hooks/useUserEmail";
 
 interface GroupSectionProps {
   allChecked: boolean;
@@ -26,16 +27,16 @@ const GroupSection = ({
 }: GroupSectionProps) => {
   const t = useTranslations("GroupSection");
 
-  const recipientDefault = [
+  const defaultGroups = [
     {
       id: "managers",
-      name: "Alla chefer",
+      name: t("allManagers"),
       endpoint: API_ENDPOINTS.allManagers,
       default: true,
     },
   ];
 
-  const { data: groups } = useGroups("user@test.se"); //byt ut till useUserEmail
+  const { data: groups } = useGroups(useUserEmail());
   const customGroups = groups?.map((g) => ({ ...g, default: false })) || [];
 
   const commonProps = {
@@ -54,7 +55,7 @@ const GroupSection = ({
       <p className="text-label-large pt-10">{t("sectionTitle")}</p>
       <GroupSelector
         label={t("predefinedGroups")}
-        list={recipientDefault}
+        list={defaultGroups}
         defaultGroup={true}
         {...commonProps}
       />

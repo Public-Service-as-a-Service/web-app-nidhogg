@@ -13,6 +13,8 @@ export interface GroupRecipient {
   id: number | string;
   name: string;
   endpoint?: string;
+  employees?: Employee[];
+  recipientIds?: number[];
 }
 
 interface StepsProps {
