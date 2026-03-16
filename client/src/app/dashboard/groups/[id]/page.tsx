@@ -86,6 +86,7 @@ const EditGroup = () => {
         onSuccess: (updated) => {
           syncState(updated);
           setIsEditing(false);
+          setIsAdding(false);
         },
       },
     );
