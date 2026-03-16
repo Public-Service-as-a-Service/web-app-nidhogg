@@ -30,6 +30,8 @@ RUN --mount=type=cache,target=/usr/local/share/.cache/yarn \
 # ============================================
 FROM base AS builder
 ENV NODE_ENV=production
+ARG NEXT_PUBLIC_API_URL=/api
+ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
@@ -41,9 +43,12 @@ RUN corepack enable && yarn prisma generate && yarn build
 # ============================================
 FROM base AS runner
 
+ARG NEXT_PUBLIC_API_URL=/api
+
 ENV NODE_ENV=production
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
+ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 
 ENV API_PROXY_TARGET_NOTIFIER=${API_PROXY_TARGET_NOTIFIER}
 ENV API_PROXY_TARGET_USERS=${API_PROXY_TARGET_USERS}
