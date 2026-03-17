@@ -8,7 +8,8 @@
     "sentMessagesHeading": "Dina senaste utskick",
     "sentMessagesInfo": "Här samlas dina utskick.",
     "showAllButton": "Visa alla",
-    "goBackButton": "Tillbaka"
+    "goBackButton": "Tillbaka",
+    "noMessages": "Du har inte gjort några utskick ännu."
   },
   "MessageDetails": {
     "goBackButton": "Gå tillbaka",
