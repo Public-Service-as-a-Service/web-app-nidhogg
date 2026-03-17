@@ -14,12 +14,14 @@ import { useUpdateGroup } from "@/app/services/useUpdateGroup";
 import { PAGE_ROUTES } from "@/app/constants";
 import { Employee } from "@/app/interfaces/employee";
 import { Group } from "@/app/interfaces/group";
+import { useQueryClient } from "@tanstack/react-query";
 
 const EditGroup = () => {
   const t = useTranslations("GroupHandling");
   const router = useRouter();
   const { id: paramId } = useParams();
   const id = Number(paramId);
+  const queryClient = useQueryClient();
 
   const [isEditing, setIsEditing] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
@@ -34,9 +36,7 @@ const EditGroup = () => {
   const syncState = useCallback((group: Group) => {
     setNewTitle(group.name);
     setNewDescription(group.description);
-    setMembersById(
-      Object.fromEntries(group.employees.map((e) => [e.id, e])),
-    );
+    setMembersById(Object.fromEntries(group.employees.map((e) => [e.id, e])));
   }, []);
 
   const selectedMembers = useMemo(
@@ -82,7 +82,7 @@ const EditGroup = () => {
       },
       {
         onSuccess: (updated) => {
-          syncState(updated);
+          queryClient.setQueryData(["groups", id], updated);
           setIsEditing(false);
           setIsAdding(false);
         },
