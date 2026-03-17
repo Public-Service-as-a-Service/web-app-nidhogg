@@ -3,16 +3,11 @@
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Button } from "@sk-web-gui/react";
-import { ArrowLeft } from "lucide-react";
-
 import Loading from "@/app/components/LoadingSpinner";
 import MainWrapper from "@/app/components/MainWrapper";
-import MemberSection from "@/app/components/GroupHandling/MemberSection";
 import GroupInformation from "@/app/components/GroupHandling/GroupInformation";
 import EditButtons from "@/app/components/GroupHandling/EditButtons";
-import SearchSection from "@/app/components/GroupHandling/SearchSection";
-
+import GroupMembersView from "@/app/components/GroupHandling/GroupMembersView";
 import { useGroup } from "@/app/services/useGroup";
 import { useDeleteGroup } from "@/app/services/useDeleteGroup";
 import { useUpdateGroup } from "@/app/services/useUpdateGroup";
@@ -111,58 +106,6 @@ const EditGroup = () => {
   const handleCancelAddingMembers = () => setIsAdding(false);
   const handleGoBack = () => router.back();
 
-  const membersViewMode = !isEditing
-    ? "view-members"
-    : isAdding
-      ? "search-members"
-      : "edit-members";
-
-  const renderMemberView = () => {
-    if (membersViewMode === "search-members") {
-      return (
-        <SearchSection
-          memberIdSet={memberIdSet}
-          handleBulkMembers={handleBulkMembers}
-          onCancel={handleCancelAddingMembers}
-        />
-      );
-    }
-
-    if (membersViewMode === "edit-members") {
-      return (
-        <div>
-          <Button
-            className="w-full"
-            variant="secondary"
-            onClick={handleStartAddingMembers}
-          >
-            {t("addMembers")}
-          </Button>
-          <MemberSection
-            members={selectedMembers}
-            editMode={true}
-            onRemoveMember={handleRemoveMember}
-          />
-        </div>
-      );
-    }
-
-    return (
-      <>
-        <MemberSection
-          members={selectedMembers}
-          editMode={false}
-          onRemoveMember={handleRemoveMember}
-        />
-        <div>
-          <Button variant="secondary" rounded onClick={handleGoBack}>
-            <ArrowLeft /> {t("goBackButton")}
-          </Button>
-        </div>
-      </>
-    );
-  };
-
   if (isLoading) return <Loading />;
 
   if (!group)
@@ -192,7 +135,17 @@ const EditGroup = () => {
         onTitleChange={setNewTitle}
         onDescriptionChange={setNewDescription}
       />
-      {renderMemberView()}
+      <GroupMembersView
+        isEditing={isEditing}
+        isAdding={isAdding}
+        selectedMembers={selectedMembers}
+        memberIdSet={memberIdSet}
+        onStartAddingMembers={handleStartAddingMembers}
+        onCancelAddingMembers={handleCancelAddingMembers}
+        onBulkMembers={handleBulkMembers}
+        onRemoveMember={handleRemoveMember}
+        onGoBack={handleGoBack}
+      />
     </MainWrapper>
   );
 };
