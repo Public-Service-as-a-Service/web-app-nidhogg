@@ -100,6 +100,69 @@ const EditGroup = () => {
     }
   };
 
+  const handleEnterEditMode = () => {
+    if (!group) return;
+    syncState(group);
+    setIsEditing(true);
+    setIsAdding(false);
+  };
+
+  const handleStartAddingMembers = () => setIsAdding(true);
+  const handleCancelAddingMembers = () => setIsAdding(false);
+  const handleGoBack = () => router.back();
+
+  const membersViewMode = !isEditing
+    ? "view-members"
+    : isAdding
+      ? "search-members"
+      : "edit-members";
+
+  const renderMemberView = () => {
+    if (membersViewMode === "search-members") {
+      return (
+        <SearchSection
+          memberIdSet={memberIdSet}
+          handleBulkMembers={handleBulkMembers}
+          onCancel={handleCancelAddingMembers}
+        />
+      );
+    }
+
+    if (membersViewMode === "edit-members") {
+      return (
+        <div>
+          <Button
+            className="w-full"
+            variant="secondary"
+            onClick={handleStartAddingMembers}
+          >
+            {t("addMembers")}
+          </Button>
+          <MemberSection
+            members={selectedMembers}
+            editMode={true}
+            onRemoveMember={handleRemoveMember}
+          />
+        </div>
+      );
+    }
+
+    return (
+      <>
+        <MemberSection
+          members={selectedMembers}
+          editMode={false}
+          onRemoveMember={handleRemoveMember}
+        />
+        <div>
+          <Button variant="secondary" rounded onClick={handleGoBack}>
+            <ArrowLeft /> {t("goBackButton")}
+          </Button>
+        </div>
+      </>
+    );
+  };
+
   if (isLoading) return <Loading />;
 
   if (!group)
@@ -115,10 +178,7 @@ const EditGroup = () => {
         isEditing={isEditing}
         isPending={updateMutation.isPending}
         onDelete={handleDelete}
-        onEditMode={() => {
-          syncState(group);
-          setIsEditing(true);
-        }}
+        onEditMode={handleEnterEditMode}
         onSave={handleSave}
         disabled={newTitle === "" || newDescription === ""}
       />
@@ -132,45 +192,7 @@ const EditGroup = () => {
         onTitleChange={setNewTitle}
         onDescriptionChange={setNewDescription}
       />
-      {isEditing ? (
-        <div>
-          {!isAdding ? (
-            <>
-              <Button
-                className="w-full"
-                variant="secondary"
-                onClick={() => setIsAdding(true)}
-              >
-                {t("addMembers")}
-              </Button>
-              <MemberSection
-                members={selectedMembers}
-                editMode={isEditing}
-                onRemoveMember={handleRemoveMember}
-              />
-            </>
-          ) : (
-            <SearchSection
-              memberIdSet={memberIdSet}
-              handleBulkMembers={handleBulkMembers}
-              onCancel={() => setIsAdding(false)}
-            />
-          )}
-        </div>
-      ) : (
-        <>
-          <MemberSection
-            members={selectedMembers}
-            editMode={false}
-            onRemoveMember={handleRemoveMember}
-          />
-          <div>
-            <Button variant="secondary" rounded onClick={() => router.back()}>
-              <ArrowLeft /> {t("goBackButton")}
-            </Button>
-          </div>
-        </>
-      )}
+      {renderMemberView()}
     </MainWrapper>
   );
 };
