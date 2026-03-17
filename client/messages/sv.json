@@ -107,6 +107,8 @@
     "createGroupButton": "Skapa grupp",
     "deleteButton": "Radera",
     "notFound": "Gruppen hittades inte",
+    "noGroups": "Du har inga sparade grupper",
+    "noGroupsInfo": "Skapa en ny grupp genom att klicka på knappen ovan",
     "showAllButton": "Visa alla",
     "wasCreated": "Skapad: ",
     "editButton": "Redigera",
