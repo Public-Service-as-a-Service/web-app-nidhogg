@@ -107,6 +107,8 @@
     "createGroupButton": "Skapa grupp",
     "deleteButton": "Radera",
     "notFound": "Gruppen hittades inte",
+    "noGroups": "Du har inga sparade grupper",
+    "noGroupsInfo": "Skapa en ny grupp genom att klicka på knappen ovan",
     "showAllButton": "Visa alla",
     "wasCreated": "Skapad: ",
     "editButton": "Redigera",
@@ -121,6 +123,7 @@
     "searchPlaceholder": "Sök",
     "groupNamePlaceholder": "Ange gruppnamn",
     "groupDescriptionPlaceholder": "Ange en beskrivning av gruppen",
+    "addMembers": "Lägg till medlemmar",
     "deleteConfirm": "Är du säker?",
     "errors": {
       "errorTitle": "Något gick fel",

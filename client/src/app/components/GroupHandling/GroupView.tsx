@@ -32,13 +32,20 @@ const GroupView = ({ groups = [] }: GroupCardProps) => {
         </Button>
       </div>
       <h1 className="text-h2-sm">{t("sectionTitle")}</h1>
-      <div className="flex flex-col gap-14 pb-16">
-        <div className="flex flex-col gap-24">
-          {groups.slice(0, amount).map((item) => (
-            <GroupCard key={item.id} item={item} />
-          ))}
+      {groups.length === 0 ? (
+        <div>
+          <h2 className="pt-44 text-h4-sm">{t("noGroups")}</h2>
+          <p>{t("noGroupsInfo")}</p>
         </div>
-      </div>
+      ) : (
+        <div className="flex flex-col gap-14 pb-16">
+          <div className="flex flex-col gap-24">
+            {groups.slice(0, amount).map((item) => (
+              <GroupCard key={item.id} item={item} />
+            ))}
+          </div>
+        </div>
+      )}
       <ShowAllToggleButton
         totalCount={groups.length}
         visibleCount={amount}
