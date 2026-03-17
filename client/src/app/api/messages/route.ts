@@ -4,14 +4,14 @@ import { STORE } from "@/app/constants";
 
 export async function GET() {
   const cookieStore = await cookies();
-  const userId = cookieStore.get(STORE.userId)?.value;
+  const authToken = cookieStore.get(STORE.authToken)?.value;
 
-  if (!userId) {
+  if (!authToken) {
     return new Response("Unauthorized", { status: 401 });
   }
 
   const user = await prisma.user.findUnique({
-    where: { id: userId },
+    where: { id: authToken },
     select: { email: true },
   });
 
