@@ -1,28 +1,27 @@
 import { NextRequest } from "next/server";
-import { cookies } from "next/headers";
-import prisma from "@/../lib/prisma";
-import { PAGE_ROUTES, STORE } from "@/app/constants";
+import { API_ENDPOINTS } from "@/app/constants";
 
 export async function POST(req: NextRequest) {
-  const { email, password } = await req.json();
+  const credentials = await req.json();
 
-  const user = await prisma.user.findUnique({
-    where: { email: email, password: password },
+  const upstream = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${API_ENDPOINTS.login}`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(credentials),
+    cache: "no-store",
   });
 
-  if (!user) {
-    return new Response("User not found.", { status: 401 });
-  }
+  const body = await upstream.text();
+  const headers = new Headers();
 
-  const cookieStore = await cookies();
-  cookieStore.set(STORE.userId, user.id, {
-    httpOnly: true,
-    secure: true,
-    path: PAGE_ROUTES.home,
-  });
+  const contentType = upstream.headers.get("content-type");
+  if (contentType) headers.set("content-type", contentType);
 
-  return new Response(JSON.stringify({ success: true }), {
-    status: 200,
-    headers: { "Content-type": "application/json" },
+  const setCookie = upstream.headers.get("set-cookie");
+  if (setCookie) headers.append("set-cookie", setCookie);
+
+  return new Response(body, {
+    status: upstream.status,
+    headers,
   });
 }
