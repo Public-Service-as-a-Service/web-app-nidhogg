@@ -6,15 +6,17 @@ export interface SendMessagePayload {
   title: string;
   content: string;
   sender: string;
-  recipientEmployeeIds: number[];
+  recipientEmployeeIds?: number[];
   messageType: string;
 }
 
-export const useSendMessage = () => {
+export const useSendMessage = (allChecked: boolean) => {
   return useMutation<unknown, AxiosError, SendMessagePayload>({
     mutationFn: async (payload: SendMessagePayload) => {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}${API_ENDPOINTS.messages}`,
+        allChecked
+          ? `${process.env.NEXT_PUBLIC_API_URL}${API_ENDPOINTS.messagesAll}`
+          : `${process.env.NEXT_PUBLIC_API_URL}${API_ENDPOINTS.messages}`,
         payload,
         {
           withCredentials: true,

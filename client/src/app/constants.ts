@@ -20,6 +20,7 @@ export const API_ENDPOINTS = {
   login: "/users/auth/login",
   logout: "/users/auth/logout",
   messages: "/notifier/messages",
+  messagesAll: "/notifier/messages/all",
   messageById: (id: number, email: string) => `/notifier/messages/${id}/${email}`,
   groups: "/groups",
   groupById: (id: number | string) => `/groups/${id}`,

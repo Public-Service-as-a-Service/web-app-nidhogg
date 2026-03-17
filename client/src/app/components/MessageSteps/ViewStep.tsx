@@ -31,7 +31,7 @@ const ViewStep = ({
 }: ViewStepProps) => {
   const t = useTranslations("ViewStep");
   const router = useRouter();
-  const mutation = useSendMessage();
+  const mutation = useSendMessage(allChecked);
   const email = useUserEmail();
 
   const employeeRecipients = Object.values(recipientEmployees);
@@ -42,27 +42,25 @@ const ViewStep = ({
       const hasSMS = channels.includes("SMS");
       const hasTeams = channels.includes("Microsoft Teams");
 
+      if (hasSMS && hasTeams) return "TEAMS_AND_SMS";
       if (hasTeams) return "TEAMS";
       if (hasSMS) return "SMS";
-      if (hasSMS && hasTeams) return "TEAMS_AND_SMS";
 
       return "NONE";
     };
 
-    mutation.mutate(
-      {
-        title,
-        content: messageBody,
-        sender: email,
-        recipientEmployeeIds: employeeRecipientIds,
-        messageType: getMessageType(channels),
-      },
-      {
-        onSuccess: () => {
-          router.push("/dashboard");
-        },
-      },
-    );
+    const payload = {
+      title,
+      content: messageBody,
+      sender: email,
+      messageType: getMessageType(channels),
+
+      ...(!allChecked && { recipientEmployeeIds: employeeRecipientIds }),
+    };
+
+    mutation.mutate(payload, {
+      onSuccess: () => router.push("/dashboard"),
+    });
   };
 
   if (mutation.isPending) {
