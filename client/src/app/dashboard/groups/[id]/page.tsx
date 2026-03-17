@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import Loading from "@/app/components/LoadingSpinner";
@@ -31,26 +31,29 @@ const EditGroup = () => {
   const updateMutation = useUpdateGroup();
   const deleteMutation = useDeleteGroup();
 
-  const syncState = useCallback((group?: Group | null) => {
-    if (!group) return;
+  const syncState = useCallback((group: Group) => {
     setNewTitle(group.name);
     setNewDescription(group.description);
-    setMembersById(Object.fromEntries(group.employees.map((e) => [e.id, e])));
+    setMembersById(
+      Object.fromEntries(group.employees.map((e) => [e.id, e])),
+    );
   }, []);
-
-  useEffect(() => {
-    if (group) syncState(group);
-  }, [group, syncState]);
 
   const selectedMembers = useMemo(
     () => Object.values(membersById),
     [membersById],
   );
-
   const memberIdSet = useMemo(
     () => new Set(selectedMembers.map((m) => m.id)),
     [selectedMembers],
   );
+
+  const handleEnterEditMode = () => {
+    if (!group) return;
+    syncState(group);
+    setIsEditing(true);
+    setIsAdding(false);
+  };
 
   const handleBulkMembers = (members: Employee[]) => {
     setMembersById((prev) => ({
@@ -95,19 +98,7 @@ const EditGroup = () => {
     }
   };
 
-  const handleEnterEditMode = () => {
-    if (!group) return;
-    syncState(group);
-    setIsEditing(true);
-    setIsAdding(false);
-  };
-
-  const handleStartAddingMembers = () => setIsAdding(true);
-  const handleCancelAddingMembers = () => setIsAdding(false);
-  const handleGoBack = () => router.back();
-
   if (isLoading) return <Loading />;
-
   if (!group)
     return (
       <MainWrapper>
@@ -127,8 +118,8 @@ const EditGroup = () => {
       />
       <GroupInformation
         isEditing={isEditing}
-        title={newTitle}
-        description={newDescription}
+        title={isEditing ? newTitle : group.name}
+        description={isEditing ? newDescription : group.description}
         createdAt={group.createdAt}
         titlePlaceholder={group.name}
         descriptionPlaceholder={group.description}
@@ -138,13 +129,13 @@ const EditGroup = () => {
       <GroupMembersView
         isEditing={isEditing}
         isAdding={isAdding}
-        selectedMembers={selectedMembers}
+        selectedMembers={isEditing ? selectedMembers : group.employees}
         memberIdSet={memberIdSet}
-        onStartAddingMembers={handleStartAddingMembers}
-        onCancelAddingMembers={handleCancelAddingMembers}
+        onStartAddingMembers={() => setIsAdding(true)}
+        onCancelAddingMembers={() => setIsAdding(false)}
         onBulkMembers={handleBulkMembers}
         onRemoveMember={handleRemoveMember}
-        onGoBack={handleGoBack}
+        onGoBack={() => router.back()}
       />
     </MainWrapper>
   );
