@@ -17,7 +17,7 @@ const CreateGroup = () => {
   const [step, setStep] = useState(0);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [membersById, setMembersById] = useState<Record<string, Employee>>({});
+  const [membersById, setMembersById] = useState<Record<number, Employee>>({});
 
   const t = useTranslations("GroupHandling");
 
@@ -55,6 +55,8 @@ const CreateGroup = () => {
           onPrev={() => setStep(0)}
           members={selectedMembers}
           handleBulkMembers={handleBulkMembers}
+          title={title}
+          description={description}
         />
       ),
     },

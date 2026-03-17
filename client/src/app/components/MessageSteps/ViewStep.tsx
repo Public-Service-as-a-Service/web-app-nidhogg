@@ -9,6 +9,7 @@ import { useUserEmail } from "@/app/hooks/useUserEmail";
 import { Employee } from "@/app/interfaces/employee";
 import { GroupRecipient } from "../../dashboard/messages/page";
 import Loading from "../LoadingSpinner";
+import { PAGE_ROUTES } from "@/app/constants";
 
 interface ViewStepProps {
   onPrev?: () => void;
@@ -37,6 +38,19 @@ const ViewStep = ({
   const employeeRecipients = Object.values(recipientEmployees);
   const employeeRecipientIds = employeeRecipients.map((emp) => emp.id);
 
+  const groupRecipients = Object.values(recipientGroups);
+  const groupRecipientIds = groupRecipients.flatMap((group) => {
+    if (group.employees?.length) {
+      return group.employees.map((employee) => employee.id);
+    }
+
+    return group.recipientIds ?? [];
+  });
+
+  const recipientEmployeeIds = Array.from(
+    new Set([...employeeRecipientIds, ...groupRecipientIds]),
+  );
+
   const handleSend = () => {
     const getMessageType = (channels: string[]) => {
       const hasSMS = channels.includes("SMS");
@@ -55,11 +69,11 @@ const ViewStep = ({
       sender: email,
       messageType: getMessageType(channels),
 
-      ...(!allChecked && { recipientEmployeeIds: employeeRecipientIds }),
+      ...(!allChecked && { recipientEmployeeIds: recipientEmployeeIds }),
     };
 
     mutation.mutate(payload, {
-      onSuccess: () => router.push("/dashboard"),
+      onSuccess: () => router.push(PAGE_ROUTES.dashboard),
     });
   };
 

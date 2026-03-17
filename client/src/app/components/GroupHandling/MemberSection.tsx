@@ -7,9 +7,14 @@ import { Employee } from "@/app/interfaces/employee";
 interface MemberSectionProps {
   members: Employee[];
   editMode: boolean;
+  onRemoveMember?: (memberId: number) => void;
 }
 
-const MemberSection = ({ members = [], editMode }: MemberSectionProps) => {
+const MemberSection = ({
+  members = [],
+  editMode,
+  onRemoveMember,
+}: MemberSectionProps) => {
   const t = useTranslations("GroupHandling");
 
   return (
@@ -17,7 +22,12 @@ const MemberSection = ({ members = [], editMode }: MemberSectionProps) => {
       <p className="text-label-large">{t("membersLabel")}</p>
       <div className="flex flex-col gap-12 pb-28">
         {members.map((member) => (
-          <MemberCard key={member.id} member={member} editMode={editMode} />
+          <MemberCard
+            key={member.id}
+            member={member}
+            editMode={editMode}
+            onRemove={onRemoveMember}
+          />
         ))}
       </div>
     </div>
