@@ -20,12 +20,14 @@ export const API_ENDPOINTS = {
   login: "/users/auth/login",
   logout: "/users/auth/logout",
   messages: "/notifier/messages",
-  messageById: (id: number, email: string) => `/notifier/messages/${id}/${email}`,
-  groups: "/groups",
-  groupById: (id: number | string) => `/groups/${id}`,
+  messageById: (id: number, email: string) =>
+    `/notifier/messages/${id}/${email}`,
+  groups: "/notifier/groups",
+  groupById: (id: number | string) => `/notifier/groups/${id}`,
   allEmployees: "/notifier/employees",
   searchEmployees: "/notifier/employees/search",
   allOrganizations: "/notifier/organization/organizations",
+  allManagers: "/notifier/employees/managers",
 } as const;
 
 export const PATHS = [

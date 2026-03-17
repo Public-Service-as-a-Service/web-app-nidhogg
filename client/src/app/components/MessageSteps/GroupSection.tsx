@@ -6,6 +6,9 @@ import GroupSelector from "./GroupSelector";
 import { useTranslations } from "next-intl";
 import { Employee } from "@/app/interfaces/employee";
 import { GroupRecipient } from "../../dashboard/messages/page";
+import { useGroups } from "@/app/services/useGroups";
+import { API_ENDPOINTS } from "@/app/constants";
+import { useUserEmail } from "@/app/hooks/useUserEmail";
 
 interface GroupSectionProps {
   allChecked: boolean;
@@ -24,15 +27,17 @@ const GroupSection = ({
 }: GroupSectionProps) => {
   const t = useTranslations("GroupSection");
 
-  const mockPredefinedGroups = [
-    { id: 101, name: "Krisgrupp", default: true },
-    { id: 102, name: "IT-jour", default: true },
+  const defaultGroups = [
+    {
+      id: "managers",
+      name: t("allManagers"),
+      endpoint: API_ENDPOINTS.allManagers,
+      default: true,
+    },
   ];
 
-  const mockSavedGroups = [
-    { id: 201, name: "Team Nidhogg", default: false },
-    { id: 202, name: "Nidhoggs krishanterare", default: false },
-  ];
+  const { data: groups } = useGroups(useUserEmail());
+  const customGroups = groups?.map((g) => ({ ...g, default: false })) || [];
 
   const commonProps = {
     placeholder: t("selectGroups"),
@@ -50,13 +55,13 @@ const GroupSection = ({
       <p className="text-label-large pt-10">{t("sectionTitle")}</p>
       <GroupSelector
         label={t("predefinedGroups")}
-        list={mockPredefinedGroups}
+        list={defaultGroups}
         defaultGroup={true}
         {...commonProps}
       />
       <GroupSelector
         label={t("savedGroups")}
-        list={mockSavedGroups}
+        list={customGroups}
         defaultGroup={false}
         {...commonProps}
       />

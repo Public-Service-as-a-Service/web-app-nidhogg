@@ -9,6 +9,7 @@ import { useUserEmail } from "@/app/hooks/useUserEmail";
 import { Employee } from "@/app/interfaces/employee";
 import { GroupRecipient } from "../../dashboard/messages/page";
 import Loading from "../LoadingSpinner";
+import { PAGE_ROUTES } from "@/app/constants";
 
 interface ViewStepProps {
   onPrev?: () => void;
@@ -37,14 +38,27 @@ const ViewStep = ({
   const employeeRecipients = Object.values(recipientEmployees);
   const employeeRecipientIds = employeeRecipients.map((emp) => emp.id);
 
+  const groupRecipients = Object.values(recipientGroups);
+  const groupRecipientIds = groupRecipients.flatMap((group) => {
+    if (group.employees?.length) {
+      return group.employees.map((employee) => employee.id);
+    }
+
+    return group.recipientIds ?? [];
+  });
+
+  const recipientEmployeeIds = Array.from(
+    new Set([...employeeRecipientIds, ...groupRecipientIds]),
+  );
+
   const handleSend = () => {
     const getMessageType = (channels: string[]) => {
       const hasSMS = channels.includes("SMS");
       const hasTeams = channels.includes("Microsoft Teams");
 
+      if (hasSMS && hasTeams) return "TEAMS_AND_SMS";
       if (hasTeams) return "TEAMS";
       if (hasSMS) return "SMS";
-      if (hasSMS && hasTeams) return "TEAMS_AND_SMS";
 
       return "NONE";
     };
@@ -54,12 +68,12 @@ const ViewStep = ({
         title,
         content: messageBody,
         sender: email,
-        recipientEmployeeIds: employeeRecipientIds,
+        recipientEmployeeIds,
         messageType: getMessageType(channels),
       },
       {
         onSuccess: () => {
-          router.push("/dashboard");
+          router.push(PAGE_ROUTES.dashboard);
         },
       },
     );
