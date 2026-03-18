@@ -2,7 +2,7 @@
 
 import { Card, Checkbox, Avatar, Button } from "@sk-web-gui/react";
 import { Employee } from "@/app/interfaces/employee";
-import { ArrowRight, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import type { ChangeEvent } from "react";
 
 interface MemberCardProps {
@@ -56,7 +56,7 @@ const MemberCard = ({
             </div>
           </Card.Text>
           <div className="flex items-center">
-            {isRemoveMode ? (
+            {isRemoveMode && (
               <Button
                 iconButton={true}
                 rounded={true}
@@ -65,10 +65,6 @@ const MemberCard = ({
                 onClick={() => onRemove(member.id)}
               >
                 <Trash2 />
-              </Button>
-            ) : (
-              <Button iconButton={true} rounded={true} size="md">
-                <ArrowRight />
               </Button>
             )}
           </div>
