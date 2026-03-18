@@ -18,7 +18,7 @@ describe("Login Page", () => {
   });
 
   it("shows error on invalid credentials", () => {
-    cy.intercept("POST", "**/api/login", {
+    cy.intercept("POST", "**/api/**/login", {
       statusCode: 401,
       body: "User not found.",
     }).as("loginRequest");
@@ -32,7 +32,7 @@ describe("Login Page", () => {
   });
 
   it("logs in successfully and redirects", () => {
-    cy.intercept("POST", "**/api/login", {
+    cy.intercept("POST", "**/api/**/login", {
       statusCode: 200,
       body: { success: true },
     }).as("loginRequest");
@@ -40,7 +40,7 @@ describe("Login Page", () => {
     cy.get('input[type="email"]').type("user@test.se");
     cy.get('input[type="password"]').type("password");
 
-    cy.setCookie("userId", "1");
+    cy.setCookie("token", "123");
 
     cy.get('button[type="submit"]').click();
 
@@ -51,12 +51,12 @@ describe("Login Page", () => {
 
 describe("Sign Out", () => {
   beforeEach(() => {
-    cy.intercept("POST", "**/api/logout", {
+    cy.intercept("POST", "**/api/**/logout", {
       statusCode: 200,
       body: { success: true },
     }).as("logoutRequest");
 
-    cy.intercept("POST", "**/api/login", {
+    cy.intercept("POST", "**/api/**/login", {
       statusCode: 200,
       body: { success: true },
     }).as("loginRequest");
@@ -66,7 +66,7 @@ describe("Sign Out", () => {
     cy.get('input[type="email"]').type("user@test.se");
     cy.get('input[type="password"]').type("password");
 
-    cy.setCookie("userId", "1");
+    cy.setCookie("token", "123");
 
     cy.get('button[type="submit"]').click();
 
@@ -82,7 +82,7 @@ describe("Sign Out", () => {
     cy.contains("button", /Logga ut/i).click({ force: true });
 
     cy.wait("@logoutRequest");
-    cy.clearCookie("userId");
+    cy.clearCookie("token");
 
     cy.reload();
     cy.location("pathname", { timeout: 15000 }).should("eq", "/");

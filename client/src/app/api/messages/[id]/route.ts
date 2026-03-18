@@ -9,9 +9,9 @@ export async function GET(
 ) {
   const { id } = await params;
   const cookieStore = await cookies();
-  const userId = cookieStore.get(STORE.userId)?.value;
-
-  if (!userId) {
+  const authToken = cookieStore.get(STORE.authToken)?.value;
+  
+  if (!authToken) {
     return new Response("Unauthorized", { status: 401 });
   }
 
