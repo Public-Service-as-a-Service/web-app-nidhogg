@@ -4,7 +4,6 @@ import { Button, Label } from "@sk-web-gui/react";
 import RecipientList from "./RecipientList";
 import { useTranslations } from "next-intl";
 import { useSendMessage } from "@/app/services/useSendMessage";
-import { useManagers } from "@/app/services/useManagers";
 import { useRouter } from "next/navigation";
 import { useUserEmail } from "@/app/hooks/useUserEmail";
 import { Employee } from "@/app/interfaces/employee";
@@ -36,9 +35,6 @@ const ViewStep = ({
   const mutation = useSendMessage();
   const email = useUserEmail();
 
-  const hasManagersGroup = "managers" in recipientGroups;
-  const { data: managers = [] } = useManagers(hasManagersGroup);
-
   const employeeRecipients = Object.values(recipientEmployees);
   const employeeRecipientIds = employeeRecipients.map((emp) => emp.id);
 
@@ -51,10 +47,8 @@ const ViewStep = ({
     return group.recipientIds ?? [];
   });
 
-  const managerIds = hasManagersGroup ? managers.map((m) => m.id) : [];
-
   const recipientEmployeeIds = Array.from(
-    new Set([...employeeRecipientIds, ...groupRecipientIds, ...managerIds]),
+    new Set([...employeeRecipientIds, ...groupRecipientIds]),
   );
 
   const handleSend = () => {
