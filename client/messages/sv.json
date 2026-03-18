@@ -8,13 +8,16 @@
     "sentMessagesHeading": "Dina senaste utskick",
     "sentMessagesInfo": "Här samlas dina utskick.",
     "showAllButton": "Visa alla",
-    "goBackButton": "Tillbaka"
+    "goBackButton": "Tillbaka",
+    "noMessages": "Du har inte gjort några utskick ännu."
   },
   "MessageDetails": {
     "goBackButton": "Gå tillbaka",
     "newMessageButton": "Nytt utskick",
     "messageLabel": "Meddelande",
     "recipientsLabel": "Mottagare",
+    "showAll": "Visa alla",
+    "goBack": "Visa färre",
     "channelLabel": "Utskickskanal",
     "notFound": "Meddelandet hittades inte",
     "channels": {
