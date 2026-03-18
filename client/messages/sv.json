@@ -15,8 +15,6 @@
     "newMessageButton": "Nytt utskick",
     "messageLabel": "Meddelande",
     "recipientsLabel": "Mottagare",
-    "showAll": "Visa alla",
-    "goBack": "Visa färre",
     "channelLabel": "Utskickskanal",
     "notFound": "Meddelandet hittades inte",
     "channels": {

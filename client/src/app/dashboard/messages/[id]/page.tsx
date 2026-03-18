@@ -8,10 +8,8 @@ import MainWrapper from "@/app/components/MainWrapper";
 import dayjs from "dayjs";
 import { ArrowLeft } from "lucide-react";
 import RecipientList from "@/app/components/RecipientList";
-import ShowAllToggleButton from "@/app/components/ShowAllToggleButton";
 import { useTranslations } from "next-intl";
 import { useUserEmail } from "@/app/hooks/useUserEmail";
-import { useState } from "react";
 
 const MessageDetails = () => {
   const params = useParams();
@@ -19,7 +17,6 @@ const MessageDetails = () => {
   const email = useUserEmail();
   const router = useRouter();
   const t = useTranslations("MessageDetails");
-  const [visibleCount, setVisibleCount] = useState(10);
 
   const { data: message, isLoading } = useMessage(id, email);
 
@@ -58,19 +55,7 @@ const MessageDetails = () => {
         </div>
         <div className="gap-8 p-8">
           <p className="text-label-large">{t("recipientsLabel")}</p>
-          <RecipientList
-            recipients={message?.recipients?.slice(0, visibleCount)}
-          />
-          <div className="pt-8">
-            <ShowAllToggleButton
-              totalCount={message?.recipients?.length ?? 0}
-              visibleCount={visibleCount}
-              collapsedCount={10}
-              onToggle={setVisibleCount}
-              showAllText={t("showAll")}
-              goBackText={t("goBack")}
-            />
-          </div>
+          <RecipientList recipients={message?.recipients} />
         </div>
         <div className="gap-8 p-8">
           <p className="text-label-large">{t("channelLabel")}</p>
