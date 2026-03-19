@@ -10,7 +10,7 @@ import { Employee } from "@/app/interfaces/employee";
 import { GroupRecipient } from "../../dashboard/messages/page";
 import Loading from "../LoadingSpinner";
 import { PAGE_ROUTES } from "@/app/constants";
-import { useGroupIds } from "@/app/hooks/useGroupIds";
+import { useGroupMemberIds } from "@/app/hooks/useGroupMemberIds";
 
 interface ViewStepProps {
   onPrev?: () => void;
@@ -36,7 +36,7 @@ const ViewStep = ({
   const mutation = useSendMessage();
   const email = useUserEmail();
 
-  const defaultGroupRecipientIds = useGroupIds(recipientGroups);
+  const defaultGroupRecipientIds = useGroupMemberIds(recipientGroups);
 
   const employeeRecipients = Object.values(recipientEmployees);
   const employeeRecipientIds = employeeRecipients.map((emp) => emp.id);

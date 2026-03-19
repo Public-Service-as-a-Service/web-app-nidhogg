@@ -4,7 +4,7 @@ import { useDefaultGroups } from "../services/useDefaultGroups";
 const managerKey = "managers";
 const itProdKey = "it-prod";
 
-export const useGroupIds = (recipientGroups: Record<string, unknown>) => {
+export const useGroupMemberIds = (recipientGroups: Record<string, unknown>) => {
   const hasManagersGroup = managerKey in recipientGroups;
   const hasItProdGroup = itProdKey in recipientGroups;
 
