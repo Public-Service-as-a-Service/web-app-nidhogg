@@ -1,14 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Employee } from "../interfaces/employee";
-import { API_ENDPOINTS } from "../constants";
 
-export const useItProd = (enabled: boolean = true) => {
+interface UseDefaultGroupsProps {
+  queryKey: string;
+  endpoint: string;
+  enabled?: boolean;
+}
+
+export const useDefaultGroups = ({
+  queryKey,
+  endpoint,
+  enabled = true,
+}: UseDefaultGroupsProps) => {
   return useQuery<Employee[]>({
-    queryKey: ["it-prod"],
+    queryKey: [queryKey],
     queryFn: async () => {
       const response = await axios.get<Employee[]>(
-        `${process.env.NEXT_PUBLIC_API_URL}${API_ENDPOINTS.itProd}`,
+        `${process.env.NEXT_PUBLIC_API_URL}${endpoint}`,
         {
           withCredentials: true,
         },

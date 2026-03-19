@@ -4,14 +4,13 @@ import { Button, Label } from "@sk-web-gui/react";
 import RecipientList from "./RecipientList";
 import { useTranslations } from "next-intl";
 import { useSendMessage } from "@/app/services/useSendMessage";
-import { useManagers } from "../../services/useManagers";
 import { useRouter } from "next/navigation";
 import { useUserEmail } from "@/app/hooks/useUserEmail";
 import { Employee } from "@/app/interfaces/employee";
 import { GroupRecipient } from "../../dashboard/messages/page";
 import Loading from "../LoadingSpinner";
 import { PAGE_ROUTES } from "@/app/constants";
-import { useItProd } from "@/app/services/useItProd";
+import { useGroupIds } from "@/app/hooks/useGroupIds";
 
 interface ViewStepProps {
   onPrev?: () => void;
@@ -37,11 +36,7 @@ const ViewStep = ({
   const mutation = useSendMessage();
   const email = useUserEmail();
 
-  const hasManagersGroup = "managers" in recipientGroups;
-  const { data: managers = [] } = useManagers(hasManagersGroup);
-
-  const hasItProdGroup = "it-prod" in recipientGroups;
-  const { data: itProd = [] } = useItProd(hasItProdGroup);
+  const defaultGroupRecipientIds = useGroupIds(recipientGroups);
 
   const employeeRecipients = Object.values(recipientEmployees);
   const employeeRecipientIds = employeeRecipients.map((emp) => emp.id);
@@ -55,18 +50,11 @@ const ViewStep = ({
     return group.recipientIds ?? [];
   });
 
-  const managerIds = hasManagersGroup
-    ? managers.map((manager) => manager.id)
-    : [];
-
-  const itProdIds = hasItProdGroup ? itProd.map((emp) => emp.id) : [];
-
   const recipientEmployeeIds = Array.from(
     new Set([
       ...employeeRecipientIds,
       ...groupRecipientIds,
-      ...managerIds,
-      ...itProdIds,
+      ...defaultGroupRecipientIds,
     ]),
   );
 
