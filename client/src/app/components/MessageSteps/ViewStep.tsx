@@ -11,6 +11,7 @@ import { Employee } from "@/app/interfaces/employee";
 import { GroupRecipient } from "../../dashboard/messages/page";
 import Loading from "../LoadingSpinner";
 import { PAGE_ROUTES } from "@/app/constants";
+import { useItProd } from "@/app/services/useItProd";
 
 interface ViewStepProps {
   onPrev?: () => void;
@@ -39,6 +40,9 @@ const ViewStep = ({
   const hasManagersGroup = "managers" in recipientGroups;
   const { data: managers = [] } = useManagers(hasManagersGroup);
 
+  const hasItProdGroup = "it-prod" in recipientGroups;
+  const { data: itProd = [] } = useItProd(hasItProdGroup);
+
   const employeeRecipients = Object.values(recipientEmployees);
   const employeeRecipientIds = employeeRecipients.map((emp) => emp.id);
 
@@ -55,8 +59,15 @@ const ViewStep = ({
     ? managers.map((manager) => manager.id)
     : [];
 
+  const itProdIds = hasItProdGroup ? itProd.map((emp) => emp.id) : [];
+
   const recipientEmployeeIds = Array.from(
-    new Set([...employeeRecipientIds, ...groupRecipientIds, ...managerIds]),
+    new Set([
+      ...employeeRecipientIds,
+      ...groupRecipientIds,
+      ...managerIds,
+      ...itProdIds,
+    ]),
   );
 
   const handleSend = () => {

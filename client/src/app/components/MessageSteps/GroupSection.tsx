@@ -34,6 +34,12 @@ const GroupSection = ({
       endpoint: API_ENDPOINTS.allManagers,
       default: true,
     },
+    {
+      id: "it-prod",
+      name: t("itProd"),
+      endpoint: API_ENDPOINTS.itProd,
+      default: true,
+    },
   ];
 
   const { data: groups } = useGroups(useUserEmail());
