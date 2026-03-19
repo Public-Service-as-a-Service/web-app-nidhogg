@@ -1,10 +1,10 @@
 import { API_ENDPOINTS } from "@/app/constants";
 
-const unauthorized = () => new Response("Unauthorized", { status: 401 });
+export type AuthenticatedEmailResult =
+  | { ok: true; email: string }
+  | { ok: false; error: "unauthorized" };
 
-export async function getAuthenticatedEmail(): Promise<
-  { email: string } | { response: Response }
-> {
+export async function getAuthenticatedEmail(): Promise<AuthenticatedEmailResult> {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}${API_ENDPOINTS.email}`,
@@ -16,17 +16,17 @@ export async function getAuthenticatedEmail(): Promise<
     );
 
     if (!response.ok) {
-      return { response: unauthorized() };
+      return { ok: false, error: "unauthorized" };
     }
 
     const payload = (await response.json()) as { email?: string };
 
     if (!payload.email || typeof payload.email !== "string") {
-      return { response: unauthorized() };
+      return { ok: false, error: "unauthorized" };
     }
 
-    return { email: payload.email };
+    return { ok: true, email: payload.email };
   } catch {
-    return { response: unauthorized() };
+    return { ok: false, error: "unauthorized" };
   }
 }

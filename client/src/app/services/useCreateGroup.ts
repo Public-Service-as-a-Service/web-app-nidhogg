@@ -14,7 +14,7 @@ export const useCreateGroup = () => {
     mutationFn: async (payload: CreateGroupPayload) => {
       const authenticated = await getAuthenticatedEmail();
 
-      if ("response" in authenticated) {
+      if (!authenticated.ok) {
         throw new Error("Unauthorized");
       }
 

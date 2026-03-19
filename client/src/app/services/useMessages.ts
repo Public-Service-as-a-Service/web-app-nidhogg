@@ -11,7 +11,7 @@ export const useMessages = () => {
     queryFn: async () => {
       const authenticated = await getAuthenticatedEmail();
 
-      if ("response" in authenticated) {
+      if (!authenticated.ok) {
         throw new Error("Unauthorized");
       }
 

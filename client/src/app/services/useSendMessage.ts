@@ -15,7 +15,7 @@ export const useSendMessage = () => {
     mutationFn: async (payload: SendMessagePayload) => {
       const authenticated = await getAuthenticatedEmail();
 
-      if ("response" in authenticated) {
+      if (!authenticated.ok) {
         throw new Error("Unauthorized");
       }
 
