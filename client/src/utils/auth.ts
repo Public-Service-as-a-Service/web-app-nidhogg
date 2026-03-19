@@ -1,29 +1,31 @@
-import { cookies } from "next/headers";
-import { decodeJwt } from "jose";
-import { STORE } from "@/app/constants";
-
-type AuthPayload = { sub?: string; email?: string };
+import { API_ENDPOINTS } from "@/app/constants";
 
 const unauthorized = () => new Response("Unauthorized", { status: 401 });
 
 export async function getAuthenticatedEmail(): Promise<
   { email: string } | { response: Response }
 > {
-  const cookieStore = await cookies();
-  const token = cookieStore.get(STORE.authToken)?.value;
-
-  if (!token) {
-    return { response: unauthorized() };
-  }
-
   try {
-    const payload = decodeJwt<AuthPayload>(token);
-    const email = payload.email;
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}${API_ENDPOINTS.email}`,
+      {
+        method: "GET",
+        credentials: "include",
+        cache: "no-store",
+      },
+    );
 
-    if (!email || typeof email !== "string") {
+    if (!response.ok) {
       return { response: unauthorized() };
     }
-    return { email };
+
+    const payload = (await response.json()) as { email?: string };
+
+    if (!payload.email || typeof payload.email !== "string") {
+      return { response: unauthorized() };
+    }
+
+    return { email: payload.email };
   } catch {
     return { response: unauthorized() };
   }

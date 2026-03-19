@@ -5,7 +5,6 @@ import RecipientList from "./RecipientList";
 import { useTranslations } from "next-intl";
 import { useSendMessage } from "@/app/services/useSendMessage";
 import { useRouter } from "next/navigation";
-import { useUserEmail } from "@/app/hooks/useUserEmail";
 import { Employee } from "@/app/interfaces/employee";
 import { GroupRecipient } from "../../dashboard/messages/page";
 import Loading from "../LoadingSpinner";
@@ -33,7 +32,6 @@ const ViewStep = ({
   const t = useTranslations("ViewStep");
   const router = useRouter();
   const mutation = useSendMessage();
-  const email = useUserEmail();
 
   const employeeRecipients = Object.values(recipientEmployees);
   const employeeRecipientIds = employeeRecipients.map((emp) => emp.id);
@@ -67,7 +65,6 @@ const ViewStep = ({
       {
         title,
         content: messageBody,
-        sender: email,
         recipientEmployeeIds,
         messageType: getMessageType(channels),
       },

@@ -13,7 +13,6 @@ export const useLogout = () => {
       );
       if (response) {
         sessionStorage.removeItem(SESSION_STORAGE.sessionActive);
-        sessionStorage.removeItem(SESSION_STORAGE.userEmail);
       }
       return response;
     },

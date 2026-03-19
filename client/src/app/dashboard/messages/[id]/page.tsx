@@ -10,18 +10,16 @@ import { ArrowLeft } from "lucide-react";
 import RecipientList from "@/app/components/RecipientList";
 import ShowAllToggleButton from "@/app/components/ShowAllToggleButton";
 import { useTranslations } from "next-intl";
-import { useUserEmail } from "@/app/hooks/useUserEmail";
 import { useState } from "react";
 
 const MessageDetails = () => {
   const params = useParams();
   const id = Number(params.id);
-  const email = useUserEmail();
   const router = useRouter();
   const t = useTranslations("MessageDetails");
   const [visibleCount, setVisibleCount] = useState(10);
 
-  const { data: message, isLoading } = useMessage(id, email);
+  const { data: message, isLoading } = useMessage(id);
 
   const getMessageType = () => {
     if (message?.messageType === "TEAMS") {

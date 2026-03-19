@@ -19,6 +19,7 @@ export const PAGE_ROUTES = {
 export const API_ENDPOINTS = {
   login: "/users/auth/login",
   logout: "/users/auth/logout",
+  email: "/auth/email",
   messages: "/notifier/messages",
   messageById: (id: number, email: string) =>
     `/notifier/messages/${id}/${email}`,
@@ -46,7 +47,6 @@ export const PATHS = [
 
 export const SESSION_STORAGE = {
   sessionActive: "sessionActive",
-  userEmail: "userEmail",
 };
 
 export const tailwindBreakPoint = {

@@ -8,7 +8,6 @@ import { Employee } from "@/app/interfaces/employee";
 import { GroupRecipient } from "../../dashboard/messages/page";
 import { useGroups } from "@/app/services/useGroups";
 import { API_ENDPOINTS } from "@/app/constants";
-import { useUserEmail } from "@/app/hooks/useUserEmail";
 
 interface GroupSectionProps {
   allChecked: boolean;
@@ -36,7 +35,7 @@ const GroupSection = ({
     },
   ];
 
-  const { data: groups } = useGroups(useUserEmail());
+  const { data: groups } = useGroups();
   const customGroups = groups?.map((g) => ({ ...g, default: false })) || [];
 
   const commonProps = {

@@ -16,7 +16,6 @@ export const useLogin = () => {
       );
       if (response) {
         sessionStorage.setItem(SESSION_STORAGE.sessionActive, "true");
-        sessionStorage.setItem(SESSION_STORAGE.userEmail, credentials.email);
       }
       return response;
     },

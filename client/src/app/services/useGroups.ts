@@ -3,15 +3,22 @@ import axios from "axios";
 import { Group } from "../interfaces/group";
 import { API_ENDPOINTS } from "../constants";
 import dayjs from "dayjs";
+import { getAuthenticatedEmail } from "@/utils/auth";
 
-export const useGroups = (creatorId: string) => {
+export const useGroups = () => {
   return useQuery<Group[]>({
-    queryKey: ["groups", creatorId],
+    queryKey: ["groups"],
     queryFn: async () => {
+      const authenticated = await getAuthenticatedEmail();
+
+      if ("response" in authenticated) {
+        throw new Error("Unauthorized");
+      }
+
       const response = await axios.get<Group[]>(
         `${process.env.NEXT_PUBLIC_API_URL}${API_ENDPOINTS.groups}`,
         {
-          params: { creatorId: creatorId },
+          params: { creatorId: authenticated.email },
           withCredentials: true,
         },
       );
