@@ -12,11 +12,13 @@ import { Employee } from "@/app/interfaces/employee";
 interface SearchSectionProps {
   memberIdSet: Set<number>;
   handleBulkMembers: (recipientIds: Employee[]) => void;
+  onCancel?: () => void;
 }
 
 const SearchSection = ({
   memberIdSet,
   handleBulkMembers,
+  onCancel,
 }: SearchSectionProps) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [page, setPage] = useState<number>(0);
@@ -70,6 +72,7 @@ const SearchSection = ({
     handleBulkMembers(selectedMembers);
     setCheckedIds([]);
     setSearchTerm("");
+    onCancel?.();
   };
 
   const renderResults = () => {
@@ -98,12 +101,20 @@ const SearchSection = ({
 
   return (
     <div className="flex flex-col">
+      <p className="text-label-large">{t("searchLabel")}</p>
       <Input
         className="w-full"
         onChange={(e) => setSearchTerm(e.target.value)}
         placeholder={t("searchPlaceholder")}
         value={searchTerm}
       />
+      {onCancel && (
+        <div className="flex flex-row place-content-end pt-8">
+          <Button variant="tertiary" onClick={onCancel}>
+            {t("cancelButton")}
+          </Button>
+        </div>
+      )}
       <div className="flex flex-col gap-12 pt-12">
         {searchTerm && (
           <>

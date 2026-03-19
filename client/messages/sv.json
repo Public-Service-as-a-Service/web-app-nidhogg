@@ -8,13 +8,16 @@
     "sentMessagesHeading": "Dina senaste utskick",
     "sentMessagesInfo": "Här samlas dina utskick.",
     "showAllButton": "Visa alla",
-    "goBackButton": "Tillbaka"
+    "goBackButton": "Tillbaka",
+    "noMessages": "Du har inte gjort några utskick ännu."
   },
   "MessageDetails": {
     "goBackButton": "Gå tillbaka",
     "newMessageButton": "Nytt utskick",
     "messageLabel": "Meddelande",
     "recipientsLabel": "Mottagare",
+    "showAll": "Visa alla",
+    "goBack": "Visa färre",
     "channelLabel": "Utskickskanal",
     "notFound": "Meddelandet hittades inte",
     "channels": {
@@ -47,7 +50,8 @@
     "selectGroups": "Välj en eller flera grupper",
     "handleGroups": "Hantera grupper",
     "organization": "Organisation",
-    "recipients": "Valda mottagare från organisationen:"
+    "recipients": "Valda mottagare från organisationen:",
+    "allManagers": "Alla chefer"
   },
   "MessageForm": {
     "titleLabel": "Titel",
@@ -106,6 +110,8 @@
     "createGroupButton": "Skapa grupp",
     "deleteButton": "Radera",
     "notFound": "Gruppen hittades inte",
+    "noGroups": "Du har inga sparade grupper",
+    "noGroupsInfo": "Skapa en ny grupp genom att klicka på knappen ovan",
     "showAllButton": "Visa alla",
     "wasCreated": "Skapad: ",
     "editButton": "Redigera",
@@ -120,6 +126,8 @@
     "searchPlaceholder": "Sök",
     "groupNamePlaceholder": "Ange gruppnamn",
     "groupDescriptionPlaceholder": "Ange en beskrivning av gruppen",
+    "addMembers": "Lägg till medlemmar",
+    "deleteConfirm": "Är du säker?",
     "errors": {
       "errorTitle": "Något gick fel",
       "errorMessage": "Prova att ladda om sidan eller försök igen om en liten stund",

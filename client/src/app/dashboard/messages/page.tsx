@@ -10,8 +10,11 @@ import { ProgressStepper } from "@sk-web-gui/react";
 import { Employee } from "@/app/interfaces/employee";
 
 export interface GroupRecipient {
-  id: number;
+  id: number | string;
   name: string;
+  endpoint?: string;
+  employees?: Employee[];
+  recipientIds?: number[];
 }
 
 interface StepsProps {

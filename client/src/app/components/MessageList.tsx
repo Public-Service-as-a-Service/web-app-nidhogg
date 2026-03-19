@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import dayjs from "dayjs";
 import { useState } from "react";
-import MessageToggleButton from "./MessageToggleButton";
+import ShowAllToggleButton from "./ShowAllToggleButton";
 import { useUserEmail } from "../hooks/useUserEmail";
 import { PAGE_ROUTES } from "../constants";
 
@@ -43,31 +43,38 @@ const MessageList = () => {
         <p className="text-large">{t("sentMessagesInfo")}</p>
       </div>
       <div className="flex flex-col gap-16 w-full">
-        {messages.slice(0, amount).map((item) => (
-          <Card key={item.id}>
-            <Card.Body className="w-full pt-24">
-              <div className="flex flex-row items-center justify-between">
-                <div className="flex flex-col justify-center">
-                  <h2 className="text-h3-sm !mt-0">{item.title}</h2>
-                  <p className="text-small">
-                    {dayjs(item.createdAt).format("YYYY-MM-DD, HH:mm")}
-                  </p>
+        {messages.length === 0 ? (
+          <div>
+            <p>{t("noMessages")}</p>
+          </div>
+        ) : (
+          messages.slice(0, amount).map((item) => (
+            <Card key={item.id}>
+              <Card.Body className="w-full pt-24">
+                <div className="flex flex-row items-center justify-between">
+                  <div className="flex flex-col justify-center">
+                    <h2 className="text-h3-sm !mt-0">{item.title}</h2>
+                    <p className="text-small">
+                      {dayjs(item.createdAt).format("YYYY-MM-DD, HH:mm")}
+                    </p>
+                  </div>
+                  <Button
+                    iconButton
+                    rounded
+                    size="md"
+                    onClick={() => handleViewMessage(item.id)}
+                  >
+                    <ArrowRight />
+                  </Button>
                 </div>
-                <Button
-                  iconButton
-                  rounded
-                  size="md"
-                  onClick={() => handleViewMessage(item.id)}
-                >
-                  <ArrowRight />
-                </Button>
-              </div>
-            </Card.Body>
-          </Card>
-        ))}
-        <MessageToggleButton
-          messagesLength={messages.length}
-          amount={amount}
+              </Card.Body>
+            </Card>
+          ))
+        )}
+        <ShowAllToggleButton
+          totalCount={messages.length}
+          visibleCount={amount}
+          collapsedCount={3}
           onToggle={setAmount}
           showAllText={t("showAllButton")}
           goBackText={t("goBackButton")}
