@@ -55,15 +55,21 @@ const AppBarHeader = () => {
               {t("closeButton")}
             </Button>
             <List listStyle="stroke" className="pt-10">
-              {PATHS.filter((p) => p.isVisible).map((path, i) => (
-                <List.Item key={i}>
-                  <List.Text>
-                    <Link href={path.url} onClick={() => setOpen(false)}>
-                      {path.title}
-                    </Link>
-                  </List.Text>
-                </List.Item>
-              ))}
+{PATHS.filter((p) => p.isVisible).map((path, i) => (
+  <List.Item key={i}>
+    <List.Text>
+      {path.isExternal ? (
+        <a href={path.url} target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>
+          {path.title}
+        </a>
+      ) : (
+        <Link href={path.url} onClick={() => setOpen(false)}>
+          {path.title}
+        </Link>
+      )}
+    </List.Text>
+  </List.Item>
+))}
             </List>
           </div>
         </div>

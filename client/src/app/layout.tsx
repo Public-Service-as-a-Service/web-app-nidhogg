@@ -4,6 +4,7 @@ import "./globals.css";
 import AppBarHeader from "./components/AppBar";
 import Providers from "./providers";
 import { NextIntlClientProvider } from "next-intl";
+import { SnackbarProvider } from "./components/snackbar-provider";
 
 export const metadata: Metadata = {
   title: "Nidhogg",
@@ -20,6 +21,7 @@ export default function RootLayout({
       <body>
         <Providers>
           <NextIntlClientProvider>
+            <SnackbarProvider />
             <AppBarHeader />
             {children}
           </NextIntlClientProvider>
