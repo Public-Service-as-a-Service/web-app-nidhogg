@@ -2,13 +2,14 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { useLogout } from "../services/useLogout";
-import { PAGE_ROUTES, PATHS } from "../constants";
+import { PAGE_ROUTES, PATHS, tailwindBreakPoint } from "../constants";
 import { useState } from "react";
 import Link from "next/link";
 import { isProtectedPage } from "@/middleware";
 import { useTranslations } from "next-intl";
 import { Button, List, Logo } from "@sk-web-gui/react";
 import { Rows3, LogOut, X, Home, Send, Users } from "lucide-react";
+import { useScreenWidth } from "../hooks/useScreenWidth";
 
 const pathIcons: Record<string, React.ReactNode> = {
   [PAGE_ROUTES.dashboard]: <Home size={20} />,
@@ -22,6 +23,7 @@ const AppBarHeader = () => {
   const { mutate, isPending } = useLogout();
   const [open, setOpen] = useState(false);
   const t = useTranslations("AppBar");
+  const screenWidth = useScreenWidth();
 
   const handleLogout = () => {
     mutate(undefined, {
@@ -43,9 +45,35 @@ const AppBarHeader = () => {
               subtitle={t("subtitle")}
             />
           </div>
-          <Button iconButton={true} onClick={() => setOpen(true)}>
-            <Rows3 />
-          </Button>
+          {screenWidth < tailwindBreakPoint.LG ? (
+            <Button iconButton={true} onClick={() => setOpen(true)}>
+              <Rows3 />
+            </Button>
+          ) : (
+            <List className="flex flex-row gap-16">
+              {PATHS.filter((p) => p.isVisible).map((path, i) => (
+                <Button key={i} variant="secondary">
+                  <Link
+                    href={path.url}
+                    onClick={() => setOpen(false)}
+                    className="flex items-center gap-8 py-16"
+                  >
+                    {pathIcons[path.url]}
+                    <span>{path.title}</span>
+                  </Link>
+                </Button>
+              ))}
+              <Button
+                type="button"
+                variant="tertiary"
+                size="md"
+                onClick={handleLogout}
+              >
+                <LogOut />
+                {isPending ? t("loggingOut") : t("logOut")}
+              </Button>
+            </List>
+          )}
         </div>
       </header>
       {open && (
