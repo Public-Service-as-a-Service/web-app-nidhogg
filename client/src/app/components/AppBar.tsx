@@ -7,7 +7,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { isProtectedPage } from "@/middleware";
 import { useTranslations } from "next-intl";
-import { Button, List } from "@sk-web-gui/react";
+import { Button, List, Logo } from "@sk-web-gui/react";
 import { Rows3, LogOut } from "lucide-react";
 
 const AppBarHeader = () => {
@@ -28,18 +28,17 @@ const AppBarHeader = () => {
 
   return (
     <>
-      <header className="w-full top-0 z-50">
+      <header className="w-full top-0 z-50 shadow-50 pb-">
         <div className="mx-auto p-20 flex items-center align-center justify-between">
-          <Button onClick={() => setOpen(true)}>
-            {t("menuButton")} <Rows3 />
-          </Button>
-          <Button
-            type="button"
-            variant="secondary"
-            size="md"
-            onClick={handleLogout}
-          >
-            {isPending ? t("loggingOut") : t("logOut")} <LogOut />
+          <div className="self-center">
+            <Logo
+              variant="service"
+              title={t("title")}
+              subtitle={t("subtitle")}
+            />
+          </div>
+          <Button iconButton={true} onClick={() => setOpen(true)}>
+            <Rows3 />
           </Button>
         </div>
       </header>
@@ -65,6 +64,14 @@ const AppBarHeader = () => {
                 </List.Item>
               ))}
             </List>
+            <Button
+              type="button"
+              variant="secondary"
+              size="md"
+              onClick={handleLogout}
+            >
+              {isPending ? t("loggingOut") : t("logOut")} <LogOut />
+            </Button>
           </div>
         </div>
       )}

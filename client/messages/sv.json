@@ -1,8 +1,4 @@
 {
-  "Wrapper": {
-    "title": "Nidhogg",
-    "subtitle": "Krisinformation"
-  },
   "Dashboard": {
     "newMessageButton": "Skapa nytt utskick",
     "sentMessagesHeading": "Dina senaste utskick",
@@ -30,7 +26,9 @@
     "logOut": "Logga ut",
     "loggingOut": "Loggar ut...",
     "menuButton": "Meny",
-    "closeButton": "Stäng"
+    "closeButton": "Stäng",
+    "title": "Krisinformation",
+    "subtitle": "Sundsvalls Kommun"
   },
   "LogIn": {
     "welcomeHeading": "Välkommen!",
