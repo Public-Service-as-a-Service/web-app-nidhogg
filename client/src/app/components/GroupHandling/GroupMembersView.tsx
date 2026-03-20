@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@sk-web-gui/react";
-import { ArrowLeft } from "lucide-react";
+import { Button, Icon } from "@sk-web-gui/react";
+import { ArrowLeft, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Employee } from "@/app/interfaces/employee";
 import MemberSection from "./MemberSection";
@@ -34,22 +34,26 @@ const GroupMembersView = ({
 
   if (isEditing && isAdding) {
     return (
-      <SearchSection
-        memberIdSet={memberIdSet}
-        handleBulkMembers={onBulkMembers}
-        onCancel={onCancelAddingMembers}
-      />
+      <div className="pt-40">
+        <SearchSection
+          memberIdSet={memberIdSet}
+          handleBulkMembers={onBulkMembers}
+          onCancel={onCancelAddingMembers}
+        />
+      </div>
     );
   }
 
   if (isEditing) {
     return (
-      <div>
+      <div className="pt-40">
         <Button
           className="w-full"
           variant="secondary"
+          size="lg"
           onClick={onStartAddingMembers}
         >
+          <Icon icon={<Users />} />
           {t("addMembers")}
         </Button>
         <MemberSection

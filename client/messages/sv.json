@@ -117,6 +117,7 @@
     "editButton": "Redigera",
     "saveButton": "Spara",
     "groupDescription": "Beskrivning",
+    "groupDescriptionInfo": "Beskriv gruppen så att du enkelt känner igen den.",
     "membersLabel": "Gruppmedlemmar",
     "groupNameLabel": "Gruppnamn",
     "pagination": "Sida {current} av {total}",
