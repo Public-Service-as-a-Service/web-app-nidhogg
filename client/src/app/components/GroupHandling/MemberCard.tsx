@@ -52,6 +52,11 @@ const MemberCard = ({
                 </p>
                 <p className="!p-0">{member.workTitle}</p>
                 <p className="!p-0">{member.orgName}</p>
+                {member.workMobile && (
+                  <p className="!p-0">{member.workMobile}</p>
+                )}
+                {member.workPhone && <p className="!p-0">{member.workPhone}</p>}
+                {member.email && <p className="!p-0">{member.email}</p>}
               </div>
             </div>
           </Card.Text>
