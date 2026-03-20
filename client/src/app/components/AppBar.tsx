@@ -8,7 +8,13 @@ import Link from "next/link";
 import { isProtectedPage } from "@/middleware";
 import { useTranslations } from "next-intl";
 import { Button, List, Logo } from "@sk-web-gui/react";
-import { Rows3, LogOut } from "lucide-react";
+import { Rows3, LogOut, X, Home, Send, Users } from "lucide-react";
+
+const pathIcons: Record<string, React.ReactNode> = {
+  [PAGE_ROUTES.dashboard]: <Home size={20} />,
+  [PAGE_ROUTES.dashboardMessages]: <Send size={20} />,
+  [PAGE_ROUTES.dashboardGroups]: <Users size={20} />,
+};
 
 const AppBarHeader = () => {
   const router = useRouter();
@@ -28,8 +34,8 @@ const AppBarHeader = () => {
 
   return (
     <>
-      <header className="w-full top-0 z-50 shadow-50 pb-">
-        <div className="mx-auto p-20 flex items-center align-center justify-between">
+      <header className="w-full top-0 z-50 shadow-50">
+        <div className="mx-auto p-20 flex items-center justify-between">
           <div className="self-center">
             <Logo
               variant="service"
@@ -43,35 +49,49 @@ const AppBarHeader = () => {
         </div>
       </header>
       {open && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 z-40">
-          <div className="absolute top-0 left-0 w-[300px] h-full p-24">
-            <Button
-              type="button"
-              variant="secondary"
-              size="md"
-              onClick={() => setOpen(false)}
-            >
-              {t("closeButton")}
-            </Button>
-            <List listStyle="stroke" className="pt-10">
+        <div
+          className="fixed inset-0 bg-black bg-opacity-40 z-40"
+          onClick={() => setOpen(false)}
+        >
+          <div
+            className="absolute top-0 right-0 w-[300px] h-full flex flex-col p-40 bg-[--sk-colors-background-content]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between py-20">
+              <p className="text-h4-md">{t("menuButton")}</p>
+              <Button
+                onClick={() => setOpen(false)}
+                aria-label={t("closeButton")}
+                iconButton={true}
+              >
+                <X size={24} />
+              </Button>
+            </div>
+            <List className="flex flex-col flex-1 overflow-y-auto">
               {PATHS.filter((p) => p.isVisible).map((path, i) => (
-                <List.Item key={i}>
-                  <List.Text>
-                    <Link href={path.url} onClick={() => setOpen(false)}>
-                      {path.title}
-                    </Link>
-                  </List.Text>
-                </List.Item>
+                <Link
+                  key={i}
+                  href={path.url}
+                  onClick={() => setOpen(false)}
+                  className="flex items-center gap-16 py-16"
+                >
+                  {pathIcons[path.url]}
+                  <span>{path.title}</span>
+                </Link>
               ))}
             </List>
-            <Button
-              type="button"
-              variant="secondary"
-              size="md"
-              onClick={handleLogout}
-            >
-              {isPending ? t("loggingOut") : t("logOut")} <LogOut />
-            </Button>
+            <div>
+              <Button
+                type="button"
+                variant="secondary"
+                size="md"
+                className="w-full justify-center"
+                onClick={handleLogout}
+              >
+                <LogOut size={18} />
+                {isPending ? t("loggingOut") : t("logOut")}
+              </Button>
+            </div>
           </div>
         </div>
       )}

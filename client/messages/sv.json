@@ -28,7 +28,8 @@
     "menuButton": "Meny",
     "closeButton": "Stäng",
     "title": "Krisinformation",
-    "subtitle": "Sundsvalls Kommun"
+    "subtitle": "Sundsvalls Kommun",
+    "aboutCrisisInfo": "Om krisinformation"
   },
   "LogIn": {
     "welcomeHeading": "Välkommen!",

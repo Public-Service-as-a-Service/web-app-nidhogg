@@ -31,15 +31,15 @@ export const API_ENDPOINTS = {
 } as const;
 
 export const PATHS = [
-  { url: PAGE_ROUTES.dashboard, title: "Dashboard", isVisible: true },
+  { url: PAGE_ROUTES.dashboard, title: "Startsida", isVisible: true },
   {
     url: PAGE_ROUTES.dashboardMessages,
-    title: "Skapa nytt utskick",
+    title: "Nytt utskick",
     isVisible: true,
   },
   {
     url: PAGE_ROUTES.dashboardGroups,
-    title: "Hantera sparade grupper",
+    title: "Hantera dina grupper",
     isVisible: true,
   },
 ];
