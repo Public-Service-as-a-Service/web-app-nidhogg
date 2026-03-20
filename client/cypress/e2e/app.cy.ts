@@ -75,6 +75,11 @@ describe("Sign Out", () => {
   });
 
   it("renders dashboard while signed in", () => {
+    cy.intercept("GET", "**/api/auth/email", {
+      statusCode: 200,
+      body: { email: "user@test.se" },
+    }).as("authEmailRequest");
+
     cy.contains("Skapa nytt utskick").should("exist");
   });
 
