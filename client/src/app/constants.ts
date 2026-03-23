@@ -24,12 +24,14 @@ export const API_ENDPOINTS = {
     `/notifier/messages/${id}/${email}`,
   messageRecipients: (id: number) =>
     `/notifier/messages/message/${id}/recipients`,
+  messagesAll: "/notifier/messages/all",
   groups: "/notifier/groups",
   groupById: (id: number | string) => `/notifier/groups/${id}`,
   allEmployees: "/notifier/employees",
   searchEmployees: "/notifier/employees/search",
   allOrganizations: "/notifier/organization/organizations",
   allManagers: "/notifier/employees/managers",
+  itProd: "/notifier/employees/org-group/it-prod"
 } as const;
 
 export const PATHS = [

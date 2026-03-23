@@ -51,7 +51,8 @@
     "handleGroups": "Hantera grupper",
     "organization": "Organisation",
     "recipients": "Valda mottagare från organisationen:",
-    "allManagers": "Alla chefer"
+    "allManagers": "Alla chefer",
+    "itProd": "IT-prod"
   },
   "MessageForm": {
     "titleLabel": "Titel",
@@ -93,7 +94,8 @@
   },
   "MessageStepsCommon": {
     "showAll": "Visa alla mottagare ({amount})",
-    "showLess": "Dölj mottagare"
+    "showLess": "Dölj mottagare",
+    "sendToAll": "Alla medarbetare"
   },
   "ProgressSteps": {
     "recipients": "Mottagare",
