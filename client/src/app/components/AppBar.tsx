@@ -88,7 +88,7 @@ const AppBarHeader = () => {
           onClick={() => setOpen(false)}
         >
           <div
-            className="absolute top-0 right-0 w-[300px] h-full flex flex-col p-40 bg-[--sk-colors-background-content]"
+            className="absolute top-0 right-0 w-[300px] h-full flex flex-col pt-16 px-24 pb-40 bg-[--sk-colors-background-content]"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between py-20">
@@ -97,6 +97,8 @@ const AppBarHeader = () => {
                 onClick={() => setOpen(false)}
                 aria-label={t("closeButton")}
                 iconButton={true}
+                showBackground={false}
+                inverted={true}
               >
                 <X size={24} />
               </Button>
