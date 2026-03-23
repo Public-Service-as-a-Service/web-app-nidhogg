@@ -32,7 +32,7 @@ const ViewStep = ({
 }: ViewStepProps) => {
   const t = useTranslations("ViewStep");
   const router = useRouter();
-  const mutation = useSendMessage();
+  const mutation = useSendMessage(allChecked);
   const email = useUserEmail();
 
   const employeeRecipients = Object.values(recipientEmployees);
@@ -63,20 +63,18 @@ const ViewStep = ({
       return "NONE";
     };
 
-    mutation.mutate(
-      {
-        title,
-        content: messageBody,
-        sender: email,
-        recipientEmployeeIds,
-        messageType: getMessageType(channels),
-      },
-      {
-        onSuccess: () => {
-          router.push(PAGE_ROUTES.dashboard);
-        },
-      },
-    );
+    const payload = {
+      title,
+      content: messageBody,
+      sender: email,
+      messageType: getMessageType(channels),
+
+      ...(!allChecked && { recipientEmployeeIds: recipientEmployeeIds }),
+    };
+
+    mutation.mutate(payload, {
+      onSuccess: () => router.push(PAGE_ROUTES.dashboard),
+    });
   };
 
   if (mutation.isPending) {

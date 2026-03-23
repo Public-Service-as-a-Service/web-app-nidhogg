@@ -93,7 +93,8 @@
   },
   "MessageStepsCommon": {
     "showAll": "Visa alla mottagare ({amount})",
-    "showLess": "Dölj mottagare"
+    "showLess": "Dölj mottagare",
+    "sendToAll": "Alla medarbetare"
   },
   "ProgressSteps": {
     "recipients": "Mottagare",
