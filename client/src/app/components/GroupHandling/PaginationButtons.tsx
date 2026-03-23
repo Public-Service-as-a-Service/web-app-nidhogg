@@ -2,19 +2,19 @@ import { Button } from "@sk-web-gui/react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-interface SearchPaginationProps {
+interface PaginationButtonsProps {
   page: number;
   totalPages: number;
   onPreviousPage: () => void;
   onNextPage: () => void;
 }
 
-const SearchPagination = ({
+const PaginationButtons = ({
   page,
   totalPages,
   onPreviousPage,
   onNextPage,
-}: SearchPaginationProps) => {
+}: PaginationButtonsProps) => {
   const t = useTranslations("GroupHandling");
 
   if (totalPages === 0) {
@@ -47,4 +47,4 @@ const SearchPagination = ({
   );
 };
 
-export default SearchPagination;
+export default PaginationButtons;
