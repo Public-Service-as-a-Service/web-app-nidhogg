@@ -46,7 +46,11 @@ const AppBarHeader = () => {
             />
           </div>
           {screenWidth < tailwindBreakPoint.LG ? (
-            <Button iconButton={true} onClick={() => setOpen(true)}>
+            <Button
+              iconButton={true}
+              onClick={() => setOpen(true)}
+              data-cy="menu"
+            >
               <Rows3 />
             </Button>
           ) : (
@@ -63,15 +67,17 @@ const AppBarHeader = () => {
                   </Link>
                 </NavigationBar.Item>
               ))}
-              <Button
-                type="button"
-                variant="secondary"
-                size="md"
-                onClick={handleLogout}
-              >
-                <LogOut />
-                {isPending ? t("loggingOut") : t("logOut")}
-              </Button>
+              <NavigationBar.Item>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="md"
+                  onClick={handleLogout}
+                >
+                  <LogOut />
+                  {isPending ? t("loggingOut") : t("logOut")}
+                </Button>
+              </NavigationBar.Item>
             </NavigationBar>
           )}
         </div>
