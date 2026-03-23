@@ -1,3 +1,7 @@
+// Valid fake JWT with payload {"email":"user@test.se","role":"USER"}
+const FAKE_JWT =
+  "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InVzZXJAdGVzdC5zZSIsInJvbGUiOiJVU0VSIn0.fakesignature";
+
 beforeEach(() => {
   cy.intercept("GET", "**/api/**", {
     statusCode: 200,
@@ -45,7 +49,7 @@ describe("Login Page", () => {
     cy.get('input[type="email"]').type("user@test.se");
     cy.get('input[type="password"]').type("password");
 
-    cy.setCookie("token", "123");
+    cy.setCookie("token", FAKE_JWT);
 
     cy.get('button[type="submit"]').click();
 
@@ -76,7 +80,7 @@ describe("Sign Out", () => {
     cy.get('input[type="email"]').type("user@test.se");
     cy.get('input[type="password"]').type("password");
 
-    cy.setCookie("token", "123");
+    cy.setCookie("token", FAKE_JWT);
 
     cy.get('button[type="submit"]').click();
 
