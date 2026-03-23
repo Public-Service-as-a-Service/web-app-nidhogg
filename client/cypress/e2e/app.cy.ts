@@ -37,6 +37,11 @@ describe("Login Page", () => {
       body: { success: true },
     }).as("loginRequest");
 
+    cy.intercept("GET", "**/api/auth/me", {
+      statusCode: 200,
+      body: { email: "user@test.se", role: "USER" },
+    }).as("meRequest");
+
     cy.get('input[type="email"]').type("user@test.se");
     cy.get('input[type="password"]').type("password");
 
@@ -60,6 +65,11 @@ describe("Sign Out", () => {
       statusCode: 200,
       body: { success: true },
     }).as("loginRequest");
+
+    cy.intercept("GET", "**/api/auth/me", {
+      statusCode: 200,
+      body: { email: "user@test.se", role: "USER" },
+    }).as("meRequest");
 
     cy.visit("http://localhost:3000");
 
