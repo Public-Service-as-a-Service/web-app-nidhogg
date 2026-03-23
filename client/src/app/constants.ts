@@ -28,6 +28,7 @@ export const API_ENDPOINTS = {
   searchEmployees: "/notifier/employees/search",
   allOrganizations: "/notifier/organization/organizations",
   allManagers: "/notifier/employees/managers",
+  itProd: "/notifier/employees/org-group/it-prod"
 } as const;
 
 export const PATHS = [
