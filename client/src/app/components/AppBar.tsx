@@ -37,7 +37,7 @@ const AppBarHeader = () => {
   return (
     <>
       <header className="w-full top-0 z-50 shadow-50">
-        <div className="mx-auto p-20 flex items-center justify-between">
+        <div className="mx-auto flex items-center justify-between p-20 md:px-80">
           <div className="self-center">
             <Logo
               variant="service"
