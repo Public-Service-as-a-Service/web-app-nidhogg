@@ -5,7 +5,7 @@ import { API_ENDPOINTS } from "../constants";
 
 interface MessageRecipientsResponse {
   content: MessageRecipient[];
-  totalPages?: number;
+  totalPages: number;
   number?: number;
   currentPage?: number;
 }
@@ -20,9 +20,7 @@ export const useMessageRecipients = (id: number, page = 0, size = 10) => {
   return useQuery<MessageRecipientsResult>({
     queryKey: ["messages", id, "recipients", page, size],
     queryFn: async () => {
-      const response = await axios.get<
-        MessageRecipient[] | MessageRecipientsResponse
-      >(
+      const response = await axios.get<MessageRecipientsResponse>(
         `${process.env.NEXT_PUBLIC_API_URL}${API_ENDPOINTS.messageRecipients(id)}`,
         {
           params: {
@@ -35,17 +33,9 @@ export const useMessageRecipients = (id: number, page = 0, size = 10) => {
         },
       );
 
-      if (Array.isArray(response.data)) {
-        return {
-          content: response.data,
-          totalPages: response.data.length > 0 ? 1 : 0,
-          currentPage: 0,
-        };
-      }
-
       return {
         content: response.data.content,
-        totalPages: response.data.totalPages ?? 0,
+        totalPages: response.data.totalPages,
         currentPage: response.data.currentPage ?? response.data.number ?? page,
       };
     },
