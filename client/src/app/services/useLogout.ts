@@ -14,6 +14,7 @@ export const useLogout = () => {
       if (response) {
         sessionStorage.removeItem(SESSION_STORAGE.sessionActive);
         sessionStorage.removeItem(SESSION_STORAGE.userEmail);
+        sessionStorage.removeItem(SESSION_STORAGE.userRole);
       }
       return response;
     },

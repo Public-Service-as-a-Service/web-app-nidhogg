@@ -14,6 +14,7 @@ export const PAGE_ROUTES = {
   dashboardGroups: "/dashboard/groups",
   dashboardGroupCreate: "/dashboard/groups/create",
   dashboardGroupDetails: (id: number | string) => `/dashboard/groups/${id}`,
+  dashboardAdmin: "/dashboard/admin",
 } as const;
 
 export const API_ENDPOINTS = {
@@ -33,7 +34,12 @@ export const API_ENDPOINTS = {
   searchEmployees: "/notifier/employees/search",
   allOrganizations: "/notifier/organization/organizations",
   allManagers: "/notifier/employees/managers",
-  itProd: "/notifier/employees/org-group/it-prod"
+  itProd: "/notifier/employees/org-group/it-prod",
+  adminUsers: "/admin/users",
+  adminUserByEmail: (email: string) =>
+    `/admin/users/${encodeURIComponent(email)}`,
+  adminUserPassword: (email: string) =>
+    `/admin/users/${encodeURIComponent(email)}/password`,
 } as const;
 
 export const PATHS = [
@@ -59,6 +65,7 @@ export const PATHS = [
 export const SESSION_STORAGE = {
   sessionActive: "sessionActive",
   userEmail: "userEmail",
+  userRole: "userRole",
 };
 
 export const tailwindBreakPoint = {

@@ -7,7 +7,7 @@ import { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
 import { Button, Input } from "@sk-web-gui/react";
 import Loading from "./components/LoadingSpinner";
-import { PAGE_ROUTES } from "./constants";
+import { PAGE_ROUTES, SESSION_STORAGE } from "./constants";
 import { LogIn } from "lucide-react";
 
 export type Credentials = {
@@ -31,17 +31,22 @@ const Login = () => {
 
     mutate(credentials, {
       onSuccess: () => {
-        router.push(PAGE_ROUTES.dashboard);
+        const role = sessionStorage.getItem(SESSION_STORAGE.userRole);
+        router.push(role === "ADMIN" ? PAGE_ROUTES.dashboardAdmin : PAGE_ROUTES.dashboard);
       },
       onError: (error: AxiosError) => {
         console.log(error);
-        setError(
-          `Inloggningen misslyckades. ${
-            error?.response?.data === "Incorrect password"
-              ? t("errors.wrongPassword")
-              : t("errors.wrongCredentials")
-          }`,
-        );
+        const data = error?.response?.data as { detail?: string } | string | undefined;
+        const detail = typeof data === "object" ? data?.detail : data;
+        if (detail === "Account suspended") {
+          setError(t("errors.suspended"));
+        } else if (detail === "Account inactive") {
+          setError(t("errors.inactive"));
+        } else if (detail === "Incorrect password") {
+          setError(`Inloggningen misslyckades. ${t("errors.wrongPassword")}`);
+        } else {
+          setError(`Inloggningen misslyckades. ${t("errors.wrongCredentials")}`);
+        }
       },
     });
   };
