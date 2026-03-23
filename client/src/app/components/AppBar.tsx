@@ -7,7 +7,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { isProtectedPage } from "@/middleware";
 import { useTranslations } from "next-intl";
-import { Button, List, Logo } from "@sk-web-gui/react";
+import { Button, List, Logo, NavigationBar } from "@sk-web-gui/react";
 import { Rows3, LogOut, X, Home, Send, Users } from "lucide-react";
 import { useScreenWidth } from "../hooks/useScreenWidth";
 
@@ -50,29 +50,29 @@ const AppBarHeader = () => {
               <Rows3 />
             </Button>
           ) : (
-            <List className="flex flex-row gap-16">
+            <NavigationBar className="flex flex-row gap-16">
               {PATHS.filter((p) => p.isVisible).map((path, i) => (
-                <Button key={i} variant="secondary">
+                <NavigationBar.Item key={i}>
                   <Link
                     href={path.url}
                     onClick={() => setOpen(false)}
                     className="flex items-center gap-8 py-16"
                   >
                     {pathIcons[path.url]}
-                    <span>{path.title}</span>
+                    <p className="pl-8">{path.title}</p>
                   </Link>
-                </Button>
+                </NavigationBar.Item>
               ))}
               <Button
                 type="button"
-                variant="tertiary"
+                variant="secondary"
                 size="md"
                 onClick={handleLogout}
               >
                 <LogOut />
                 {isPending ? t("loggingOut") : t("logOut")}
               </Button>
-            </List>
+            </NavigationBar>
           )}
         </div>
       </header>
