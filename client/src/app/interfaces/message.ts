@@ -3,8 +3,10 @@ export interface MessageRecipient {
   firstName: string;
   lastName: string;
   orgId: string;
-  workTitle: string;
+  orgName?: string;
+  workTitle?: string;
   deliveryStatus: string;
+  receivedAt?: string;
 }
 
 export interface Message {

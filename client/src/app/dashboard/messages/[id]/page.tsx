@@ -12,6 +12,7 @@ import ShowAllToggleButton from "@/app/components/ShowAllToggleButton";
 import { useTranslations } from "next-intl";
 import { useUserEmail } from "@/app/hooks/useUserEmail";
 import { useState } from "react";
+import { useMessageRecipients } from "@/app/services/useMessageRecipients";
 
 const MessageDetails = () => {
   const params = useParams();
@@ -22,6 +23,7 @@ const MessageDetails = () => {
   const [visibleCount, setVisibleCount] = useState(10);
 
   const { data: message, isLoading } = useMessage(id, email);
+  const { data: messageRecipients } = useMessageRecipients(id);
 
   const getMessageType = () => {
     if (message?.messageType === "TEAMS") {
@@ -59,11 +61,11 @@ const MessageDetails = () => {
         <div className="gap-8 p-8">
           <p className="text-label-large">{t("recipientsLabel")}</p>
           <RecipientList
-            recipients={message?.recipients?.slice(0, visibleCount)}
+            recipients={messageRecipients?.slice(0, visibleCount)}
           />
           <div className="pt-8">
             <ShowAllToggleButton
-              totalCount={message?.recipients?.length ?? 0}
+              totalCount={messageRecipients?.length ?? 0}
               visibleCount={visibleCount}
               collapsedCount={10}
               onToggle={setVisibleCount}
