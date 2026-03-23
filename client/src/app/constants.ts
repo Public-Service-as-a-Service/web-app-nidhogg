@@ -36,10 +36,8 @@ export const API_ENDPOINTS = {
   allManagers: "/notifier/employees/managers",
   itProd: "/notifier/employees/org-group/it-prod",
   adminUsers: "/admin/users",
-  adminUserByEmail: (email: string) =>
-    `/admin/users/${encodeURIComponent(email)}`,
-  adminUserPassword: (email: string) =>
-    `/admin/users/${encodeURIComponent(email)}/password`,
+  adminUserById: (id: number) => `/admin/users/${id}`,
+  adminUserPassword: (id: number) => `/admin/users/${id}/password`,
 } as const;
 
 export const PATHS = [

@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { getAuthenticatedUser } from "@/utils/auth";
 import { STORE } from "@/app/constants";
 
-type Params = { params: Promise<{ email: string }> };
+type Params = { params: Promise<{ id: string }> };
 
 const usersBaseUrl = () =>
   `${process.env.API_PROXY_TARGET_USERS}/api/users`;
@@ -19,17 +19,14 @@ export async function PATCH(req: NextRequest, { params }: Params) {
   if ("response" in result) return result.response;
   if (result.role !== "ADMIN") return new Response("Forbidden", { status: 403 });
 
-  const { email } = await params;
+  const { id } = await params;
   const password = await req.text();
 
-  const upstream = await fetch(
-    `${usersBaseUrl()}/emails/${encodeURIComponent(email)}/password`,
-    {
-      method: "PATCH",
-      headers: { "Content-Type": "text/plain", ...(await authHeader()) },
-      body: password,
-    },
-  );
+  const upstream = await fetch(`${usersBaseUrl()}/ids/${id}/password`, {
+    method: "PATCH",
+    headers: { "Content-Type": "text/plain", ...(await authHeader()) },
+    body: password,
+  });
 
   return new Response(null, { status: upstream.status });
 }

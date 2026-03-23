@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { getAuthenticatedUser } from "@/utils/auth";
 import { STORE } from "@/app/constants";
 
-type Params = { params: Promise<{ email: string }> };
+type Params = { params: Promise<{ id: string }> };
 
 const usersBaseUrl = () =>
   `${process.env.API_PROXY_TARGET_USERS}/api/users`;
@@ -19,11 +19,10 @@ export async function GET(_req: NextRequest, { params }: Params) {
   if ("response" in result) return result.response;
   if (result.role !== "ADMIN") return new Response("Forbidden", { status: 403 });
 
-  const { email } = await params;
-  const upstream = await fetch(
-    `${usersBaseUrl()}/emails/${encodeURIComponent(email)}`,
-    { headers: await authHeader() },
-  );
+  const { id } = await params;
+  const upstream = await fetch(`${usersBaseUrl()}/ids/${id}`, {
+    headers: await authHeader(),
+  });
   const text = await upstream.text();
   return new Response(text, {
     status: upstream.status,
@@ -36,16 +35,13 @@ export async function PATCH(req: NextRequest, { params }: Params) {
   if ("response" in result) return result.response;
   if (result.role !== "ADMIN") return new Response("Forbidden", { status: 403 });
 
-  const { email } = await params;
+  const { id } = await params;
   const body = await req.json();
-  const upstream = await fetch(
-    `${usersBaseUrl()}/emails/${encodeURIComponent(email)}`,
-    {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json", ...(await authHeader()) },
-      body: JSON.stringify(body),
-    },
-  );
+  const upstream = await fetch(`${usersBaseUrl()}/ids/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json", ...(await authHeader()) },
+    body: JSON.stringify(body),
+  });
 
   const text = await upstream.text();
   return new Response(text, {
@@ -59,11 +55,11 @@ export async function DELETE(_req: NextRequest, { params }: Params) {
   if ("response" in result) return result.response;
   if (result.role !== "ADMIN") return new Response("Forbidden", { status: 403 });
 
-  const { email } = await params;
-  const upstream = await fetch(
-    `${usersBaseUrl()}/emails/${encodeURIComponent(email)}`,
-    { method: "DELETE", headers: await authHeader() },
-  );
+  const { id } = await params;
+  const upstream = await fetch(`${usersBaseUrl()}/ids/${id}`, {
+    method: "DELETE",
+    headers: await authHeader(),
+  });
 
   return new Response(null, { status: upstream.status });
 }

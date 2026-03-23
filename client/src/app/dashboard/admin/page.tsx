@@ -83,12 +83,12 @@ const AdminPage = () => {
     if (fields.phoneNumber) fields.phoneNumber = normalizePhone(fields.phoneNumber);
 
     updateUser(
-      { email: user.email, data: fields },
+      { id: user.id, data: fields },
       {
         onSuccess: () => {
           if (newPassword) {
             updatePassword(
-              { email: fields.email ?? user.email, password: newPassword },
+              { id: user.id, password: newPassword },
               {
                 onSuccess: () => setMode("list"),
                 onError: () => setFormError(t("errors.updateFailed")),
@@ -104,7 +104,7 @@ const AdminPage = () => {
   };
 
   const handleDelete = (user: AdminUser) => {
-    deleteUser(user.email, {
+    deleteUser(user.id, {
       onSuccess: () => setDeleteConfirm(null),
     });
   };

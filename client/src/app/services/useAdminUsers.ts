@@ -64,10 +64,10 @@ export const useCreateUser = () => {
 
 export const useUpdateUser = () => {
   const queryClient = useQueryClient();
-  return useMutation<AdminUser, AxiosError, { email: string; data: UpdateUserRequest }>({
-    mutationFn: async ({ email, data }) => {
+  return useMutation<AdminUser, AxiosError, { id: number; data: UpdateUserRequest }>({
+    mutationFn: async ({ id, data }) => {
       const res = await axios.patch<AdminUser>(
-        `${process.env.NEXT_PUBLIC_API_URL}${API_ENDPOINTS.adminUserByEmail(email)}`,
+        `${process.env.NEXT_PUBLIC_API_URL}${API_ENDPOINTS.adminUserById(id)}`,
         data,
         { withCredentials: true },
       );
@@ -79,10 +79,10 @@ export const useUpdateUser = () => {
 };
 
 export const useUpdateUserPassword = () =>
-  useMutation<void, AxiosError, { email: string; password: string }>({
-    mutationFn: async ({ email, password }) => {
+  useMutation<void, AxiosError, { id: number; password: string }>({
+    mutationFn: async ({ id, password }) => {
       await axios.patch(
-        `${process.env.NEXT_PUBLIC_API_URL}${API_ENDPOINTS.adminUserPassword(email)}`,
+        `${process.env.NEXT_PUBLIC_API_URL}${API_ENDPOINTS.adminUserPassword(id)}`,
         password,
         {
           withCredentials: true,
@@ -94,10 +94,10 @@ export const useUpdateUserPassword = () =>
 
 export const useDeleteUser = () => {
   const queryClient = useQueryClient();
-  return useMutation<void, AxiosError, string>({
-    mutationFn: async (email) => {
+  return useMutation<void, AxiosError, number>({
+    mutationFn: async (id) => {
       await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}${API_ENDPOINTS.adminUserByEmail(email)}`,
+        `${process.env.NEXT_PUBLIC_API_URL}${API_ENDPOINTS.adminUserById(id)}`,
         { withCredentials: true },
       );
     },
