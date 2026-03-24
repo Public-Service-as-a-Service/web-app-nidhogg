@@ -10,6 +10,9 @@ export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   if (pathname.startsWith("/api/teamssender") && !authToken) {
+    if (pathname.startsWith("/api/teamssender/callback")) {
+    return NextResponse.next();
+    }
     return NextResponse.redirect(new URL(PAGE_ROUTES.home, req.url));
   }
 

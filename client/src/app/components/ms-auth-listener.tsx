@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useSnackbar } from "@sk-web-gui/snackbar";
+import { useSnackbar } from "@sk-web-gui/react";
 
 export function MsAuthListener() {
   const message = useSnackbar();
