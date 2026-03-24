@@ -15,7 +15,7 @@ const PaginationButtons = ({
   onPreviousPage,
   onNextPage,
 }: PaginationButtonsProps) => {
-  const t = useTranslations("GroupHandling");
+  const t = useTranslations("Common");
 
   if (totalPages === 0) {
     return null;
@@ -23,11 +23,7 @@ const PaginationButtons = ({
 
   return (
     <div className="flex flex-row place-content-between">
-      <Button
-        iconButton={true}
-        disabled={page === 0}
-        onClick={onPreviousPage}
-      >
+      <Button iconButton={true} disabled={page === 0} onClick={onPreviousPage}>
         <ArrowLeft />
       </Button>
       <p className="self-center">
