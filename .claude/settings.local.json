@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(xargs grep:*)",
-      "Bash(mv \"c:/Users/jocke/SundsvallsKommun/api-service-webAppUsers/src/integration-test/resources/UpdateUserIT/__files/test01_updateUserWithEmail\" \"c:/Users/jocke/SundsvallsKommun/api-service-webAppUsers/src/integration-test/resources/UpdateUserIT/__files/test01_updateUserWithId\")",
-      "Bash(mv \"c:/Users/jocke/SundsvallsKommun/api-service-webAppUsers/src/integration-test/resources/UpdateUserIT/__files/test03_updateUserWithEmailNotFound\" \"c:/Users/jocke/SundsvallsKommun/api-service-webAppUsers/src/integration-test/resources/UpdateUserIT/__files/test03_updateUserWithIdNotFound\")"
-    ]
-  }
-}
