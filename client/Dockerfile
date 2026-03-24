@@ -1,8 +1,8 @@
 ARG NODE_VERSION=22-slim
 
-ARG API_PROXY_TARGET_NOTIFIER=http://api-service-notifier:8082
-ARG API_PROXY_TARGET_USERS=http://api-service-webappusers:8081
-ARG API_PROXY_TARGET_TEAMSSENDER=http://api-service-teams-sender:8083
+ARG API_PROXY_TARGET_NOTIFIER=http://api-service-notifier:8080
+ARG API_PROXY_TARGET_USERS=http://api-service-webappusers:8080
+ARG API_PROXY_TARGET_TEAMSSENDER=http://api-service-teams-sender:8080
 
 FROM node:${NODE_VERSION} AS base
 
