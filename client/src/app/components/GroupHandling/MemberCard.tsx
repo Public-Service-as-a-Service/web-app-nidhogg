@@ -1,9 +1,10 @@
 "use client";
 
-import { Card, Checkbox, Avatar, Button } from "@sk-web-gui/react";
+import { Card, Checkbox, Button, Icon } from "@sk-web-gui/react";
 import { Employee } from "@/app/interfaces/employee";
-import { Trash2 } from "lucide-react";
+import { Trash } from "lucide-react";
 import type { ChangeEvent } from "react";
+import { User } from "lucide-react";
 
 interface MemberCardProps {
   member: Employee;
@@ -22,9 +23,6 @@ const MemberCard = ({
   onRemove,
   disabled = false,
 }: MemberCardProps) => {
-  const initials =
-    `${member.firstName?.charAt(0) || ""}${member.lastName?.charAt(0) || ""}`.toUpperCase();
-
   const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
     onCheckedChange?.(member.id, e.target.checked);
   };
@@ -45,13 +43,26 @@ const MemberCard = ({
                   disabled={disabled}
                 />
               )}
-              <Avatar rounded={true} initials={initials} />
+              {!editMode && (
+                <Icon icon={<User />} className="flex self-start" />
+              )}
               <div className="flex flex-col pl-12 gap-2">
                 <p className="text-small font-bold !p-0">
                   {member.firstName} {member.lastName}
                 </p>
                 <p className="!p-0">{member.workTitle}</p>
-                <p className="!p-0">{member.orgName}</p>
+                {member.orgName && <p className="!p-0">{member.orgName}</p>}
+                {!editMode && (
+                  <>
+                    {member.workMobile && (
+                      <p className="!p-0">{member.workMobile}</p>
+                    )}
+                    {member.workPhone && (
+                      <p className="!p-0">{member.workPhone}</p>
+                    )}
+                    {member.email && <p className="!p-0">{member.email}</p>}
+                  </>
+                )}
               </div>
             </div>
           </Card.Text>
@@ -64,7 +75,7 @@ const MemberCard = ({
                 variant="secondary"
                 onClick={() => onRemove(member.id)}
               >
-                <Trash2 />
+                <Trash />
               </Button>
             )}
           </div>

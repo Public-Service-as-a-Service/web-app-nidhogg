@@ -10,6 +10,7 @@ import { Employee } from "@/app/interfaces/employee";
 import { GroupRecipient } from "../../dashboard/messages/page";
 import Loading from "../LoadingSpinner";
 import { PAGE_ROUTES } from "@/app/constants";
+import { useGroupMemberIds } from "@/app/hooks/useGroupMemberIds";
 
 interface ViewStepProps {
   onPrev?: () => void;
@@ -32,8 +33,10 @@ const ViewStep = ({
 }: ViewStepProps) => {
   const t = useTranslations("ViewStep");
   const router = useRouter();
-  const mutation = useSendMessage();
+  const mutation = useSendMessage(allChecked);
   const email = useUserEmail();
+
+  const defaultGroupRecipientIds = useGroupMemberIds(recipientGroups);
 
   const employeeRecipients = Object.values(recipientEmployees);
   const employeeRecipientIds = employeeRecipients.map((emp) => emp.id);
@@ -48,7 +51,11 @@ const ViewStep = ({
   });
 
   const recipientEmployeeIds = Array.from(
-    new Set([...employeeRecipientIds, ...groupRecipientIds]),
+    new Set([
+      ...employeeRecipientIds,
+      ...groupRecipientIds,
+      ...defaultGroupRecipientIds,
+    ]),
   );
 
   const handleSend = () => {
@@ -63,20 +70,18 @@ const ViewStep = ({
       return "NONE";
     };
 
-    mutation.mutate(
-      {
-        title,
-        content: messageBody,
-        sender: email,
-        recipientEmployeeIds,
-        messageType: getMessageType(channels),
-      },
-      {
-        onSuccess: () => {
-          router.push(PAGE_ROUTES.dashboard);
-        },
-      },
-    );
+    const payload = {
+      title,
+      content: messageBody,
+      sender: email,
+      messageType: getMessageType(channels),
+
+      ...(!allChecked && { recipientEmployeeIds: recipientEmployeeIds }),
+    };
+
+    mutation.mutate(payload, {
+      onSuccess: () => router.push(PAGE_ROUTES.dashboard),
+    });
   };
 
   if (mutation.isPending) {

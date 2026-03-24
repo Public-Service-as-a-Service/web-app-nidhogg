@@ -22,14 +22,15 @@ export const API_ENDPOINTS = {
   msLogin: "/api/teamssender/2281/login",
   msCallback: "/api/teamssender/callback",
   messages: "/notifier/messages",
-  messageById: (id: number, email: string) =>
-    `/notifier/messages/${id}/${email}`,
+  messagesAll: "/notifier/messages/all",
+  messageById: (id: number, email: string) => `/notifier/messages/${id}/${email}`,
   groups: "/notifier/groups",
   groupById: (id: number | string) => `/notifier/groups/${id}`,
   allEmployees: "/notifier/employees",
   searchEmployees: "/notifier/employees/search",
   allOrganizations: "/notifier/organization/organizations",
   allManagers: "/notifier/employees/managers",
+  itProd: "/notifier/employees/org-group/it-prod"
 } as const;
 
 export const PATHS = [

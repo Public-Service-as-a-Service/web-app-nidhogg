@@ -63,6 +63,7 @@ const GroupInformation = ({
               onChange={(e) => onDescriptionChange(e.target.value)}
               className="w-full"
             />
+            <p className="text-small">{t("groupDescriptionInfo")}</p>
           </div>
         )}
       </div>
