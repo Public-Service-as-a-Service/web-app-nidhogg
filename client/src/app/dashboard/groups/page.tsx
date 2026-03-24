@@ -4,10 +4,11 @@ import MainWrapper from "@/app/components/MainWrapper";
 import GroupView from "@/app/components/GroupHandling/GroupView";
 import Loading from "@/app/components/LoadingSpinner";
 import { useGroups } from "@/app/services/useGroups";
-import { useUserEmail } from "@/app/hooks/useUserEmail";
+import { useCurrentUser } from "@/app/services/useCurrentUser";
 
 const Groups = () => {
-  const { data: groups = [], isLoading } = useGroups(useUserEmail());
+  const { data: currentUser } = useCurrentUser();
+  const { data: groups = [], isLoading } = useGroups(currentUser?.email ?? "");
 
   if (isLoading) return <Loading />;
 

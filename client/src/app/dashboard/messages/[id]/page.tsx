@@ -10,14 +10,15 @@ import { ArrowLeft } from "lucide-react";
 import RecipientList from "@/app/components/RecipientList";
 import PaginationButtons from "@/app/components/GroupHandling/PaginationButtons";
 import { useTranslations } from "next-intl";
-import { useUserEmail } from "@/app/hooks/useUserEmail";
+import { useCurrentUser } from "@/app/services/useCurrentUser";
 import { useEffect, useState } from "react";
 import { useMessageRecipients } from "@/app/services/useMessageRecipients";
 
 const MessageDetails = () => {
   const params = useParams();
   const id = Number(params.id);
-  const email = useUserEmail();
+  const { data: currentUser } = useCurrentUser();
+  const email = currentUser?.email ?? "";
   const router = useRouter();
   const t = useTranslations("MessageDetails");
   const [page, setPage] = useState(0);

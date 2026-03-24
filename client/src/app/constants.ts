@@ -62,7 +62,6 @@ export const PATHS = [
 
 export const SESSION_STORAGE = {
   sessionActive: "sessionActive",
-  userEmail: "userEmail",
   userRole: "userRole",
 };
 
