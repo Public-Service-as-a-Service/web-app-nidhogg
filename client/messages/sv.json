@@ -122,7 +122,6 @@
     "groupDescriptionInfo": "Beskriv gruppen så att du enkelt känner igen den.",
     "membersLabel": "Gruppmedlemmar",
     "groupNameLabel": "Gruppnamn",
-    "pagination": "Sida {current} av {total}",
     "addSelectedButton": "Lägg till valda",
     "cancelButton": "Avbryt",
     "searchLabel": "Sök efter medarbetare",
@@ -141,5 +140,8 @@
       "groupInfo": "Information",
       "groupMembers": "Medlemmar"
     }
+  },
+  "Common": {
+    "pagination": "Sida {current} av {total}"
   }
 }
