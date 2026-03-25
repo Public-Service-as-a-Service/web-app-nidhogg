@@ -58,9 +58,15 @@ const AppBarHeader = () => {
               {PATHS.filter((p) => p.isVisible).map((path, i) => (
                 <List.Item key={i}>
                   <List.Text>
-                    <Link href={path.url} onClick={() => setOpen(false)}>
-                      {path.title}
-                    </Link>
+                    {path.isExternal ? (
+                      <a href={path.url} target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>
+                        {path.title}
+                      </a>
+                    ) : (
+                      <Link href={path.url} onClick={() => setOpen(false)}>
+                        {path.title}
+                      </Link>
+                    )}
                   </List.Text>
                 </List.Item>
               ))}

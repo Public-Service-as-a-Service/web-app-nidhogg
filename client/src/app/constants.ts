@@ -19,6 +19,8 @@ export const PAGE_ROUTES = {
 export const API_ENDPOINTS = {
   login: "/users/auth/login",
   logout: "/users/auth/logout",
+  msLogin: "/api/teamssender/2281/login",
+  msCallback: "/api/teamssender/callback",
   messages: "/notifier/messages",
   messageById: (id: number, email: string) =>
     `/notifier/messages/${id}/${email}`,
@@ -45,6 +47,12 @@ export const PATHS = [
     url: PAGE_ROUTES.dashboardGroups,
     title: "Hantera sparade grupper",
     isVisible: true,
+  },
+    {
+    url: API_ENDPOINTS.msLogin,
+    title: "Logga in TeamsSender",
+    isVisible: true,
+    isExternal: true
   },
 ];
 

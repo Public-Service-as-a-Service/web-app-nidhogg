@@ -9,6 +9,13 @@ export function middleware(req: NextRequest) {
   const authToken = req.cookies.get(STORE.authToken)?.value;
   const { pathname } = req.nextUrl;
 
+  if (pathname.startsWith("/api/teamssender") && !authToken) {
+    if (pathname.startsWith("/api/teamssender/callback")) {
+    return NextResponse.next();
+    }
+    return NextResponse.redirect(new URL(PAGE_ROUTES.home, req.url));
+  }
+
   if (isProtectedPage(pathname) && !authToken) {
     return NextResponse.redirect(new URL(PAGE_ROUTES.home, req.url));
   }
@@ -21,7 +28,7 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/dashboard/:path*"],
+  matcher: ["/", "/dashboard/:path*", "/api/teamssender/:path*"],
 };
 
 export const isProtectedPage = (pathname: string) => {
