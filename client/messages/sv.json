@@ -30,7 +30,8 @@
     "logOut": "Logga ut",
     "loggingOut": "Loggar ut...",
     "menuButton": "Meny",
-    "closeButton": "Stäng"
+    "closeButton": "Stäng",
+    "adminLink": "Adminpanel"
   },
   "LogIn": {
     "welcomeHeading": "Välkommen!",
@@ -40,7 +41,9 @@
     "passwordPlaceholder": "Lösenord",
     "errors": {
       "wrongPassword": "Felaktigt lösenord.",
-      "wrongCredentials": "Kontrollera användarnamn och lösenord."
+      "wrongCredentials": "Kontrollera användarnamn och lösenord.",
+      "suspended": "Ditt konto är temporärt spärrat. Kontakta administratören.",
+      "inactive": "Ditt konto är inaktiverat. Kontakta administratören."
     }
   },
   "GroupSection": {
@@ -101,6 +104,38 @@
     "recipients": "Mottagare",
     "message": "Meddelande",
     "view": "Granska"
+  },
+  "Admin": {
+    "title": "Hantera användare",
+    "createHeading": "Skapa ny användare",
+    "emailLabel": "E-postadress",
+    "passwordLabel": "Lösenord",
+    "newPasswordPlaceholder": "Nytt lösenord",
+    "phoneLabel": "Mobilnummer",
+    "municipalityLabel": "Kommun-ID (4 siffror)",
+    "statusLabel": "Status",
+    "roleLabel": "Roll",
+    "emailPlaceholder": "kalle.kula@sundsvall.se",
+    "phonePlaceholder": "0701234567",
+    "municipalityPlaceholder": "Exempel: 2281 (4 siffror)",
+    "newUserButton": "Ny användare",
+    "createButton": "Skapa",
+    "cancelButton": "Avbryt",
+    "saveButton": "Spara",
+    "deleteButton": "Ta bort",
+    "deleteConfirm": "Bekräfta borttagning",
+    "editButton": "Redigera",
+    "backButton": "Tillbaka",
+    "editHeading": "Redigera användare",
+    "newPasswordLabel": "Lösenord",
+    "newPasswordHint": "Lämna tomt för att behålla nuvarande lösenord.",
+    "loading": "Laddar användare...",
+    "noUsers": "Inga användare hittades.",
+    "errors": {
+      "loadFailed": "Kunde inte hämta användare.",
+      "createFailed": "Kunde inte skapa användaren.",
+      "updateFailed": "Kunde inte uppdatera användaren."
+    }
   },
   "GroupHandling": {
     "sectionTitle": "Dina grupper",

@@ -9,7 +9,7 @@ import { ArrowRight } from "lucide-react";
 import dayjs from "dayjs";
 import { useState } from "react";
 import ShowAllToggleButton from "./ShowAllToggleButton";
-import { useUserEmail } from "../hooks/useUserEmail";
+import { useCurrentUser } from "../services/useCurrentUser";
 import { PAGE_ROUTES } from "../constants";
 
 const MessageList = () => {
@@ -18,8 +18,8 @@ const MessageList = () => {
   const t = useTranslations("Dashboard");
   const router = useRouter();
 
-  const email = useUserEmail();
-  const { data: messages = [], isLoading } = useMessages(email);
+  const { data: currentUser } = useCurrentUser();
+  const { data: messages = [], isLoading } = useMessages(currentUser?.email ?? "");
 
   const handleNewMessage = () => {
     router.push(PAGE_ROUTES.dashboardMessages);

@@ -9,6 +9,7 @@ import { isProtectedPage } from "@/middleware";
 import { useTranslations } from "next-intl";
 import { Button, List } from "@sk-web-gui/react";
 import { Rows3, LogOut } from "lucide-react";
+import useIsAdmin from "../hooks/useIsAdmin";
 
 const AppBarHeader = () => {
   const router = useRouter();
@@ -16,6 +17,7 @@ const AppBarHeader = () => {
   const { mutate, isPending } = useLogout();
   const [open, setOpen] = useState(false);
   const t = useTranslations("AppBar");
+  const isAdmin = useIsAdmin();
 
   const handleLogout = () => {
     mutate(undefined, {
@@ -55,21 +57,31 @@ const AppBarHeader = () => {
               {t("closeButton")}
             </Button>
             <List listStyle="stroke" className="pt-10">
-              {PATHS.filter((p) => p.isVisible).map((path, i) => (
-                <List.Item key={i}>
+              {isAdmin ? (
+                <List.Item>
                   <List.Text>
-                    {path.isExternal ? (
-                      <a href={path.url} target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>
-                        {path.title}
-                      </a>
-                    ) : (
-                      <Link href={path.url} onClick={() => setOpen(false)}>
-                        {path.title}
-                      </Link>
-                    )}
+                    <Link href={PAGE_ROUTES.dashboardAdmin} onClick={() => setOpen(false)}>
+                      {t("adminLink")}
+                    </Link>
                   </List.Text>
                 </List.Item>
-              ))}
+              ) : (
+                PATHS.filter((p) => p.isVisible).map((path, i) => (
+                  <List.Item key={i}>
+                    <List.Text>
+                      {path.isExternal ? (
+                        <a href={path.url} target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>
+                          {path.title}
+                        </a>
+                      ) : (
+                        <Link href={path.url} onClick={() => setOpen(false)}>
+                          {path.title}
+                        </Link>
+                      )}
+                    </List.Text>
+                  </List.Item>
+                ))
+              )}
             </List>
           </div>
         </div>

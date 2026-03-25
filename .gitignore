@@ -15,3 +15,6 @@ client/yarn-error.log*
 
 # Ignorera macOS-filer (om du vill)
 client/.DS_Store
+
+# Ignorera Claude Code-filer
+.claude/
