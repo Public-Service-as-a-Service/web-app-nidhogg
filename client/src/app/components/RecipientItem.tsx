@@ -16,10 +16,10 @@ const RecipientItem = ({ recipient }: RecipientListProps) => {
   return (
     <div className="py-8 flex flex-col">
       <div className="flex items-center">
-          <span className="p-12">
-            {deliveryStatusIcon}
-          </span>
-          <p>{recipient?.firstName} {recipient?.lastName}, {recipient?.orgName} </p>
+        <div className="p-12">
+          {deliveryStatusIcon}
+        </div>
+        <p>{recipient?.firstName} {recipient?.lastName}, {recipient?.orgName} </p>
       </div>
       <hr className="w-full" />
     </div>
