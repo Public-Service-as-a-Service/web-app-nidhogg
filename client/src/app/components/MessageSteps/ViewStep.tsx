@@ -11,7 +11,6 @@ import { GroupRecipient } from "../../dashboard/messages/page";
 import Loading from "../LoadingSpinner";
 import { PAGE_ROUTES } from "@/app/constants";
 import { useGroupMemberIds } from "@/app/hooks/useGroupMemberIds";
-import RecipientItem from "../RecipientItem"
 
 interface ViewStepProps {
   onPrev?: () => void;
