@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { decodeJwt } from "jose";
 import {
   PAGE_ROUTES,
   PATHS,
@@ -9,19 +10,47 @@ export function middleware(req: NextRequest) {
   const authToken = req.cookies.get(STORE.authToken)?.value;
   const { pathname } = req.nextUrl;
 
+  if (pathname.startsWith("/api/teamssender") && !authToken) {
+    if (pathname.startsWith("/api/teamssender/callback")) {
+    return NextResponse.next();
+    }
+    return NextResponse.redirect(new URL(PAGE_ROUTES.home, req.url));
+  }
+
   if (isProtectedPage(pathname) && !authToken) {
     return NextResponse.redirect(new URL(PAGE_ROUTES.home, req.url));
   }
 
   if (pathname === PAGE_ROUTES.home && authToken) {
-    return NextResponse.redirect(new URL(PAGE_ROUTES.dashboard, req.url));
+    try {
+      const payload = decodeJwt(authToken) as { role?: string };
+      const isAdmin = payload.role === "ADMIN";
+      return NextResponse.redirect(
+        new URL(isAdmin ? PAGE_ROUTES.dashboardAdmin : PAGE_ROUTES.dashboard, req.url),
+      );
+    } catch {
+      return NextResponse.redirect(new URL(PAGE_ROUTES.dashboard, req.url));
+    }
+  }
+
+  if (authToken) {
+    try {
+      const payload = decodeJwt(authToken) as { role?: string };
+      const isAdmin = payload.role === "ADMIN";
+
+      if (!isAdmin && pathname.startsWith(PAGE_ROUTES.dashboardAdmin)) {
+        return NextResponse.redirect(new URL(PAGE_ROUTES.dashboard, req.url));
+      }
+    } catch {
+      return NextResponse.redirect(new URL(PAGE_ROUTES.dashboard, req.url));
+    }
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/", "/dashboard/:path*"],
+  matcher: ["/", "/dashboard/:path*", "/api/teamssender/:path*"],
 };
 
 export const isProtectedPage = (pathname: string) => {

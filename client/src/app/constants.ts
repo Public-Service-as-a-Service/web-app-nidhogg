@@ -14,20 +14,30 @@ export const PAGE_ROUTES = {
   dashboardGroups: "/dashboard/groups",
   dashboardGroupCreate: "/dashboard/groups/create",
   dashboardGroupDetails: (id: number | string) => `/dashboard/groups/${id}`,
+  dashboardAdmin: "/dashboard/admin",
 } as const;
 
 export const API_ENDPOINTS = {
   login: "/users/auth/login",
   logout: "/users/auth/logout",
+  msLogin: "/api/teamssender/2281/login",
+  msCallback: "/api/teamssender/callback",
   messages: "/notifier/messages",
   messageById: (id: number, email: string) =>
     `/notifier/messages/${id}/${email}`,
+  messageRecipients: (id: number) =>
+    `/notifier/messages/message/${id}/recipients`,
+  messagesAll: "/notifier/messages/all",
   groups: "/notifier/groups",
   groupById: (id: number | string) => `/notifier/groups/${id}`,
   allEmployees: "/notifier/employees",
   searchEmployees: "/notifier/employees/search",
   allOrganizations: "/notifier/organization/organizations",
   allManagers: "/notifier/employees/managers",
+  itProd: "/notifier/employees/org-group/it-prod",
+  adminUsers: "/admin/users",
+  adminUserById: (id: number) => `/admin/users/${id}`,
+  adminUserPassword: (id: number) => `/admin/users/${id}/password`,
 } as const;
 
 export const PATHS = [
@@ -42,11 +52,17 @@ export const PATHS = [
     title: "Hantera dina grupper",
     isVisible: true,
   },
+    {
+    url: API_ENDPOINTS.msLogin,
+    title: "Logga in TeamsSender",
+    isVisible: true,
+    isExternal: true
+  },
 ];
 
 export const SESSION_STORAGE = {
   sessionActive: "sessionActive",
-  userEmail: "userEmail",
+  userRole: "userRole",
 };
 
 export const tailwindBreakPoint = {

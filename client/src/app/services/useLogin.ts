@@ -1,8 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { Credentials } from "../page";
-import { SESSION_STORAGE } from "../constants";
-import { API_ENDPOINTS } from "../constants";
+import { API_ENDPOINTS, SESSION_STORAGE } from "../constants";
 
 export const useLogin = () => {
   return useMutation<unknown, AxiosError, Credentials>({
@@ -15,8 +14,12 @@ export const useLogin = () => {
         },
       );
       if (response) {
+        const me = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/auth/me`,
+          { withCredentials: true },
+        );
         sessionStorage.setItem(SESSION_STORAGE.sessionActive, "true");
-        sessionStorage.setItem(SESSION_STORAGE.userEmail, credentials.email);
+        sessionStorage.setItem(SESSION_STORAGE.userRole, me.data.role ?? "USER");
       }
       return response;
     },

@@ -2,20 +2,20 @@ import { Button } from "@sk-web-gui/react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-interface SearchPaginationProps {
+interface PaginationButtonsProps {
   page: number;
   totalPages: number;
   onPreviousPage: () => void;
   onNextPage: () => void;
 }
 
-const SearchPagination = ({
+const PaginationButtons = ({
   page,
   totalPages,
   onPreviousPage,
   onNextPage,
-}: SearchPaginationProps) => {
-  const t = useTranslations("GroupHandling");
+}: PaginationButtonsProps) => {
+  const t = useTranslations("Common");
 
   if (totalPages === 0) {
     return null;
@@ -23,11 +23,7 @@ const SearchPagination = ({
 
   return (
     <div className="flex flex-row place-content-between">
-      <Button
-        iconButton={true}
-        disabled={page === 0}
-        onClick={onPreviousPage}
-      >
+      <Button iconButton={true} disabled={page === 0} onClick={onPreviousPage}>
         <ArrowLeft />
       </Button>
       <p className="self-center">
@@ -47,4 +43,4 @@ const SearchPagination = ({
   );
 };
 
-export default SearchPagination;
+export default PaginationButtons;

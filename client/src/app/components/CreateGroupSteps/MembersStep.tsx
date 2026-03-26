@@ -10,7 +10,7 @@ import { useCreateGroup } from "@/app/services/useCreateGroup";
 import { useRouter } from "next/navigation";
 import Loading from "../LoadingSpinner";
 import { PAGE_ROUTES } from "@/app/constants";
-import { useUserEmail } from "@/app/hooks/useUserEmail";
+import { useCurrentUser } from "@/app/services/useCurrentUser";
 
 interface MemberStepProps {
   onPrev: () => void;
@@ -30,7 +30,8 @@ const MembersStep = ({
   const t = useTranslations("GroupHandling");
   const router = useRouter();
   const mutation = useCreateGroup();
-  const email = useUserEmail();
+  const { data: currentUser } = useCurrentUser();
+  const email = currentUser?.email ?? "";
 
   const memberIdSet = useMemo(
     () => new Set(members.map((member) => member.id)),

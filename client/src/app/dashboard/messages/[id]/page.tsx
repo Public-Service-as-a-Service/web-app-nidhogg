@@ -8,20 +8,32 @@ import MainWrapper from "@/app/components/MainWrapper";
 import dayjs from "dayjs";
 import { ArrowLeft } from "lucide-react";
 import RecipientList from "@/app/components/RecipientList";
-import ShowAllToggleButton from "@/app/components/ShowAllToggleButton";
+import PaginationButtons from "@/app/components/GroupHandling/PaginationButtons";
 import { useTranslations } from "next-intl";
-import { useUserEmail } from "@/app/hooks/useUserEmail";
-import { useState } from "react";
+import { useCurrentUser } from "@/app/services/useCurrentUser";
+import { useEffect, useState } from "react";
+import { useMessageRecipients } from "@/app/services/useMessageRecipients";
 
 const MessageDetails = () => {
   const params = useParams();
   const id = Number(params.id);
-  const email = useUserEmail();
+  const { data: currentUser } = useCurrentUser();
+  const email = currentUser?.email ?? "";
   const router = useRouter();
   const t = useTranslations("MessageDetails");
-  const [visibleCount, setVisibleCount] = useState(10);
+  const [page, setPage] = useState(0);
+  const pageSize = 10;
 
   const { data: message, isLoading } = useMessage(id, email);
+  const { data: messageRecipients, isFetching } = useMessageRecipients(
+    id,
+    page,
+    pageSize,
+  );
+
+  useEffect(() => {
+    setPage(0);
+  }, [id]);
 
   const getMessageType = () => {
     if (message?.messageType === "TEAMS") {
@@ -58,17 +70,17 @@ const MessageDetails = () => {
         </div>
         <div className="gap-8 p-8">
           <p className="text-label-large">{t("recipientsLabel")}</p>
-          <RecipientList
-            recipients={message?.recipients?.slice(0, visibleCount)}
-          />
+          {isFetching ? (
+            <Loading />
+          ) : (
+            <RecipientList recipients={messageRecipients?.content} />
+          )}
           <div className="pt-8">
-            <ShowAllToggleButton
-              totalCount={message?.recipients?.length ?? 0}
-              visibleCount={visibleCount}
-              collapsedCount={10}
-              onToggle={setVisibleCount}
-              showAllText={t("showAll")}
-              goBackText={t("goBack")}
+            <PaginationButtons
+              page={messageRecipients?.currentPage ?? 0}
+              totalPages={messageRecipients?.totalPages ?? 0}
+              onPreviousPage={() => setPage((currentPage) => currentPage - 1)}
+              onNextPage={() => setPage((currentPage) => currentPage + 1)}
             />
           </div>
         </div>

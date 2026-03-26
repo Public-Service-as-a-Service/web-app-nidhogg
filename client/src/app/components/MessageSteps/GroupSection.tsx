@@ -8,7 +8,7 @@ import { Employee } from "@/app/interfaces/employee";
 import { GroupRecipient } from "../../dashboard/messages/page";
 import { useGroups } from "@/app/services/useGroups";
 import { API_ENDPOINTS } from "@/app/constants";
-import { useUserEmail } from "@/app/hooks/useUserEmail";
+import { useCurrentUser } from "@/app/services/useCurrentUser";
 
 interface GroupSectionProps {
   allChecked: boolean;
@@ -34,9 +34,16 @@ const GroupSection = ({
       endpoint: API_ENDPOINTS.allManagers,
       default: true,
     },
+    {
+      id: "it-prod",
+      name: t("itProd"),
+      endpoint: API_ENDPOINTS.itProd,
+      default: true,
+    },
   ];
 
-  const { data: groups } = useGroups(useUserEmail());
+  const { data: currentUser } = useCurrentUser();
+  const { data: groups } = useGroups(currentUser?.email ?? "");
   const customGroups = groups?.map((g) => ({ ...g, default: false })) || [];
 
   const commonProps = {

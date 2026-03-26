@@ -5,7 +5,7 @@ import { useSearchEmployees } from "@/app/services/useSearchEmployees";
 import { Button, Input } from "@sk-web-gui/react";
 import { useEffect, useState } from "react";
 import MemberCard from "./MemberCard";
-import SearchPagination from "./SearchPagination";
+import PaginationButtons from "./PaginationButtons";
 import { useTranslations } from "next-intl";
 import { Employee } from "@/app/interfaces/employee";
 
@@ -137,7 +137,7 @@ const SearchSection = ({
                 </Button>
               </div>
             )}
-            <SearchPagination
+            <PaginationButtons
               page={page}
               totalPages={result?.totalPages ?? 0}
               onPreviousPage={() => setPage(page - 1)}

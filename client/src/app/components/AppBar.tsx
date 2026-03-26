@@ -10,6 +10,7 @@ import { useTranslations } from "next-intl";
 import { Button, List, Logo, NavigationBar } from "@sk-web-gui/react";
 import { Rows3, LogOut, X, Home, Send, Users } from "lucide-react";
 import { useScreenWidth } from "../hooks/useScreenWidth";
+import useIsAdmin from "../hooks/useIsAdmin";
 
 const pathIcons: Record<string, React.ReactNode> = {
   [PAGE_ROUTES.dashboard]: <Home size={20} />,
@@ -24,6 +25,7 @@ const AppBarHeader = () => {
   const [open, setOpen] = useState(false);
   const t = useTranslations("AppBar");
   const screenWidth = useScreenWidth();
+  const isAdmin = useIsAdmin();
 
   const handleLogout = () => {
     mutate(undefined, {
@@ -104,17 +106,40 @@ const AppBarHeader = () => {
               </Button>
             </div>
             <List className="flex flex-col flex-1 overflow-y-auto">
-              {PATHS.filter((p) => p.isVisible).map((path, i) => (
+              {isAdmin ? (
                 <Link
-                  key={i}
-                  href={path.url}
+                  href={PAGE_ROUTES.dashboardAdmin}
                   onClick={() => setOpen(false)}
                   className="flex items-center gap-16 py-16"
                 >
-                  {pathIcons[path.url]}
-                  <span>{path.title}</span>
+                  <span>{t("adminLink")}</span>
                 </Link>
-              ))}
+              ) : (
+                PATHS.filter((p) => p.isVisible).map((path, i) => (
+                  path.isExternal ? (
+                    <a
+                      key={i}
+                      href={path.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={() => setOpen(false)}
+                      className="flex items-center gap-16 py-16"
+                    >
+                      <span>{path.title}</span>
+                    </a>
+                  ) : (
+                    <Link
+                      key={i}
+                      href={path.url}
+                      onClick={() => setOpen(false)}
+                      className="flex items-center gap-16 py-16"
+                    >
+                      {pathIcons[path.url]}
+                      <span>{path.title}</span>
+                    </Link>
+                  )
+                ))
+              )}
             </List>
             <div>
               <Button
