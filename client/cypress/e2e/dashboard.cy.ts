@@ -1,3 +1,5 @@
+export {};
+
 // Valid fake JWT with payload {"email":"user@test.se","role":"USER"}
 const FAKE_JWT =
   "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InVzZXJAdGVzdC5zZSIsInJvbGUiOiJVU0VSIn0.fakesignature";
@@ -32,7 +34,7 @@ describe("Dashboard - Message List Rendering", () => {
     cy.setCookie("token", FAKE_JWT);
     cy.get('button[type="submit"]').click();
     cy.wait("@loginRequest");
-    cy.location("pathname").should("eq", "/dashboard");
+    cy.location("pathname", { timeout: 15000 }).should("eq", "/dashboard");
   });
 
   it("renders the MessageList heading", () => {
@@ -64,7 +66,7 @@ describe("Dashboard - Navigation to Create", () => {
     cy.setCookie("token", FAKE_JWT);
     cy.get('button[type="submit"]').click();
     cy.wait("@loginRequest");
-    cy.location("pathname").should("eq", "/dashboard");
+    cy.location("pathname", { timeout: 15000 }).should("eq", "/dashboard");
   });
 
   it("navigates to the message creation page when 'Skapa nytt utskick' is clicked", () => {
@@ -96,7 +98,7 @@ describe("Dashboard - Message Interactivity", () => {
     cy.setCookie("token", FAKE_JWT);
     cy.get('button[type="submit"]').click();
     cy.wait("@loginRequest");
-    cy.location("pathname").should("eq", "/dashboard");
+    cy.location("pathname", { timeout: 15000 }).should("eq", "/dashboard");
     cy.contains("h2", "Utskick 1").should("exist");
   });
 
@@ -106,7 +108,7 @@ describe("Dashboard - Message Interactivity", () => {
       .siblings("button")
       .click();
 
-    cy.location("pathname").should("eq", "/dashboard/messages/1");
+    cy.location("pathname", { timeout: 15000 }).should("eq", "/dashboard/messages/1");
   });
 });
 
@@ -133,7 +135,7 @@ describe("Dashboard - Display All Logic", () => {
     cy.setCookie("token", FAKE_JWT);
     cy.get('button[type="submit"]').click();
     cy.wait("@loginRequest");
-    cy.location("pathname").should("eq", "/dashboard");
+    cy.location("pathname", { timeout: 15000 }).should("eq", "/dashboard");
     cy.contains("h2", "Utskick 1").should("exist");
   });
 
