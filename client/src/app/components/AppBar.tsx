@@ -45,7 +45,7 @@ const AppBarHeader = () => {
               subtitle={t("subtitle")}
             />
           </div>
-          {screenWidth < tailwindBreakPoint.LG ? (
+          {screenWidth < tailwindBreakPoint.XL ? (
             <Button
               iconButton={true}
               onClick={() => setOpen(true)}
