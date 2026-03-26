@@ -33,6 +33,14 @@ const CreateGroup = () => {
     });
   };
 
+  const handleDeleteMember = (id: number) => {
+    setMembersById((prev) => {
+      const next = { ...prev };
+      delete next[id];
+      return next;
+    });
+  };
+
   const selectedMembers = Object.values(membersById);
 
   const steps: StepsProps[] = [
@@ -55,6 +63,7 @@ const CreateGroup = () => {
           onPrev={() => setStep(0)}
           members={selectedMembers}
           handleBulkMembers={handleBulkMembers}
+          handleDeleteMember={handleDeleteMember}
           title={title}
           description={description}
         />
