@@ -56,8 +56,6 @@ const MembersStep = ({
     );
   };
 
-  console.log(members);
-
   if (mutation.isPending) {
     return <Loading />;
   }
