@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "title": "Utskick 1",
+    "content": "Testinnehåll för utskick 1",
+    "sender": "user@test.se",
+    "messageType": "SMS",
+    "createdAt": "2024-03-04T10:00:00.000Z",
+    "recipients": []
+  },
+  {
+    "id": 2,
+    "title": "Utskick 2",
+    "content": "Testinnehåll för utskick 2",
+    "sender": "user@test.se",
+    "messageType": "TEAMS",
+    "createdAt": "2024-03-03T10:00:00.000Z",
+    "recipients": []
+  },
+  {
+    "id": 3,
+    "title": "Utskick 3",
+    "content": "Testinnehåll för utskick 3",
+    "sender": "user@test.se",
+    "messageType": "SMS",
+    "createdAt": "2024-03-02T10:00:00.000Z",
+    "recipients": []
+  },
+  {
+    "id": 4,
+    "title": "Utskick 4",
+    "content": "Testinnehåll för utskick 4",
+    "sender": "user@test.se",
+    "messageType": "TEAMS",
+    "createdAt": "2024-03-01T10:00:00.000Z",
+    "recipients": []
+  }
+]
