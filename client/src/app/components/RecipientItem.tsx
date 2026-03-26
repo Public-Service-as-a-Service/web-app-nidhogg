@@ -14,14 +14,17 @@ const RecipientItem = ({ recipient }: RecipientListProps) => {
              : <X/>;
 
   return (
-    <div className="py-8 flex flex-col">
+    <div className="py-8 flex flex-col [&:not(:first-child)]:border-t">
       <div className="flex items-center">
         <div className="p-12">
           {deliveryStatusIcon}
         </div>
-        <p>{recipient?.firstName} {recipient?.lastName}, {recipient?.orgName} </p>
+        <p>
+          {recipient?.firstName || recipient?.lastName ? 
+          `${recipient?.firstName} ${recipient?.lastName}, ` : ""} 
+          {recipient?.orgName} 
+        </p>
       </div>
-      <hr className="w-full" />
     </div>
   );
 };

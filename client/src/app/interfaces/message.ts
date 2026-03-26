@@ -1,8 +1,8 @@
 export interface MessageRecipient {
-  employeeId: number;
+  employeeId?: number;
   firstName: string;
   lastName: string;
-  orgId: string;
+  orgId?: string;
   orgName?: string;
   workTitle?: string;
   deliveryStatus: string;

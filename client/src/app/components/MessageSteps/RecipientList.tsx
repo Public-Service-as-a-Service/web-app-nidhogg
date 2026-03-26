@@ -5,19 +5,18 @@ import { Button } from "@sk-web-gui/react";
 import { useTranslations } from "next-intl";
 import { Employee } from "@/app/interfaces/employee";
 import { GroupRecipient } from "../../dashboard/messages/page";
+import RecipientItem from "../RecipientItem";
 
 interface RecipientListProps {
   recipientGroups: Record<string, GroupRecipient>;
   recipientEmployees: Record<string, Employee>;
   allChecked: boolean;
-  component: React.ComponentType<{ children: React.ReactNode }>;
 }
 
 const RecipientList = ({
   recipientGroups,
   recipientEmployees,
-  allChecked,
-  component: Component,
+  allChecked
 }: RecipientListProps) => {
   const [showAll, setShowAll] = useState(false);
 
@@ -29,11 +28,17 @@ const RecipientList = ({
   const allRecipients = [
     ...groupRecipients.map((group) => ({
       id: group.id,
-      label: group.name,
+      firstName: "",
+      lastName: "",
+      orgName: group.name,
+      deliveryStatus: "DELIVERED",
     })),
     ...employeeRecipients.map((employee) => ({
       id: employee.personId,
-      label: `${employee.firstName} ${employee.lastName}`,
+      firstName: employee.firstName,
+      lastName: employee.lastName, 
+      orgName: employee.orgName,
+      deliveryStatus: "DELIVERED",
     })),
   ];
 
@@ -43,13 +48,13 @@ const RecipientList = ({
 
   return (
     <>
-      <div className="flex flex-wrap gap-8">
+      <div className="flex flex-col">
         {allChecked ? (
-          <Component>{t("sendToAll")}</Component>
+          <RecipientItem recipient={{firstName: t("sendToAll"), lastName: "", deliveryStatus: "DELIVERED"}} />
         ) : (
           <>
             {visibleRecipients.map((recipient) => (
-              <Component key={recipient.id}>{recipient.label}</Component>
+              <RecipientItem key={recipient.id} recipient={recipient} />
             ))}
           </>
         )}
