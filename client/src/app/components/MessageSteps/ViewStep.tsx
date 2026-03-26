@@ -107,7 +107,6 @@ const ViewStep = ({
             recipientGroups={recipientGroups}
             recipientEmployees={recipientEmployees}
             allChecked={allChecked}
-            component={Label}
           />
         </div>
         <div className="flex flex-col">
