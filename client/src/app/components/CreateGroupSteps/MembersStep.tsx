@@ -16,6 +16,7 @@ interface MemberStepProps {
   onPrev: () => void;
   members: Employee[];
   handleBulkMembers: (recipientIds: Employee[]) => void;
+  handleDeleteMember: (id: number) => void;
   title: string;
   description: string;
 }
@@ -24,6 +25,7 @@ const MembersStep = ({
   onPrev,
   members,
   handleBulkMembers,
+  handleDeleteMember,
   title,
   description,
 }: MemberStepProps) => {
@@ -54,6 +56,8 @@ const MembersStep = ({
     );
   };
 
+  console.log(members);
+
   if (mutation.isPending) {
     return <Loading />;
   }
@@ -76,7 +80,7 @@ const MembersStep = ({
             <p className="self-center">
               {m.firstName} {m.lastName}
             </p>
-            <Button iconButton={true}>
+            <Button iconButton={true} onClick={() => handleDeleteMember(m.id)}>
               <Trash />
             </Button>
           </div>
