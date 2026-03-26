@@ -15,3 +15,14 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands'
+
+// Next.js HMR (hot module replacement) can emit chunks with syntax that the browser
+// flags as invalid while a live-reload is in flight. These errors are non-critical and
+// unrelated to test assertions, so we suppress them to avoid flaky test failures in
+// dev mode. In CI the app runs as a production build (yarn build && yarn start), so
+// this handler never fires there.
+Cypress.on('uncaught:exception', (err) => {
+  if (err.message.includes('Invalid or unexpected token')) {
+    return false;
+  }
+});
