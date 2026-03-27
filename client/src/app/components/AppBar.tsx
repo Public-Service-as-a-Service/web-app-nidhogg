@@ -48,6 +48,7 @@ const AppBarHeader = () => {
       onSuccess: () => router.push(PAGE_ROUTES.home),
       onError: () => console.error("Logout failed."),
     });
+    setOpen(false);
   };
 
   if (!isProtectedPage(pathname)) return null;
