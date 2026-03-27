@@ -34,7 +34,7 @@ const RecipientList = ({
       deliveryStatus: "DELIVERED",
     })),
     ...employeeRecipients.map((employee) => ({
-      id: employee.personId,
+      id: employee.id,
       firstName: employee.firstName,
       lastName: employee.lastName, 
       orgName: employee.orgName,

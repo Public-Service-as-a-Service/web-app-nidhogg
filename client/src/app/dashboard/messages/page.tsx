@@ -2,12 +2,16 @@
 
 import MainWrapper from "../../components/MainWrapper";
 import { useTranslations } from "next-intl";
-import { JSX, useState } from "react";
+import { JSX, useEffect, useState } from "react";
 import RecipientsStep from "@/app/components/MessageSteps/RecipientsStep";
 import MessageStep from "@/app/components/MessageSteps/MessageStep";
 import ViewStep from "@/app/components/MessageSteps/ViewStep";
 import { ProgressStepper } from "@sk-web-gui/react";
 import { Employee } from "@/app/interfaces/employee";
+import { useSearchParams } from "next/navigation";
+import { MessageRecipient } from "@/app/interfaces/message";
+import { API_ENDPOINTS } from "@/app/constants";
+import axios from "axios";
 
 export interface GroupRecipient {
   id: number | string;
@@ -24,6 +28,57 @@ interface StepsProps {
 
 const Messages = () => {
   const [step, setStep] = useState(0);
+  const searchParams = useSearchParams();
+
+  const mapRecipientToEmployee = (r: MessageRecipient): Employee => ({
+        id: r.employeeId ?? 0,
+        firstName: r.firstName,
+        lastName: r.lastName,
+        orgId: r.orgId ?? "",
+        orgName: r.orgName ?? "",
+        workTitle: r.workTitle ?? "",
+        personId: "",
+        email: "",
+        workMobile: "",
+        workPhone: "",
+        createDate: "",
+        lastModifiedDate: "",
+      });
+
+  useEffect(() => {
+    const stepParam = searchParams.get("step");
+    const messageId = searchParams.get("messageId");
+
+    if(stepParam != null){
+      setStep(Number(stepParam));
+    }
+    if (messageId){
+      const fetchAllRecipients = async () => {
+        let all: Record<string, Employee> = {};
+        let currentPage = 0;
+        let totalPages = 1;
+        let pageSize = 100;
+
+        while (currentPage < totalPages) {
+          
+          const result = await axios.get(
+            `${process.env.NEXT_PUBLIC_API_URL}${API_ENDPOINTS.messageRecipients(Number(messageId))}`,
+            { params: { page: currentPage, size: pageSize }, withCredentials: true }
+          );
+          result.data.content.forEach((r: MessageRecipient) => {
+            all[`emp-${(r.employeeId)}`] = mapRecipientToEmployee(r);
+          });
+          totalPages = result.data.totalPages;
+          currentPage++;
+        }
+
+        setRecipientEmployees(all);
+    };
+
+    fetchAllRecipients();
+      
+    }
+  }, []);
 
   const [allChecked, setAllChecked] = useState<boolean>(false);
   const [recipientGroups, setRecipientGroups] = useState<
