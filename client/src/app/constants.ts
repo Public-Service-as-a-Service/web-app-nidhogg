@@ -40,7 +40,14 @@ export const API_ENDPOINTS = {
   adminUserPassword: (id: number) => `/admin/users/${id}/password`,
 } as const;
 
-export const PATHS = [
+type NavPath = {
+  url: string;
+  title: string;
+  isVisible: boolean;
+  isExternal?: boolean;
+};
+
+export const USER_PATHS: NavPath[] = [
   { url: PAGE_ROUTES.dashboard, title: "Startsida", isVisible: true },
   {
     url: PAGE_ROUTES.dashboardMessages,
@@ -52,13 +59,23 @@ export const PATHS = [
     title: "Hantera dina grupper",
     isVisible: true,
   },
-    {
+];
+
+export const ADMIN_PATHS: NavPath[] = [
+  {
+    url: PAGE_ROUTES.dashboardAdmin,
+    title: "Admin",
+    isVisible: true,
+  },
+  {
     url: API_ENDPOINTS.msLogin,
     title: "TeamsSender",
     isVisible: true,
-    isExternal: true
+    isExternal: true,
   },
 ];
+
+export const PATHS: NavPath[] = [...USER_PATHS, ...ADMIN_PATHS];
 
 export const SESSION_STORAGE = {
   sessionActive: "sessionActive",

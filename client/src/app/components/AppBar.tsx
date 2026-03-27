@@ -4,8 +4,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { useLogout } from "../services/useLogout";
 import {
   API_ENDPOINTS,
+  ADMIN_PATHS,
   PAGE_ROUTES,
-  PATHS,
+  USER_PATHS,
   tailwindBreakPoint,
 } from "../constants";
 import { useState } from "react";
@@ -51,7 +52,7 @@ const AppBarHeader = () => {
     setOpen(false);
   };
 
-  if (!isProtectedPage(pathname)) return null;
+  const isProtected = isProtectedPage(pathname);
 
   const getTeamsSenderLinkProps = (url: string) => {
     let target: "_blank" | undefined;
@@ -67,7 +68,9 @@ const AppBarHeader = () => {
 
   let desktopNavigation: React.ReactNode = null;
 
-  if (screenWidth < tailwindBreakPoint.XL) {
+  if (!isProtected) {
+    desktopNavigation = null;
+  } else if (screenWidth < tailwindBreakPoint.XL) {
     desktopNavigation = (
       <Button iconButton={true} onClick={() => setOpen(true)} data-cy="menu">
         <Rows3 />
@@ -77,20 +80,32 @@ const AppBarHeader = () => {
     let desktopMenuItems: React.ReactNode = null;
 
     if (isAdmin) {
-      desktopMenuItems = (
-        <NavigationBar.Item>
-          <Link
-            href={PAGE_ROUTES.dashboardAdmin}
-            onClick={() => setOpen(false)}
-            className="flex items-center gap-8 py-16"
-          >
-            <UserStar size={20} />
-            <p className="pl-8">{t("adminLink")}</p>
-          </Link>
-        </NavigationBar.Item>
+      desktopMenuItems = ADMIN_PATHS.filter((p) => p.isVisible).map(
+        (path, i) => {
+          const { target, rel } = getTeamsSenderLinkProps(path.url);
+
+          return (
+            <NavigationBar.Item key={i}>
+              <Link
+                href={path.url}
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-8 py-16"
+                target={target}
+                rel={rel}
+              >
+                {pathIcons[path.url]}
+                <p className="pl-8">
+                  {path.url === PAGE_ROUTES.dashboardAdmin
+                    ? t("adminLink")
+                    : path.title}
+                </p>
+              </Link>
+            </NavigationBar.Item>
+          );
+        },
       );
     } else {
-      desktopMenuItems = PATHS.filter((p) => p.isVisible).map((path, i) => {
+      desktopMenuItems = USER_PATHS.filter((p) => p.isVisible).map((path, i) => {
         const { target, rel } = getTeamsSenderLinkProps(path.url);
 
         return (
@@ -131,18 +146,44 @@ const AppBarHeader = () => {
   let mobileMenuContent: React.ReactNode = null;
 
   if (isAdmin) {
-    mobileMenuContent = (
-      <Link
-        href={PAGE_ROUTES.dashboardAdmin}
-        onClick={() => setOpen(false)}
-        className="flex items-center gap-16 py-16"
-      >
-        <UserStar size={20} />
-        <span>{t("adminLink")}</span>
-      </Link>
+    mobileMenuContent = ADMIN_PATHS.filter((p) => p.isVisible).map(
+      (path, i) => {
+        const label =
+          path.url === PAGE_ROUTES.dashboardAdmin ? t("adminLink") : path.title;
+
+        if (path.isExternal) {
+          const { target, rel } = getTeamsSenderLinkProps(path.url);
+
+          return (
+            <a
+              key={i}
+              href={path.url}
+              target={target}
+              rel={rel}
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-16 py-16"
+            >
+              {pathIcons[path.url]}
+              <span>{label}</span>
+            </a>
+          );
+        }
+
+        return (
+          <Link
+            key={i}
+            href={path.url}
+            onClick={() => setOpen(false)}
+            className="flex items-center gap-16 py-16"
+          >
+            {pathIcons[path.url]}
+            <span>{label}</span>
+          </Link>
+        );
+      },
     );
   } else {
-    mobileMenuContent = PATHS.filter((p) => p.isVisible).map((path, i) => {
+    mobileMenuContent = USER_PATHS.filter((p) => p.isVisible).map((path, i) => {
       if (path.isExternal) {
         const { target, rel } = getTeamsSenderLinkProps(path.url);
 
@@ -189,7 +230,7 @@ const AppBarHeader = () => {
           {desktopNavigation}
         </div>
       </header>
-      {open && (
+      {isProtected && open && (
         <div
           className="fixed inset-0 bg-black bg-opacity-40 z-40"
           onClick={() => setOpen(false)}
