@@ -54,7 +54,7 @@ export const PATHS = [
   },
     {
     url: API_ENDPOINTS.msLogin,
-    title: "Logga in TeamsSender",
+    title: "TeamsSender",
     isVisible: true,
     isExternal: true
   },

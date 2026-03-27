@@ -2,13 +2,26 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { useLogout } from "../services/useLogout";
-import { PAGE_ROUTES, PATHS, tailwindBreakPoint } from "../constants";
+import {
+  API_ENDPOINTS,
+  PAGE_ROUTES,
+  PATHS,
+  tailwindBreakPoint,
+} from "../constants";
 import { useState } from "react";
 import Link from "next/link";
 import { isProtectedPage } from "@/middleware";
 import { useTranslations } from "next-intl";
 import { Button, List, Logo, NavigationBar } from "@sk-web-gui/react";
-import { Rows3, LogOut, X, Home, Send, Users } from "lucide-react";
+import {
+  Rows3,
+  LogOut,
+  X,
+  Home,
+  Send,
+  Users,
+  MessageCircle,
+} from "lucide-react";
 import { useScreenWidth } from "../hooks/useScreenWidth";
 import useIsAdmin from "../hooks/useIsAdmin";
 
@@ -16,6 +29,7 @@ const pathIcons: Record<string, React.ReactNode> = {
   [PAGE_ROUTES.dashboard]: <Home size={20} />,
   [PAGE_ROUTES.dashboardMessages]: <Send size={20} />,
   [PAGE_ROUTES.dashboardGroups]: <Users size={20} />,
+  [API_ENDPOINTS.msLogin]: <MessageCircle size={20} />,
 };
 
 const AppBarHeader = () => {
@@ -57,18 +71,27 @@ const AppBarHeader = () => {
             </Button>
           ) : (
             <NavigationBar className="flex flex-row gap-16">
-              {PATHS.filter((p) => p.isVisible).map((path, i) => (
-                <NavigationBar.Item key={i}>
-                  <Link
-                    href={path.url}
-                    onClick={() => setOpen(false)}
-                    className="flex items-center gap-8 py-16"
-                  >
-                    {pathIcons[path.url]}
-                    <p className="pl-8">{path.title}</p>
-                  </Link>
-                </NavigationBar.Item>
-              ))}
+              {!isAdmin &&
+                PATHS.filter((p) => p.isVisible).map((path, i) => (
+                  <NavigationBar.Item key={i}>
+                    <Link
+                      href={path.url}
+                      onClick={() => setOpen(false)}
+                      className="flex items-center gap-8 py-16"
+                      target={
+                        path.url === API_ENDPOINTS.msLogin ? "_blank" : undefined
+                      }
+                      rel={
+                        path.url === API_ENDPOINTS.msLogin
+                          ? "noreferrer"
+                          : undefined
+                      }
+                    >
+                      {pathIcons[path.url]}
+                      <p className="pl-8">{path.title}</p>
+                    </Link>
+                  </NavigationBar.Item>
+                ))}
               <NavigationBar.Item>
                 <Button
                   type="button"
@@ -115,16 +138,23 @@ const AppBarHeader = () => {
                   <span>{t("adminLink")}</span>
                 </Link>
               ) : (
-                PATHS.filter((p) => p.isVisible).map((path, i) => (
+                PATHS.filter((p) => p.isVisible).map((path, i) =>
                   path.isExternal ? (
                     <a
                       key={i}
                       href={path.url}
-                      target="_blank"
-                      rel="noreferrer"
+                      target={
+                        path.url === API_ENDPOINTS.msLogin ? "_blank" : undefined
+                      }
+                      rel={
+                        path.url === API_ENDPOINTS.msLogin
+                          ? "noreferrer"
+                          : undefined
+                      }
                       onClick={() => setOpen(false)}
                       className="flex items-center gap-16 py-16"
                     >
+                      {pathIcons[path.url]}
                       <span>{path.title}</span>
                     </a>
                   ) : (
@@ -137,8 +167,8 @@ const AppBarHeader = () => {
                       {pathIcons[path.url]}
                       <span>{path.title}</span>
                     </Link>
-                  )
-                ))
+                  ),
+                )
               )}
             </List>
             <div>
