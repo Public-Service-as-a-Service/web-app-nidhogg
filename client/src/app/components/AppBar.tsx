@@ -232,7 +232,8 @@ const AppBarHeader = () => {
       </header>
       {isProtected && open && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-40 z-40"
+          className="fixed inset-0 z-[60]"
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }}
           onClick={() => setOpen(false)}
         >
           <div
