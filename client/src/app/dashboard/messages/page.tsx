@@ -54,10 +54,10 @@ const Messages = () => {
     }
     if (messageId){
       const fetchAllRecipients = async () => {
-        let all: Record<string, Employee> = {};
+        const all: Record<string, Employee> = {};
+        const pageSize = 100;
         let currentPage = 0;
         let totalPages = 1;
-        let pageSize = 100;
 
         while (currentPage < totalPages) {
           
