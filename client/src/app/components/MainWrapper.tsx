@@ -11,7 +11,7 @@ const MainWrapper = ({ children }: MainWrapperProps) => {
 
   return loggedIn ? (
     <div className="flex flex-col pb-[80px]">
-      <div className="mx-auto w-full sm:max-w-[500px] md:max-w-[700px] pt-44 px-20">
+      <div className="mx-auto w-full sm:max-w-[600px] md:max-w-[860px] pt-44 px-20">
         {children}
       </div>
     </div>
