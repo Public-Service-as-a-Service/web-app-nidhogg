@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button, Card, Input } from "@sk-web-gui/react";
-import { Plus, Search } from "lucide-react";
+import { Plus, Search, SquarePen } from "lucide-react";
 import MainWrapper from "@/app/components/MainWrapper";
 import { type AdminUser } from "@/app/services/useAdminUsers";
 
@@ -96,9 +96,7 @@ const AdminUserList = ({ users, isLoading, isError, onEdit, onCreateClick }: Pro
               <div className="flex items-center justify-between w-full">
                 <span style={{ fontSize: "16px", fontWeight: 400, lineHeight: "24px", fontVariantNumeric: "lining-nums proportional-nums" }}>ID: {user.id}</span>
                 <Button size="sm" variant="secondary" className="dark:ring-[0.5px] dark:ring-white/5" style={{ borderRadius: "12px", background: "rgba(28, 28, 40, 0.12)", border: "none" }} onClick={() => onEdit(user)}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
-                    <path d="M1.5 14.249V3.74902C1.50004 3.15235 1.73726 2.58012 2.15918 2.1582C2.58113 1.7363 3.1533 1.49902 3.75 1.49902H9C9.41416 1.49902 9.74991 1.83489 9.75 2.24902C9.75 2.66324 9.41421 2.99902 9 2.99902H3.75C3.55113 2.99902 3.36037 3.07815 3.21973 3.21875C3.07911 3.35936 3.00004 3.55017 3 3.74902V14.249C3 14.4479 3.07913 14.6387 3.21973 14.7793C3.36038 14.9199 3.55109 14.999 3.75 14.999H14.25C14.4489 14.999 14.6396 14.9199 14.7803 14.7793C14.9209 14.6387 15 14.4479 15 14.249V8.99902C15.0001 8.58489 15.3358 8.24902 15.75 8.24902C16.1642 8.24902 16.4999 8.58489 16.5 8.99902V14.249C16.5 14.8457 16.2627 15.4179 15.8408 15.8398C15.4189 16.2618 14.8467 16.499 14.25 16.499H3.75C3.15326 16.499 2.58114 16.2618 2.15918 15.8398C1.73728 15.4179 1.5 14.8457 1.5 14.249ZM15.7471 3.09277C15.747 2.86979 15.6587 2.65572 15.501 2.49805C15.3433 2.34038 15.1293 2.25195 14.9062 2.25195C14.6832 2.25195 14.4692 2.34038 14.3115 2.49805L7.552 9.25903H7.55127C7.4623 9.34785 7.39704 9.45776 7.36157 9.57837L6.92358 11.0747L8.42139 10.6375L8.51001 10.6052C8.56745 10.5803 8.62166 10.5484 8.67114 10.51L8.74146 10.4478L15.501 3.6875C15.6586 3.52979 15.7471 3.31578 15.7471 3.09277ZM17.2471 3.09277C17.2471 3.7136 17.0005 4.30903 16.5615 4.74805L9.802 11.509H9.80127C9.53417 11.7758 9.20419 11.9708 8.8418 12.0767L8.84253 12.0774L6.68774 12.7073H6.68701C6.49346 12.7637 6.28833 12.7668 6.09302 12.7168C5.89766 12.6667 5.71927 12.565 5.57666 12.4224C5.43418 12.2798 5.3323 12.1019 5.28223 11.9067C5.23218 11.7114 5.23528 11.5056 5.29175 11.312H5.29248L5.92236 9.15723V9.15649C6.01543 8.83952 6.17683 8.54702 6.39478 8.30029L6.49146 8.19775L13.251 1.4375C13.69 0.998532 14.2854 0.751953 14.9062 0.751953C15.5271 0.751953 16.1225 0.998532 16.5615 1.4375C17.0005 1.87648 17.247 2.47197 17.2471 3.09277Z" fill="currentColor"/>
-                  </svg>
+                  <SquarePen size={18} />
                   <span style={{ fontSize: "16px", fontWeight: 700, lineHeight: "24px", fontVariantNumeric: "lining-nums proportional-nums" }}>{t("editButton")}</span>
                 </Button>
               </div>
