@@ -6,7 +6,7 @@ export type AdminUser = {
   id: number;
   email: string;
   phoneNumber?: string;
-  municipalityId?: string;
+  municipalityName?: string;
   status?: string;
   role?: string;
 };
@@ -15,7 +15,7 @@ export type CreateUserRequest = {
   email: string;
   password: string;
   phoneNumber: string;
-  municipalityId: string;
+  municipalityName: string;
   status: string;
   role: string;
 };
@@ -23,7 +23,7 @@ export type CreateUserRequest = {
 export type UpdateUserRequest = {
   email?: string;
   phoneNumber?: string;
-  municipalityId?: string;
+  municipalityName?: string;
   status?: string;
   role?: string;
 };

@@ -19,7 +19,7 @@ const EMPTY_CREATE_FORM: CreateUserRequest = {
   email: "",
   password: "",
   phoneNumber: "",
-  municipalityId: "",
+  municipalityName: "",
   status: "ACTIVE",
   role: "USER",
 };
@@ -40,19 +40,18 @@ const AdminPage = () => {
   const [editForm, setEditForm] = useState<EditForm>({
     email: "",
     phoneNumber: "",
-    municipalityId: "",
+    municipalityName: "",
     status: "ACTIVE",
     role: "USER",
     newPassword: "",
   });
   const [formError, setFormError] = useState<string | null>(null);
-  const [deleteConfirm, setDeleteConfirm] = useState<number | null>(null);
 
   const openEdit = (user: AdminUser) => {
     setEditForm({
       email: user.email ?? "",
       phoneNumber: user.phoneNumber ?? "",
-      municipalityId: user.municipalityId ?? "",
+      municipalityName: user.municipalityName ?? "",
       status: user.status ?? "ACTIVE",
       role: user.role ?? "USER",
       newPassword: "",
@@ -105,7 +104,7 @@ const AdminPage = () => {
 
   const handleDelete = (user: AdminUser) => {
     deleteUser(user.id, {
-      onSuccess: () => setDeleteConfirm(null),
+      onSuccess: () => setMode("list"),
     });
   };
 
@@ -130,9 +129,11 @@ const AdminPage = () => {
         formError={formError}
         isUpdating={isUpdating}
         isUpdatingPassword={isUpdatingPassword}
+        isDeleting={isDeleting}
         onChange={setEditForm}
         onBack={() => { setMode("list"); setFormError(null); }}
         onSave={() => handleUpdate(mode.user)}
+        onDelete={() => handleDelete(mode.user)}
       />
     );
   }
@@ -142,12 +143,7 @@ const AdminPage = () => {
       users={users}
       isLoading={isLoading}
       isError={isError}
-      deleteConfirm={deleteConfirm}
-      isDeleting={isDeleting}
       onEdit={openEdit}
-      onDelete={handleDelete}
-      onDeleteConfirm={setDeleteConfirm}
-      onDeleteCancel={() => setDeleteConfirm(null)}
       onCreateClick={() => { setFormError(null); setMode("create"); }}
     />
   );

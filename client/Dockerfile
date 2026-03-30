@@ -39,7 +39,8 @@ ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
 
-RUN corepack enable && yarn prisma generate && yarn build
+RUN --mount=type=cache,target=/app/.next/cache \
+    corepack enable && yarn prisma generate && yarn build
 
 # ============================================
 # Stage 3: Run Next.js application
