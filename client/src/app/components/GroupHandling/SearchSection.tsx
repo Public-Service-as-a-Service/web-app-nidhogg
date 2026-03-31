@@ -23,6 +23,7 @@ const SearchSection = ({
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [page, setPage] = useState<number>(0);
   const [checkedIds, setCheckedIds] = useState<number[]>([]);
+  const [selectedEmployees, setSelectedEmployees] = useState<Employee[]>([]);
 
   const t = useTranslations("GroupHandling");
 
@@ -54,7 +55,28 @@ const SearchSection = ({
 
   useEffect(() => {
     setCheckedIds((prev) => prev.filter((id) => !memberIdSet.has(id)));
+    setSelectedEmployees((prev) =>
+      prev.filter((employee) => !memberIdSet.has(employee.id)),
+    );
   }, [memberIdSet]);
+
+  useEffect(() => {
+    if (!result?.content) return;
+
+    setSelectedEmployees((prev) => {
+      const selectedById = new Map(prev.map((employee) => [employee.id, employee]));
+
+      result.content.forEach((employee) => {
+        if (checkedIds.includes(employee.id)) {
+          selectedById.set(employee.id, employee);
+        }
+      });
+
+      return Array.from(selectedById.values()).filter((employee) =>
+        checkedIds.includes(employee.id),
+      );
+    });
+  }, [result, checkedIds]);
 
   const handleCheckedChange = (memberId: number, isChecked: boolean) => {
     setCheckedIds((prev) =>
@@ -62,15 +84,19 @@ const SearchSection = ({
         ? Array.from(new Set([...prev, memberId]))
         : prev.filter((id) => id !== memberId),
     );
+
+    if (!isChecked) {
+      setSelectedEmployees((prev) =>
+        prev.filter((employee) => employee.id !== memberId),
+      );
+    }
   };
 
   const handleAddSelected = () => {
     if (checkedIds.length === 0) return;
-    const selectedMembers =
-      result?.content.filter((employee) => checkedIds.includes(employee.id)) ??
-      [];
-    handleBulkMembers(selectedMembers);
+    handleBulkMembers(selectedEmployees);
     setCheckedIds([]);
+    setSelectedEmployees([]);
     setSearchTerm("");
     onCancel?.();
   };
