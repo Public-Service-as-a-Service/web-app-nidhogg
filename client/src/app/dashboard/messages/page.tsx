@@ -31,54 +31,55 @@ const Messages = () => {
   const searchParams = useSearchParams();
 
   const mapRecipientToEmployee = (r: MessageRecipient): Employee => ({
-        id: r.employeeId ?? 0,
-        firstName: r.firstName,
-        lastName: r.lastName,
-        orgId: r.orgId ?? "",
-        orgName: r.orgName ?? "",
-        workTitle: r.workTitle ?? "",
-        personId: "",
-        email: "",
-        workMobile: "",
-        workPhone: "",
-        createDate: "",
-        lastModifiedDate: "",
-      });
+    id: r.employeeId ?? 0,
+    firstName: r.firstName,
+    lastName: r.lastName,
+    orgId: r.orgId ?? "",
+    orgName: r.orgName ?? "",
+    workTitle: r.workTitle ?? "",
+    personId: "",
+    email: "",
+    workMobile: "",
+    workPhone: "",
+    createDate: "",
+    lastModifiedDate: "",
+  });
 
   useEffect(() => {
     const stepParam = searchParams.get("step");
     const messageId = searchParams.get("messageId");
 
-    if(stepParam != null){
+    if (stepParam != null) {
       setStep(Number(stepParam));
     }
-    if (messageId){
+    if (messageId) {
       const fetchAllRecipients = async () => {
         const all: Record<string, Employee> = {};
-        const pageSize = 100;
+        const pageSize = 1000;
         let currentPage = 0;
         let totalPages = 1;
 
         while (currentPage < totalPages) {
-          
           const result = await axios.get(
             `${process.env.NEXT_PUBLIC_API_URL}${API_ENDPOINTS.messageRecipients(Number(messageId))}`,
-            { params: { page: currentPage, size: pageSize }, withCredentials: true }
+            {
+              params: { page: currentPage, size: pageSize },
+              withCredentials: true,
+            },
           );
           result.data.content.forEach((r: MessageRecipient) => {
-            all[`emp-${(r.employeeId)}`] = mapRecipientToEmployee(r);
+            all[`emp-${r.employeeId}`] = mapRecipientToEmployee(r);
           });
           totalPages = result.data.totalPages;
           currentPage++;
         }
 
         setRecipientEmployees(all);
-    };
+      };
 
-    fetchAllRecipients();
-      
+      fetchAllRecipients();
     }
-  }, []);
+  }, [searchParams]);
 
   const [allChecked, setAllChecked] = useState<boolean>(false);
   const [recipientGroups, setRecipientGroups] = useState<
