@@ -94,7 +94,7 @@ const MessageDetails = () => {
           <ArrowLeft />
           {t("goBackButton")}
         </Button>
-        <Button>{t("newMessageButton")}</Button>
+        <Button onClick={ () => router.push(`/dashboard/messages?step=1&messageId=${id}`)}>{t("newMessageButton")}</Button>
       </div>
     </MainWrapper>
   );

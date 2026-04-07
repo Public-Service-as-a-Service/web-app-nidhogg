@@ -32,18 +32,18 @@ export function useTreeMenu() {
     if (!organizations || !employees) return [];
 
     const orgNodes: TreeMenuItem[] = organizations.map((org) => ({
-      id: org.orgId,
+      id: `org-${org.orgId}`,
       name: org.name,
       type: "org",
-      parentId: org.parentOrgId ?? null,
+      parentId: org.parentOrgId ? `org-${org.parentOrgId}` : null,
       children: [],
     }));
 
     const employeeNodes: TreeMenuItem[] = employees.map((emp) => ({
-      id: emp.personId,
+      id: `emp-${emp.id}`,
       name: `${emp.firstName} ${emp.lastName}`,
       type: "emp",
-      parentId: emp.orgId,
+      parentId: `org-${emp.orgId}`,
       employee: emp,
       children: [],
     }));
