@@ -1,5 +1,4 @@
 "use client";
-
 import MainWrapper from "../../components/MainWrapper";
 import { useTranslations } from "next-intl";
 import { JSX, useEffect, useState } from "react";
@@ -12,6 +11,9 @@ import { useSearchParams } from "next/navigation";
 import { MessageRecipient } from "@/app/interfaces/message";
 import { API_ENDPOINTS } from "@/app/constants";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import { PAGE_ROUTES } from "@/app/constants";
+import { useLeavePageGuard } from "@/app/components/LeavePageGuard";
 
 export interface GroupRecipient {
   id: number | string;
@@ -82,16 +84,43 @@ const Messages = () => {
   }, [searchParams]);
 
   const [allChecked, setAllChecked] = useState<boolean>(false);
-  const [recipientGroups, setRecipientGroups] = useState<
-    Record<string, GroupRecipient>
-  >({});
-  const [recipientEmployees, setRecipientEmployees] = useState<
-    Record<string, Employee>
-  >({});
-
+  const [recipientGroups, setRecipientGroups] = useState<Record<string, GroupRecipient>>({});
+  const [recipientEmployees, setRecipientEmployees] = useState<Record<string, Employee>>({});
   const [title, setTitle] = useState<string>("");
   const [messageBody, setMessageBody] = useState<string>("");
   const [channels, setChannels] = useState<string[]>([]);
+  const router = useRouter();
+
+  const { setHasChanges, setShowAlert, setPendingAction } = useLeavePageGuard();
+  const hasChanges = !!(
+  title ||
+  messageBody ||
+  channels.length > 0 ||
+  Object.keys(recipientGroups).length > 0 ||
+  Object.keys(recipientEmployees).length > 0 ||
+  allChecked
+);
+  
+  useEffect(() => {
+    setHasChanges(hasChanges);
+  }, [title, messageBody, channels, recipientGroups, recipientEmployees, allChecked, setHasChanges]);
+
+  useEffect(() => {
+    window.history.pushState(null, "", window.location.href);
+
+    const handlePopState = () => {
+      if (hasChanges) {
+        window.history.pushState(null, "", window.location.href);
+        setPendingAction(() => () => router.push(PAGE_ROUTES.dashboard));
+        setShowAlert(true);
+      } else {
+        router.push(PAGE_ROUTES.dashboard);
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [title, messageBody, channels, router, setPendingAction, setShowAlert]);
 
   const handleAllCheckedChange = (checked: boolean) => {
     setAllChecked(checked);
@@ -118,15 +147,22 @@ const Messages = () => {
     });
   };
 
-  const handleEmployeeRecipients = (
-    nextRecipients: Record<string, Employee>,
-  ) => {
+  const handleEmployeeRecipients = (nextRecipients: Record<string, Employee>) => {
     if (allChecked) return;
     setRecipientEmployees(nextRecipients);
   };
 
   const handleChannels = (channel: string) => {
     setChannels((prev) => toggleItem(prev, channel));
+  };
+
+  const handleGoBack = () => {
+    if (hasChanges) {
+      setPendingAction(() => () => router.push(PAGE_ROUTES.dashboard));
+      setShowAlert(true);
+    } else {
+      router.push(PAGE_ROUTES.dashboard);
+    }
   };
 
   const t_steps = useTranslations("ProgressSteps");
@@ -143,6 +179,7 @@ const Messages = () => {
       content: (
         <RecipientsStep
           onNext={() => setStep(1)}
+          onPrev={handleGoBack}
           handleGroupRecipients={handleGroupRecipients}
           handleEmployeeRecipients={handleEmployeeRecipients}
           setAllChecked={handleAllCheckedChange}

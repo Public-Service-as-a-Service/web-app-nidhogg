@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import Loading from "@/app/components/LoadingSpinner";
@@ -15,6 +15,7 @@ import { PAGE_ROUTES } from "@/app/constants";
 import { Employee } from "@/app/interfaces/employee";
 import { Group } from "@/app/interfaces/group";
 import { useQueryClient } from "@tanstack/react-query";
+import { useLeavePageGuard } from "@/app/components/LeavePageGuard";
 
 const EditGroup = () => {
   const t = useTranslations("GroupHandling");
@@ -22,6 +23,7 @@ const EditGroup = () => {
   const { id: paramId } = useParams();
   const id = Number(paramId);
   const queryClient = useQueryClient();
+  const { setHasChanges, setShowAlert, setPendingAction } = useLeavePageGuard();
 
   const [isEditing, setIsEditing] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
@@ -32,6 +34,31 @@ const EditGroup = () => {
   const { data: group, isLoading } = useGroup(id);
   const updateMutation = useUpdateGroup();
   const deleteMutation = useDeleteGroup();
+
+  useEffect(() => {
+    setHasChanges(isEditing);
+  }, [isEditing, setHasChanges]);
+
+  useEffect(() => {
+    return () => setHasChanges(false);
+  }, [setHasChanges]);
+
+  useEffect(() => {
+    window.history.pushState(null, "", window.location.href);
+
+    const handlePopState = () => {
+      if (isEditing) {
+        window.history.pushState(null, "", window.location.href);
+        setPendingAction(() => () => router.back());
+        setShowAlert(true);
+      } else {
+        router.back();
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [isEditing, router, setPendingAction, setShowAlert]);
 
   const syncState = useCallback((group: Group) => {
     setNewTitle(group.name);
@@ -98,6 +125,15 @@ const EditGroup = () => {
     }
   };
 
+  const handleGoBack = () => {
+    if (isEditing) {
+      setPendingAction(() => () => router.back());
+      setShowAlert(true);
+    } else {
+      router.back();
+    }
+  };
+
   if (isLoading) return <Loading />;
   if (!group)
     return (
@@ -135,7 +171,7 @@ const EditGroup = () => {
         onCancelAddingMembers={() => setIsAdding(false)}
         onBulkMembers={handleBulkMembers}
         onRemoveMember={handleRemoveMember}
-        onGoBack={() => router.back()}
+        onGoBack={handleGoBack}
       />
     </MainWrapper>
   );

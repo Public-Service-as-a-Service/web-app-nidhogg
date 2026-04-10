@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { useScreenWidth } from "../hooks/useScreenWidth";
 import useIsAdmin from "../hooks/useIsAdmin";
+import { useLeavePageGuard } from "@/app/components/LeavePageGuard";
 
 const pathIcons: Record<string, React.ReactNode> = {
   [PAGE_ROUTES.dashboard]: <Home size={20} />,
@@ -43,6 +44,18 @@ const AppBarHeader = () => {
   const t = useTranslations("AppBar");
   const screenWidth = useScreenWidth();
   const isAdmin = useIsAdmin();
+  const { hasChanges, setShowAlert, setPendingAction } = useLeavePageGuard();
+
+  const handleNavigation = (url: string, e: React.MouseEvent) => {
+    if (hasChanges) {
+      e.preventDefault();
+      setOpen(false);
+      setPendingAction(() => () => router.push(url));
+      setShowAlert(true);
+    } else {
+      setOpen(false);
+    }
+  };
 
   const handleLogout = () => {
     mutate(undefined, {
@@ -57,12 +70,10 @@ const AppBarHeader = () => {
   const getTeamsSenderLinkProps = (url: string) => {
     let target: "_blank" | undefined;
     let rel: "noreferrer" | undefined;
-
     if (url === API_ENDPOINTS.msLogin) {
       target = "_blank";
       rel = "noreferrer";
     }
-
     return { target, rel };
   };
 
@@ -80,39 +91,33 @@ const AppBarHeader = () => {
     let desktopMenuItems: React.ReactNode = null;
 
     if (isAdmin) {
-      desktopMenuItems = ADMIN_PATHS.filter((p) => p.isVisible).map(
-        (path, i) => {
-          const { target, rel } = getTeamsSenderLinkProps(path.url);
-
-          return (
-            <NavigationBar.Item key={i}>
-              <Link
-                href={path.url}
-                onClick={() => setOpen(false)}
-                className="flex items-center gap-8 py-16"
-                target={target}
-                rel={rel}
-              >
-                {pathIcons[path.url]}
-                <p className="pl-8">
-                  {path.url === PAGE_ROUTES.dashboardAdmin
-                    ? t("adminLink")
-                    : path.title}
-                </p>
-              </Link>
-            </NavigationBar.Item>
-          );
-        },
-      );
-    } else {
-      desktopMenuItems = USER_PATHS.filter((p) => p.isVisible).map((path, i) => {
+      desktopMenuItems = ADMIN_PATHS.filter((p) => p.isVisible).map((path, i) => {
         const { target, rel } = getTeamsSenderLinkProps(path.url);
-
         return (
           <NavigationBar.Item key={i}>
             <Link
               href={path.url}
-              onClick={() => setOpen(false)}
+              onClick={(e) => handleNavigation(path.url, e)}
+              className="flex items-center gap-8 py-16"
+              target={target}
+              rel={rel}
+            >
+              {pathIcons[path.url]}
+              <p className="pl-8">
+                {path.url === PAGE_ROUTES.dashboardAdmin ? t("adminLink") : path.title}
+              </p>
+            </Link>
+          </NavigationBar.Item>
+        );
+      });
+    } else {
+      desktopMenuItems = USER_PATHS.filter((p) => p.isVisible).map((path, i) => {
+        const { target, rel } = getTeamsSenderLinkProps(path.url);
+        return (
+          <NavigationBar.Item key={i}>
+            <Link
+              href={path.url}
+              onClick={(e) => handleNavigation(path.url, e)}
               className="flex items-center gap-8 py-16"
               target={target}
               rel={rel}
@@ -129,12 +134,7 @@ const AppBarHeader = () => {
       <NavigationBar className="flex flex-row gap-16">
         {desktopMenuItems}
         <NavigationBar.Item>
-          <Button
-            type="button"
-            variant="secondary"
-            size="md"
-            onClick={handleLogout}
-          >
+          <Button type="button" variant="secondary" size="md" onClick={handleLogout}>
             <LogOut />
             {isPending ? t("loggingOut") : t("logOut")}
           </Button>
@@ -146,54 +146,47 @@ const AppBarHeader = () => {
   let mobileMenuContent: React.ReactNode = null;
 
   if (isAdmin) {
-    mobileMenuContent = ADMIN_PATHS.filter((p) => p.isVisible).map(
-      (path, i) => {
-        const label =
-          path.url === PAGE_ROUTES.dashboardAdmin ? t("adminLink") : path.title;
-
-        if (path.isExternal) {
-          const { target, rel } = getTeamsSenderLinkProps(path.url);
-
-          return (
-            <a
-              key={i}
-              href={path.url}
-              target={target}
-              rel={rel}
-              onClick={() => setOpen(false)}
-              className="flex items-center gap-16 py-16"
-            >
-              {pathIcons[path.url]}
-              <span>{label}</span>
-            </a>
-          );
-        }
-
-        return (
-          <Link
-            key={i}
-            href={path.url}
-            onClick={() => setOpen(false)}
-            className="flex items-center gap-16 py-16"
-          >
-            {pathIcons[path.url]}
-            <span>{label}</span>
-          </Link>
-        );
-      },
-    );
-  } else {
-    mobileMenuContent = USER_PATHS.filter((p) => p.isVisible).map((path, i) => {
+    mobileMenuContent = ADMIN_PATHS.filter((p) => p.isVisible).map((path, i) => {
+      const label = path.url === PAGE_ROUTES.dashboardAdmin ? t("adminLink") : path.title;
       if (path.isExternal) {
         const { target, rel } = getTeamsSenderLinkProps(path.url);
-
         return (
           <a
             key={i}
             href={path.url}
             target={target}
             rel={rel}
-            onClick={() => setOpen(false)}
+            onClick={(e) => handleNavigation(path.url, e)}
+            className="flex items-center gap-16 py-16"
+          >
+            {pathIcons[path.url]}
+            <span>{label}</span>
+          </a>
+        );
+      }
+      return (
+        <Link
+          key={i}
+          href={path.url}
+          onClick={(e) => handleNavigation(path.url, e)}
+          className="flex items-center gap-16 py-16"
+        >
+          {pathIcons[path.url]}
+          <span>{label}</span>
+        </Link>
+      );
+    });
+  } else {
+    mobileMenuContent = USER_PATHS.filter((p) => p.isVisible).map((path, i) => {
+      if (path.isExternal) {
+        const { target, rel } = getTeamsSenderLinkProps(path.url);
+        return (
+          <a
+            key={i}
+            href={path.url}
+            target={target}
+            rel={rel}
+            onClick={(e) => handleNavigation(path.url, e)}
             className="flex items-center gap-16 py-16"
           >
             {pathIcons[path.url]}
@@ -201,12 +194,11 @@ const AppBarHeader = () => {
           </a>
         );
       }
-
       return (
         <Link
           key={i}
           href={path.url}
-          onClick={() => setOpen(false)}
+          onClick={(e) => handleNavigation(path.url, e)}
           className="flex items-center gap-16 py-16"
         >
           {pathIcons[path.url]}
@@ -221,11 +213,7 @@ const AppBarHeader = () => {
       <header className="w-full top-0 z-50 shadow-50">
         <div className="mx-auto flex items-center justify-between p-20 md:px-80">
           <div className="self-center">
-            <Logo
-              variant="service"
-              title={t("title")}
-              subtitle={t("subtitle")}
-            />
+            <Logo variant="service" title={t("title")} subtitle={t("subtitle")} />
           </div>
           {desktopNavigation}
         </div>

@@ -1,16 +1,16 @@
 "use client";
 
 import { Button } from "@sk-web-gui/react";
-import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import CheckboxCard from "./CheckboxCard";
 import GroupSection from "./GroupSection";
 import { Employee } from "@/app/interfaces/employee";
 import { GroupRecipient } from "../../dashboard/messages/page";
-import { PAGE_ROUTES } from "@/app/constants";
+
 
 interface RecipientStepProps {
   onNext?: () => void;
+  onPrev?: () => void;
   recipientGroups: Record<string, GroupRecipient>;
   recipientEmployees: Record<string, Employee>;
   handleGroupRecipients: (group: GroupRecipient) => void;
@@ -21,6 +21,7 @@ interface RecipientStepProps {
 
 const RecipientsStep = ({
   onNext,
+  onPrev,
   recipientGroups,
   recipientEmployees,
   handleGroupRecipients,
@@ -28,21 +29,11 @@ const RecipientsStep = ({
   allChecked,
   setAllChecked,
 }: RecipientStepProps) => {
-  const router = useRouter();
   const t = useTranslations("RecipientsStep");
-
   const isDisabled =
     Object.keys(recipientGroups).length === 0 &&
     Object.keys(recipientEmployees).length === 0 &&
     !allChecked;
-
-  const handleAllChecked = (isChecked: boolean) => {
-    setAllChecked(isChecked);
-  };
-
-  const handleGoBack = () => {
-    router.push(PAGE_ROUTES.dashboard);
-  };
 
   return (
     <div className="flex flex-col gap-14">
@@ -52,7 +43,7 @@ const RecipientsStep = ({
           <CheckboxCard
             label={t("allEmployeesLabel")}
             description={t("allEmployeesDesc")}
-            handleAllChecked={handleAllChecked}
+            handleAllChecked={(isChecked) => setAllChecked(isChecked)}
             allChecked={allChecked}
           />
         </div>
@@ -65,7 +56,7 @@ const RecipientsStep = ({
         />
       </div>
       <div className="flex justify-between">
-        <Button variant="tertiary" onClick={handleGoBack}>
+        <Button variant="tertiary" onClick={onPrev}>
           {t("goBackButton")}
         </Button>
         <Button disabled={isDisabled} onClick={onNext}>

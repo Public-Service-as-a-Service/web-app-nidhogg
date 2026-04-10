@@ -1,12 +1,14 @@
 "use client";
-
 import MainWrapper from "@/app/components/MainWrapper";
-import { JSX, useState } from "react";
+import { JSX, useState, useEffect } from "react";
 import { ProgressStepper } from "@sk-web-gui/react";
 import InfoStep from "@/app/components/CreateGroupSteps/InfoStep";
 import MembersStep from "@/app/components/CreateGroupSteps/MembersStep";
 import { useTranslations } from "next-intl";
 import { Employee } from "@/app/interfaces/employee";
+import { useRouter } from "next/navigation";
+import { PAGE_ROUTES } from "@/app/constants";
+import { useLeavePageGuard } from "@/app/components/LeavePageGuard";
 
 interface StepsProps {
   label: string;
@@ -18,17 +20,54 @@ const CreateGroup = () => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [membersById, setMembersById] = useState<Record<number, Employee>>({});
-
   const t = useTranslations("GroupHandling");
+  const router = useRouter();
+  const { setHasChanges, setShowAlert, setPendingAction } = useLeavePageGuard();
+
+  const hasChanges = !!(title || description || Object.keys(membersById).length > 0);
+
+  useEffect(() => {
+    setHasChanges(hasChanges);
+  }, [hasChanges, setHasChanges]);
+
+  // Rensa hasChanges när komponenten unmountas
+  useEffect(() => {
+    return () => setHasChanges(false);
+  }, [setHasChanges]);
+
+  // Fångar webbläsarens bakåtknapp
+  useEffect(() => {
+    window.history.pushState(null, "", window.location.href);
+
+    const handlePopState = () => {
+      if (hasChanges) {
+        window.history.pushState(null, "", window.location.href);
+        setPendingAction(() => () => router.push(PAGE_ROUTES.dashboardGroups));
+        setShowAlert(true);
+      } else {
+        router.push(PAGE_ROUTES.dashboardGroups);
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [hasChanges, router, setPendingAction, setShowAlert]);
+
+  const handleGoBack = () => {
+    if (hasChanges) {
+      setPendingAction(() => () => router.push(PAGE_ROUTES.dashboardGroups));
+      setShowAlert(true);
+    } else {
+      router.push(PAGE_ROUTES.dashboardGroups);
+    }
+  };
 
   const handleBulkMembers = (members: Employee[]) => {
     setMembersById((prev) => {
       const next = { ...prev };
-
       for (const member of members) {
         next[member.id] = member;
       }
-
       return next;
     });
   };
@@ -53,6 +92,7 @@ const CreateGroup = () => {
           description={description}
           setDescription={setDescription}
           onNext={() => setStep(1)}
+          onPrev={handleGoBack}
         />
       ),
     },
