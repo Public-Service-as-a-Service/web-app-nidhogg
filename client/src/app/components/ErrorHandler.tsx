@@ -2,7 +2,7 @@ import { AxiosError } from "axios";
 import { Card } from "@sk-web-gui/react";
 
 interface ErrorHandlerProps {
-  error?: AxiosError;
+  error?: AxiosError | Error;
 }
 
 const ErrorHandler = ({ error }: ErrorHandlerProps) => {

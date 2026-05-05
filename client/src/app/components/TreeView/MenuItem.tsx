@@ -10,6 +10,7 @@ interface MenuItemProps {
   isChecked: boolean;
   checkedItems: Record<string, boolean>;
   onToggle: (name: TreeMenuItem, parent?: TreeMenuItem) => void;
+  onExpand: (name: TreeMenuItem, parent?: TreeMenuItem) => Promise<void> | void;
 }
 
 const MenuItem = ({
@@ -17,56 +18,65 @@ const MenuItem = ({
   parent,
   isChecked,
   onToggle,
+  onExpand,
   checkedItems,
 }: MenuItemProps) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const hasChildren = item.children && item.children.length > 0;
+  const hasLoadedChildren = !!item.children && item.children.length > 0;
+  const canExpand =
+    item.type === "org" &&
+    (!item.childrenLoaded || hasLoadedChildren || !!item.childrenError);
 
-  const handleOnToggle = () => {
-    onToggle(item, parent);
-  };
+  const handleExpand = async () => {
+    if (isExpanded) {
+      setIsExpanded(false);
+      return;
+    }
 
-  const handleExpand = () => {
-    setIsExpanded((prev) => !prev);
+    setIsExpanded(true);
+    await onExpand(item, parent);
   };
 
   return (
     <List.Item className="pt-0 [li&::before]:!hidden [&::before]:!hidden [&::before]:!content-none">
-      <List.Text
-        className={hasChildren ? "menu-item parent-item" : "menu-item"}
-      >
+      <List.Text className={canExpand ? "menu-item parent-item" : "menu-item"}>
         <span className="menu-item-left">
           <Checkbox
-            onClick={handleOnToggle}
+            onClick={() => onToggle(item, parent)}
             checked={isChecked}
             tabIndex={0}
             role="checkbox"
             aria-checked={isChecked}
+            disabled={item.childrenLoading}
           />
         </span>
 
         <span className="menu-item-center px-5">{item.name}</span>
 
-        {hasChildren && (
+        {canExpand && (
           <Button
             iconButton={true}
             variant="ghost"
             size="sm"
-            onClick={handleExpand}
+            onClick={() => {
+              void handleExpand();
+            }}
             tabIndex={0}
             aria-expanded={isExpanded}
             className="menu-item-right"
+            disabled={item.childrenLoading}
           >
             {isExpanded ? <ChevronDown /> : <ChevronRight />}
           </Button>
         )}
       </List.Text>
-      {hasChildren && isExpanded && (
+      {isExpanded && hasLoadedChildren && (
         <MenuList
           list={item.children}
           parent={item}
           checkedItems={checkedItems}
           onToggle={onToggle}
+          onExpand={onExpand}
         />
       )}
     </List.Item>
