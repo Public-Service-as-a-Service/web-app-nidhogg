@@ -59,7 +59,7 @@ export const fetchOrganizationChildren = async (
   orgId: string,
 ): Promise<Organization[]> => {
   const response = await axios.get<Organization[] | OrganizationsResponse>(
-    `${apiUrl}${API_ENDPOINTS.organizationChildren(orgId)}`,
+    `${apiUrl}${API_ENDPOINTS.organizationChildrenSimple(orgId)}`,
     withCredentials,
   );
   return parseOrganizations(response.data);

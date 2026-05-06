@@ -80,6 +80,36 @@ const updateNodeById = (
   });
 };
 
+const resolveAutoExpand = async (
+  child: TreeMenuItem,
+  parentName: string,
+  fetchDirectChildren: (orgId: string) => Promise<TreeMenuItem[]>,
+): Promise<TreeMenuItem> => {
+  if (child.type !== "org" || child.name !== parentName) return child;
+
+  const grandchildren = await fetchDirectChildren(getOrgIdFromNodeId(child.id));
+
+  if (grandchildren.length !== 1 || grandchildren[0].name !== child.name) {
+    return {
+      ...child,
+      children: grandchildren,
+      childrenLoaded: true,
+    };
+  }
+
+  const resolvedGrandchildren = await Promise.all(
+    grandchildren.map((gc) =>
+      resolveAutoExpand(gc, child.name, fetchDirectChildren),
+    ),
+  );
+
+  return {
+    ...child,
+    children: resolvedGrandchildren,
+    childrenLoaded: true,
+  };
+};
+
 export function useTreeMenu() {
   const [items, setItems] = useState<TreeMenuItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -155,7 +185,15 @@ export function useTreeMenu() {
       );
 
       try {
-        const children = await fetchDirectChildren(getOrgIdFromNodeId(node.id));
+        const initialChildren = await fetchDirectChildren(
+          getOrgIdFromNodeId(node.id),
+        );
+
+        const children = await Promise.all(
+          initialChildren.map((child) =>
+            resolveAutoExpand(child, node.name, fetchDirectChildren),
+          ),
+        );
 
         const updatedNode: TreeMenuItem = {
           ...latestNode,

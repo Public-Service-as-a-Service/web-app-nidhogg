@@ -38,6 +38,8 @@ export const API_ENDPOINTS = {
   organizationById: (orgId: string) => `/notifier/organization/${orgId}`,
   organizationChildren: (orgId: string) =>
     `/notifier/organization/${orgId}/children`,
+  organizationChildrenSimple: (orgId: string) =>
+    `/notifier/organization/${orgId}/children/simple`,
   organizationChildrenDescendants: (orgId: string) =>
     `/notifier/organization/${orgId}/children/descendants`,
   organizationByIds: "/notifier/organization/ids",

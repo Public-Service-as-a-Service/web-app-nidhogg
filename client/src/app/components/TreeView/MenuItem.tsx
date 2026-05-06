@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import MenuList from "./MenuList";
 import { TreeMenuItem } from "@/app/interfaces/tree-menu";
 import { List, Button, Checkbox } from "@sk-web-gui/react";
@@ -21,8 +21,14 @@ const MenuItem = ({
   onExpand,
   checkedItems,
 }: MenuItemProps) => {
-  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [isExpanded, setIsExpanded] = useState<boolean>(
+    item.childrenLoaded === true &&
+      (item.children?.length ?? 0) === 1 &&
+      item.children?.[0]?.name === item.name,
+  );
+
   const hasLoadedChildren = !!item.children && item.children.length > 0;
+
   const canExpand =
     item.type === "org" &&
     (!item.childrenLoaded || hasLoadedChildren || !!item.childrenError);
