@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import MenuItem from "./MenuItem";
 import { TreeMenuItem } from "@/app/interfaces/tree-menu";
 import { List } from "@sk-web-gui/react";
@@ -8,6 +8,7 @@ interface MenuListProps {
   checkedItems: Record<string, boolean>;
   parent?: TreeMenuItem;
   onToggle: (item: TreeMenuItem, parent?: TreeMenuItem) => void;
+  onExpand: (item: TreeMenuItem, parent?: TreeMenuItem) => Promise<void> | void;
 }
 
 const MenuList = ({
@@ -15,6 +16,7 @@ const MenuList = ({
   checkedItems,
   parent,
   onToggle,
+  onExpand,
 }: MenuListProps) => {
   return (
     <List className="menu-list-container">
@@ -26,6 +28,7 @@ const MenuList = ({
           checkedItems={checkedItems}
           isChecked={!!checkedItems[item.id]}
           onToggle={onToggle}
+          onExpand={onExpand}
         />
       ))}
     </List>

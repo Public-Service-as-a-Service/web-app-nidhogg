@@ -31,8 +31,18 @@ export const API_ENDPOINTS = {
   groups: "/notifier/groups",
   groupById: (id: number | string) => `/notifier/groups/${id}`,
   allEmployees: "/notifier/employees",
+  employeesByOrgId: (orgId: string) => `/notifier/employees/${orgId}`,
+  employeesByOrgIds: "/notifier/employees/orgIds",
   searchEmployees: "/notifier/employees/search",
   allOrganizations: "/notifier/organization/organizations",
+  organizationById: (orgId: string) => `/notifier/organization/${orgId}`,
+  organizationChildren: (orgId: string) =>
+    `/notifier/organization/${orgId}/children`,
+  organizationChildrenSimple: (orgId: string) =>
+    `/notifier/organization/${orgId}/children/simple`,
+  organizationChildrenDescendants: (orgId: string) =>
+    `/notifier/organization/${orgId}/children/descendants`,
+  organizationByIds: "/notifier/organization/ids",
   allManagers: "/notifier/employees/managers",
   itProd: "/notifier/employees/org-group/it-prod",
   adminUsers: "/admin/users",

@@ -5,6 +5,7 @@ import { TreeMenuItem } from "@/app/interfaces/tree-menu";
 import { useTreeMenu } from "@/app/hooks/useTreeMenu";
 import Loading from "../LoadingSpinner";
 import { Employee } from "@/app/interfaces/employee";
+import ErrorHandler from "../ErrorHandler";
 
 interface TreeViewProps {
   "aria-labelledby"?: string;
@@ -17,7 +18,7 @@ const TreeView = ({
   handleRecipients,
   selectedItems,
 }: TreeViewProps) => {
-  const { items, isLoading } = useTreeMenu();
+  const { items, isLoading, error, loadNodeChildren } = useTreeMenu();
 
   const checkedItems: Record<string, boolean> = {};
 
@@ -66,7 +67,13 @@ const TreeView = ({
     handleRecipients(newSelected);
   };
 
+  const expandItem = async (item: TreeMenuItem) => {
+    if (item.type !== "org") return;
+    await loadNodeChildren(item).catch(() => undefined);
+  };
+
   if (isLoading) return <Loading />;
+  if (error) return <ErrorHandler error={error} />;
 
   return (
     <div
@@ -78,6 +85,7 @@ const TreeView = ({
         list={items}
         checkedItems={checkedItems}
         onToggle={toggleItem}
+        onExpand={expandItem}
       />
     </div>
   );
