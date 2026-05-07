@@ -80,7 +80,7 @@ const GroupSection = ({
           {t("organization")}
         </p>
         <TreeView
-          aria-labelledby="organization-label"
+          aria-labelledby={t("orgTree")}
           handleRecipients={handleEmployeeRecipients}
           selectedItems={selectedEmployees}
         />

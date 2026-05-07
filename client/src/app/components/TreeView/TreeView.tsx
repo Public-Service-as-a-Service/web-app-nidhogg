@@ -2,10 +2,14 @@ import React from "react";
 import MenuList from "./MenuList";
 import "./styles.css";
 import { TreeMenuItem } from "@/app/interfaces/tree-menu";
-import { useTreeMenu } from "@/app/hooks/useTreeMenu";
+import { useTreeMenu } from "@/app/components/TreeView/utils/useTreeMenu";
 import Loading from "../LoadingSpinner";
 import { Employee } from "@/app/interfaces/employee";
 import ErrorHandler from "../ErrorHandler";
+import { Button } from "@sk-web-gui/react";
+import { ChevronLeft } from "lucide-react";
+import { buildCheckedItems, toggleSelection } from "./utils/treeUtils";
+import { useTreeNavigation } from "./utils/useTreeNavigation";
 
 interface TreeViewProps {
   "aria-labelledby"?: string;
@@ -19,57 +23,13 @@ const TreeView = ({
   selectedItems,
 }: TreeViewProps) => {
   const { items, isLoading, error, loadNodeChildren } = useTreeMenu();
+  const { currentItems, backLabel, canGoBack, navigateInto, navigateBack } =
+    useTreeNavigation(items, loadNodeChildren);
 
-  const checkedItems: Record<string, boolean> = {};
-
-  const checkNode = (node: TreeMenuItem): boolean => {
-    if (node.type === "emp") {
-      const isChecked = !!selectedItems[node.id];
-      if (isChecked) checkedItems[node.id] = true;
-      return isChecked;
-    }
-
-    if (node.children && node.children.length > 0) {
-      const results = node.children.map(checkNode);
-      const allChecked = results.every(Boolean);
-
-      if (allChecked) {
-        checkedItems[node.id] = true;
-      }
-
-      return allChecked;
-    }
-
-    return false;
-  };
-
-  items.forEach(checkNode);
+  const checkedItems = buildCheckedItems(items, selectedItems);
 
   const toggleItem = (item: TreeMenuItem) => {
-    const newSelected = { ...selectedItems };
-
-    const isChecked = !!checkedItems[item.id];
-
-    const toggleChildren = (node: TreeMenuItem, shouldCheck: boolean) => {
-      if (node.type === "emp" && node.employee) {
-        if (shouldCheck) {
-          newSelected[node.id] = node.employee;
-        } else {
-          delete newSelected[node.id];
-        }
-      }
-
-      node.children?.forEach((child) => toggleChildren(child, shouldCheck));
-    };
-
-    toggleChildren(item, !isChecked);
-
-    handleRecipients(newSelected);
-  };
-
-  const expandItem = async (item: TreeMenuItem) => {
-    if (item.type !== "org") return;
-    await loadNodeChildren(item).catch(() => undefined);
+    handleRecipients(toggleSelection(item, checkedItems, selectedItems));
   };
 
   if (isLoading) return <Loading />;
@@ -81,11 +41,22 @@ const TreeView = ({
       role="tree"
       aria-labelledby={ariaLabelledby}
     >
+      {canGoBack && (
+        <Button
+          variant="secondary"
+          size="sm"
+          onClick={navigateBack}
+          className="mb-8"
+        >
+          <ChevronLeft />
+          {backLabel}
+        </Button>
+      )}
       <MenuList
-        list={items}
+        list={currentItems}
         checkedItems={checkedItems}
         onToggle={toggleItem}
-        onExpand={expandItem}
+        onNavigate={navigateInto}
       />
     </div>
   );
