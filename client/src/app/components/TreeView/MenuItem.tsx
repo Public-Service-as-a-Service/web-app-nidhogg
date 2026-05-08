@@ -1,54 +1,28 @@
-﻿import React, { useState } from "react";
-import MenuList from "./MenuList";
+﻿import React from "react";
 import { TreeMenuItem } from "@/app/interfaces/tree-menu";
 import { List, Button, Checkbox } from "@sk-web-gui/react";
-import { ChevronRight, ChevronDown } from "lucide-react";
+import { ChevronRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface MenuItemProps {
   item: TreeMenuItem;
-  parent?: TreeMenuItem;
   isChecked: boolean;
-  checkedItems: Record<string, boolean>;
-  onToggle: (name: TreeMenuItem, parent?: TreeMenuItem) => void;
-  onExpand: (name: TreeMenuItem, parent?: TreeMenuItem) => Promise<void> | void;
+  onToggle: (item: TreeMenuItem) => void;
+  onNavigate: (item: TreeMenuItem) => Promise<void> | void;
 }
 
-const MenuItem = ({
-  item,
-  parent,
-  isChecked,
-  onToggle,
-  onExpand,
-  checkedItems,
-}: MenuItemProps) => {
-  const [isExpanded, setIsExpanded] = useState<boolean>(
-    item.childrenLoaded === true &&
-      (item.children?.length ?? 0) === 1 &&
-      item.children?.[0]?.name === item.name,
-  );
-
-  const hasLoadedChildren = !!item.children && item.children.length > 0;
-
-  const canExpand =
-    item.type === "org" &&
-    (!item.childrenLoaded || hasLoadedChildren || !!item.childrenError);
-
-  const handleExpand = async () => {
-    if (isExpanded) {
-      setIsExpanded(false);
-      return;
-    }
-
-    setIsExpanded(true);
-    await onExpand(item, parent);
-  };
+const MenuItem = ({ item, isChecked, onToggle, onNavigate }: MenuItemProps) => {
+  const t = useTranslations("RecipientsStep");
+  const canNavigate = item.type === "org";
 
   return (
     <List.Item className="pt-0 [li&::before]:!hidden [&::before]:!hidden [&::before]:!content-none">
-      <List.Text className={canExpand ? "menu-item parent-item" : "menu-item"}>
+      <List.Text
+        className={canNavigate ? "menu-item parent-item" : "menu-item"}
+      >
         <span className="menu-item-left">
           <Checkbox
-            onClick={() => onToggle(item, parent)}
+            onClick={() => onToggle(item)}
             checked={isChecked}
             tabIndex={0}
             role="checkbox"
@@ -57,34 +31,25 @@ const MenuItem = ({
           />
         </span>
 
-        <span className="menu-item-center px-5">{item.name}</span>
+        <span className="menu-item-center px-5 text-h4-sm">{item.name}</span>
 
-        {canExpand && (
+        {canNavigate && (
           <Button
             iconButton={true}
             variant="ghost"
             size="sm"
             onClick={() => {
-              void handleExpand();
+              void onNavigate(item);
             }}
             tabIndex={0}
-            aria-expanded={isExpanded}
+            aria-label={t("navigateInto", { org: item.name })}
             className="menu-item-right"
             disabled={item.childrenLoading}
           >
-            {isExpanded ? <ChevronDown /> : <ChevronRight />}
+            <ChevronRight />
           </Button>
         )}
       </List.Text>
-      {isExpanded && hasLoadedChildren && (
-        <MenuList
-          list={item.children}
-          parent={item}
-          checkedItems={checkedItems}
-          onToggle={onToggle}
-          onExpand={onExpand}
-        />
-      )}
     </List.Item>
   );
 };

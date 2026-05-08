@@ -54,7 +54,8 @@
     "organization": "Organisation",
     "recipients": "Valda mottagare från organisationen:",
     "allManagers": "Alla chefer",
-    "itProd": "IT-prod"
+    "itProd": "IT-prod",
+    "orgTree": "Organisationsträd"
   },
   "MessageForm": {
     "titleLabel": "Titel",
@@ -69,7 +70,8 @@
     "allEmployeesLabel": "Alla medarbetare",
     "allEmployeesDesc": "Skicka till samtliga medarbetare",
     "goBackButton": "Gå tillbaka",
-    "nextButton": "Gå vidare"
+    "nextButton": "Gå vidare",
+    "navigateInto": "Navigera in i {org}"
   },
   "MessageStep": {
     "sectionTitle": "Skriv meddelande",
@@ -110,7 +112,6 @@
     "createHeading": "Skapa ny användare",
     "emailLabel": "E-postadress",
     "passwordLabel": "Lösenord",
-    "newPasswordPlaceholder": "Nytt lösenord",
     "phoneLabel": "Mobilnummer",
     "municipalityLabel": "Kommun",
     "statusLabel": "Status",
