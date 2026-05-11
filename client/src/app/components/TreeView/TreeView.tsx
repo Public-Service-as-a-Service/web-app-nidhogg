@@ -8,7 +8,11 @@ import { Employee } from "@/app/interfaces/employee";
 import ErrorHandler from "../ErrorHandler";
 import { Button } from "@sk-web-gui/react";
 import { ChevronLeft } from "lucide-react";
-import { buildCheckedItems, toggleSelection } from "./utils/treeUtils";
+import {
+  buildCheckedItems,
+  syncAncestorOrgNodeChecks,
+  toggleSelection,
+} from "./utils/treeUtils";
 import { useTreeNavigation } from "./utils/useTreeNavigation";
 
 interface TreeViewProps {
@@ -66,7 +70,14 @@ const TreeView = ({
       }
     });
 
-    handleOrgNodeRecipients(nextOrgNodes);
+    const nextOrgNodesWithAncestors = syncAncestorOrgNodeChecks(
+      items,
+      item.parentId,
+      nextSelected,
+      nextOrgNodes,
+    );
+
+    handleOrgNodeRecipients(nextOrgNodesWithAncestors);
 
     handleRecipients(nextSelected);
   };
