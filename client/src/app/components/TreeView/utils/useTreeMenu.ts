@@ -5,7 +5,9 @@ import { Employee } from "@/app/interfaces/employee";
 import { Organization } from "@/app/interfaces/organization";
 import {
   fetchEmployeesByOrgId,
+  fetchEmployeesByOrgIds,
   fetchOrganizationChildren,
+  fetchOrganizationDescendants,
 } from "@/app/services/notifierTree";
 
 const ROOT_ORG_ID = process.env.NEXT_PUBLIC_TREE_ROOT_ORG_ID ?? "organizations";
@@ -91,6 +93,12 @@ export function useTreeMenu() {
   }, [items]);
 
   const fetchDirectChildren = useCallback(async (orgId: string) => {
+    const employees = await fetchEmployeesByOrgId(orgId);
+
+    if (employees.length > 0) {
+      return employees.map((employee) => mapEmployeeToNode(employee));
+    }
+
     let organizations: Organization[] = [];
 
     try {
@@ -99,14 +107,25 @@ export function useTreeMenu() {
       if (!isNotFound(err)) throw err;
     }
 
-    if (organizations.length > 0) {
-      return organizations.map((organization) =>
-        mapOrganizationToNode(organization),
-      );
+    return organizations.map((organization) =>
+      mapOrganizationToNode(organization),
+    );
+  }, []);
+
+  const checkNodeChildren = useCallback(async (orgId: string) => {
+    let organizations: Organization[] = [];
+
+    try {
+      organizations = await fetchOrganizationDescendants(orgId);
+    } catch (err) {
+      if (!isNotFound(err)) throw err;
     }
 
-    const employees = await fetchEmployeesByOrgId(orgId);
-    return employees.map((employee) => mapEmployeeToNode(employee));
+    const orgIds = organizations.map((org) => org.orgId);
+    orgIds.push(orgId);
+    const employees = await fetchEmployeesByOrgIds(orgIds);
+
+    return { orgIds, employees };
   }, []);
 
   useEffect(() => {
@@ -155,9 +174,7 @@ export function useTreeMenu() {
       );
 
       try {
-        const children = await fetchDirectChildren(
-          getOrgIdFromNodeId(node.id),
-        );
+        const children = await fetchDirectChildren(getOrgIdFromNodeId(node.id));
 
         const updatedNode: TreeMenuItem = {
           ...latestNode,
@@ -198,5 +215,6 @@ export function useTreeMenu() {
     isLoading,
     error,
     loadNodeChildren,
+    checkNodeChildren,
   };
 }

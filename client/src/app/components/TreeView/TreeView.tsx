@@ -15,21 +15,60 @@ interface TreeViewProps {
   "aria-labelledby"?: string;
   handleRecipients: (recipients: Record<string, Employee>) => void;
   selectedItems: Record<string, Employee>;
+  selectedOrgNodes: Record<string, boolean>;
+  handleOrgNodeRecipients: (orgNodes: Record<string, boolean>) => void;
 }
 
 const TreeView = ({
   "aria-labelledby": ariaLabelledby,
   handleRecipients,
   selectedItems,
+  selectedOrgNodes,
+  handleOrgNodeRecipients,
 }: TreeViewProps) => {
-  const { items, isLoading, error, loadNodeChildren } = useTreeMenu();
+  const { items, isLoading, error, loadNodeChildren, checkNodeChildren } =
+    useTreeMenu();
   const { currentItems, backLabel, canGoBack, navigateInto, navigateBack } =
     useTreeNavigation(items, loadNodeChildren);
 
   const checkedItems = buildCheckedItems(items, selectedItems);
+  const mergedCheckedItems = { ...checkedItems, ...selectedOrgNodes };
 
-  const toggleItem = (item: TreeMenuItem) => {
-    handleRecipients(toggleSelection(item, checkedItems, selectedItems));
+  const toggleItem = async (item: TreeMenuItem) => {
+    if (item.type === "emp") {
+      handleRecipients(toggleSelection(item, checkedItems, selectedItems));
+      return;
+    }
+
+    const orgId = item.id.replace(/^org-/, "");
+    const { orgIds, employees } = await checkNodeChildren(orgId);
+    const nextSelected = { ...selectedItems };
+    const shouldUncheck = !!mergedCheckedItems[item.id];
+
+    if (shouldUncheck) {
+      employees.forEach((employee) => {
+        delete nextSelected[`emp-${employee.id}`];
+      });
+    } else {
+      employees.forEach((employee) => {
+        nextSelected[`emp-${employee.id}`] = employee;
+      });
+    }
+
+    const nextOrgNodes = { ...selectedOrgNodes };
+    const nodeIds = [item.id, ...orgIds.map((id) => `org-${id}`)];
+
+    nodeIds.forEach((nodeId) => {
+      if (shouldUncheck) {
+        delete nextOrgNodes[nodeId];
+      } else {
+        nextOrgNodes[nodeId] = true;
+      }
+    });
+
+    handleOrgNodeRecipients(nextOrgNodes);
+
+    handleRecipients(nextSelected);
   };
 
   if (isLoading) return <Loading />;
@@ -54,7 +93,7 @@ const TreeView = ({
       )}
       <MenuList
         list={currentItems}
-        checkedItems={checkedItems}
+        checkedItems={mergedCheckedItems}
         onToggle={toggleItem}
         onNavigate={navigateInto}
       />

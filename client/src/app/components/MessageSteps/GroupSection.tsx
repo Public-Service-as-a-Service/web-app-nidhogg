@@ -14,16 +14,20 @@ interface GroupSectionProps {
   allChecked: boolean;
   handleGroupRecipients: (group: GroupRecipient) => void;
   handleEmployeeRecipients: (recipients: Record<string, Employee>) => void;
+  handleOrgNodeRecipients: (orgNodes: Record<string, boolean>) => void;
   selectedGroups: Record<string, GroupRecipient>;
   selectedEmployees: Record<string, Employee>;
+  selectedOrgNodes: Record<string, boolean>;
 }
 
 const GroupSection = ({
   allChecked,
   handleGroupRecipients,
   handleEmployeeRecipients,
+  handleOrgNodeRecipients,
   selectedGroups,
   selectedEmployees,
+  selectedOrgNodes,
 }: GroupSectionProps) => {
   const t = useTranslations("GroupSection");
 
@@ -83,6 +87,8 @@ const GroupSection = ({
           aria-labelledby={t("orgTree")}
           handleRecipients={handleEmployeeRecipients}
           selectedItems={selectedEmployees}
+          selectedOrgNodes={selectedOrgNodes}
+          handleOrgNodeRecipients={handleOrgNodeRecipients}
         />
       </FormControl>
     </div>
