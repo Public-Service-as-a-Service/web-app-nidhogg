@@ -16,7 +16,7 @@ interface RecipientListProps {
 const RecipientList = ({
   recipientGroups,
   recipientEmployees,
-  allChecked
+  allChecked,
 }: RecipientListProps) => {
   const [showAll, setShowAll] = useState(false);
 
@@ -27,7 +27,7 @@ const RecipientList = ({
 
   const allRecipients = [
     ...groupRecipients.map((group) => ({
-      id: group.id,
+      id: `group-${group.id}`,
       firstName: "",
       lastName: "",
       orgName: group.name,
@@ -36,7 +36,7 @@ const RecipientList = ({
     ...employeeRecipients.map((employee) => ({
       id: employee.id,
       firstName: employee.firstName,
-      lastName: employee.lastName, 
+      lastName: employee.lastName,
       orgName: employee.orgName,
       deliveryStatus: "DELIVERED",
     })),
@@ -50,7 +50,13 @@ const RecipientList = ({
     <>
       <div className="flex flex-col">
         {allChecked ? (
-          <RecipientItem recipient={{firstName: t("sendToAll"), lastName: "", deliveryStatus: "DELIVERED"}} />
+          <RecipientItem
+            recipient={{
+              firstName: t("sendToAll"),
+              lastName: "",
+              deliveryStatus: "DELIVERED",
+            }}
+          />
         ) : (
           <>
             {visibleRecipients.map((recipient) => (
