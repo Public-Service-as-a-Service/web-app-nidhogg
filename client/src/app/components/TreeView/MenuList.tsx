@@ -6,7 +6,7 @@ import { List } from "@sk-web-gui/react";
 interface MenuListProps {
   list?: TreeMenuItem[];
   checkedItems: Record<string, boolean>;
-  onToggle: (item: TreeMenuItem) => void;
+  onToggle: (item: TreeMenuItem) => Promise<void> | void;
   onNavigate: (item: TreeMenuItem) => Promise<void> | void;
 }
 

@@ -47,6 +47,44 @@ export const buildCheckedItems = (
   return checkedItems;
 };
 
+export const syncAncestorOrgNodeChecks = (
+  items: TreeMenuItem[],
+  startParentId: string | null,
+  selectedItems: Record<string, Employee>,
+  selectedOrgNodes: Record<string, boolean>,
+): Record<string, boolean> => {
+  const nextOrgNodes = { ...selectedOrgNodes };
+
+  const isFullyChecked = (node: TreeMenuItem): boolean => {
+    if (node.type === "emp") return !!selectedItems[node.id];
+    if (nextOrgNodes[node.id]) return true;
+    if (!node.children?.length) return false;
+
+    return node.children.every((child) => isFullyChecked(child));
+  };
+
+  let parentId = startParentId;
+
+  while (parentId) {
+    const parent = findNode(items, parentId);
+    if (!parent || parent.type !== "org") break;
+
+    const allChildrenChecked =
+      !!parent.children?.length &&
+      parent.children.every((child) => isFullyChecked(child));
+
+    if (allChildrenChecked) {
+      nextOrgNodes[parent.id] = true;
+    } else {
+      delete nextOrgNodes[parent.id];
+    }
+
+    parentId = parent.parentId;
+  }
+
+  return nextOrgNodes;
+};
+
 export const toggleSelection = (
   item: TreeMenuItem,
   checkedItems: Record<string, boolean>,

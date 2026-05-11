@@ -88,6 +88,9 @@ const Messages = () => {
   const [recipientEmployees, setRecipientEmployees] = useState<
     Record<string, Employee>
   >({});
+  const [recipientOrgNodes, setRecipientOrgNodes] = useState<
+    Record<string, boolean>
+  >({});
 
   const [title, setTitle] = useState<string>("");
   const [messageBody, setMessageBody] = useState<string>("");
@@ -98,6 +101,7 @@ const Messages = () => {
     if (checked) {
       setRecipientGroups({});
       setRecipientEmployees({});
+      setRecipientOrgNodes({});
     }
   };
 
@@ -125,6 +129,11 @@ const Messages = () => {
     setRecipientEmployees(nextRecipients);
   };
 
+  const handleOrgNodeRecipients = (nextOrgNodes: Record<string, boolean>) => {
+    if (allChecked) return;
+    setRecipientOrgNodes(nextOrgNodes);
+  };
+
   const handleChannels = (channel: string) => {
     setChannels((prev) => toggleItem(prev, channel));
   };
@@ -145,7 +154,9 @@ const Messages = () => {
           onNext={() => setStep(1)}
           handleGroupRecipients={handleGroupRecipients}
           handleEmployeeRecipients={handleEmployeeRecipients}
+          handleOrgNodeRecipients={handleOrgNodeRecipients}
           setAllChecked={handleAllCheckedChange}
+          recipientOrgNodes={recipientOrgNodes}
           {...commonProps}
         />
       ),

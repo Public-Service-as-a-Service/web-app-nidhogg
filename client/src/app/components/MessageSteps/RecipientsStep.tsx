@@ -13,8 +13,10 @@ interface RecipientStepProps {
   onNext?: () => void;
   recipientGroups: Record<string, GroupRecipient>;
   recipientEmployees: Record<string, Employee>;
+  recipientOrgNodes: Record<string, boolean>;
   handleGroupRecipients: (group: GroupRecipient) => void;
   handleEmployeeRecipients: (recipients: Record<string, Employee>) => void;
+  handleOrgNodeRecipients: (orgNodes: Record<string, boolean>) => void;
   allChecked: boolean;
   setAllChecked: (allChecked: boolean) => void;
 }
@@ -23,8 +25,10 @@ const RecipientsStep = ({
   onNext,
   recipientGroups,
   recipientEmployees,
+  recipientOrgNodes,
   handleGroupRecipients,
   handleEmployeeRecipients,
+  handleOrgNodeRecipients,
   allChecked,
   setAllChecked,
 }: RecipientStepProps) => {
@@ -60,8 +64,10 @@ const RecipientsStep = ({
           allChecked={allChecked}
           handleGroupRecipients={handleGroupRecipients}
           handleEmployeeRecipients={handleEmployeeRecipients}
+          handleOrgNodeRecipients={handleOrgNodeRecipients}
           selectedGroups={recipientGroups}
           selectedEmployees={recipientEmployees}
+          selectedOrgNodes={recipientOrgNodes}
         />
       </div>
       <div className="flex justify-between">
