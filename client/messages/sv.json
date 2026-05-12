@@ -73,7 +73,7 @@
     "nextButton": "Gå vidare",
     "navigateInto": "Navigera in i {org}",
     "searchPlaceholder": "Sök i organisationer",
-    "searchNoResults": "Inga träffar",
+    "searchNoResults": "Vi hittade inga träffar på din sökning",
     "searchError": "Något gick fel under sökningen"
   },
   "MessageStep": {
