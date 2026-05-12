@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import MenuList from "./MenuList";
 import "./styles.css";
 import { TreeMenuItem } from "@/app/interfaces/tree-menu";
@@ -14,6 +14,7 @@ import {
   toggleSelection,
 } from "./utils/treeUtils";
 import { useTreeNavigation } from "./utils/useTreeNavigation";
+import TreeViewSearch from "./TreeViewSearch";
 
 interface TreeViewProps {
   "aria-labelledby"?: string;
@@ -30,6 +31,7 @@ const TreeView = ({
   selectedOrgNodes,
   handleOrgNodeRecipients,
 }: TreeViewProps) => {
+  const [isSearchActive, setIsSearchActive] = useState(false);
   const { items, isLoading, error, loadNodeChildren, checkNodeChildren } =
     useTreeMenu();
   const { currentItems, backLabel, canGoBack, navigateInto, navigateBack } =
@@ -91,7 +93,12 @@ const TreeView = ({
       role="tree"
       aria-labelledby={ariaLabelledby}
     >
-      {canGoBack && (
+      <TreeViewSearch
+        checkedItems={mergedCheckedItems}
+        onToggle={toggleItem}
+        onSearchActiveChange={setIsSearchActive}
+      />
+      {canGoBack && !isSearchActive && (
         <Button
           variant="secondary"
           size="sm"
@@ -102,12 +109,17 @@ const TreeView = ({
           {backLabel}
         </Button>
       )}
-      <MenuList
-        list={currentItems}
-        checkedItems={mergedCheckedItems}
-        onToggle={toggleItem}
-        onNavigate={navigateInto}
-      />
+      {!isSearchActive && (
+        <MenuList
+          list={currentItems}
+          checkedItems={mergedCheckedItems}
+          onToggle={toggleItem}
+          isSearchActive={false}
+          onNavigate={(item) => {
+            void navigateInto(item);
+          }}
+        />
+      )}
     </div>
   );
 };

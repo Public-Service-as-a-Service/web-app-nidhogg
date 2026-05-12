@@ -34,6 +34,7 @@ export const API_ENDPOINTS = {
   employeesByOrgId: (orgId: string) => `/notifier/employees/${orgId}`,
   employeesByOrgIds: "/notifier/employees/orgIds",
   searchEmployees: "/notifier/employees/search",
+  searchOrganizations: "/notifier/organization/organizations/search",
   allOrganizations: "/notifier/organization/organizations",
   organizationById: (orgId: string) => `/notifier/organization/${orgId}`,
   organizationChildren: (orgId: string) =>

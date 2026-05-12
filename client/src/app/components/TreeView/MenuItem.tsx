@@ -9,11 +9,18 @@ interface MenuItemProps {
   isChecked: boolean;
   onToggle: (item: TreeMenuItem) => void;
   onNavigate: (item: TreeMenuItem) => Promise<void> | void;
+  isSearchActive: boolean;
 }
 
-const MenuItem = ({ item, isChecked, onToggle, onNavigate }: MenuItemProps) => {
+const MenuItem = ({
+  item,
+  isChecked,
+  onToggle,
+  onNavigate,
+  isSearchActive,
+}: MenuItemProps) => {
   const t = useTranslations("RecipientsStep");
-  const canNavigate = item.type === "org";
+  const canNavigate = item.type === "org" && !isSearchActive;
 
   return (
     <List.Item className="pt-0 [li&::before]:!hidden [&::before]:!hidden [&::before]:!content-none">
