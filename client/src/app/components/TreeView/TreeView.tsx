@@ -72,12 +72,22 @@ const TreeView = ({
       }
     });
 
+    if (!shouldUncheck && item.parentId) {
+      nextOrgNodes[item.parentId] = true;
+    }
+
     const nextOrgNodesWithAncestors = syncAncestorOrgNodeChecks(
       items,
       item.parentId,
       nextSelected,
       nextOrgNodes,
     );
+
+    if (shouldUncheck) {
+      delete nextOrgNodesWithAncestors[item.id];
+    } else {
+      nextOrgNodesWithAncestors[item.id] = true;
+    }
 
     handleOrgNodeRecipients(nextOrgNodesWithAncestors);
 
