@@ -74,7 +74,8 @@
     "navigateInto": "Navigera in i {org}",
     "searchPlaceholder": "Sök i organisationer",
     "searchNoResults": "Vi hittade inga träffar på din sökning",
-    "searchError": "Något gick fel under sökningen"
+    "searchError": "Något gick fel under sökningen",
+    "searchClear": "Rensa"
   },
   "MessageStep": {
     "sectionTitle": "Skriv meddelande",
