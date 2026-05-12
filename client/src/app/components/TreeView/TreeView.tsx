@@ -72,10 +72,6 @@ const TreeView = ({
       }
     });
 
-    if (!shouldUncheck && item.parentId) {
-      nextOrgNodes[item.parentId] = true;
-    }
-
     const nextOrgNodesWithAncestors = syncAncestorOrgNodeChecks(
       items,
       item.parentId,
