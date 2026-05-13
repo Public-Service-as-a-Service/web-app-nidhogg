@@ -42,7 +42,8 @@ const AppBarHeader = () => {
   const [open, setOpen] = useState(false);
   const t = useTranslations("AppBar");
   const screenWidth = useScreenWidth();
-  const isAdmin = useIsAdmin();
+  const isProtected = isProtectedPage(pathname);
+  const isAdmin = useIsAdmin(isProtected);
 
   const handleLogout = () => {
     mutate(undefined, {
@@ -51,8 +52,6 @@ const AppBarHeader = () => {
     });
     setOpen(false);
   };
-
-  const isProtected = isProtectedPage(pathname);
 
   const getTeamsSenderLinkProps = (url: string) => {
     let target: "_blank" | undefined;
@@ -105,24 +104,26 @@ const AppBarHeader = () => {
         },
       );
     } else {
-      desktopMenuItems = USER_PATHS.filter((p) => p.isVisible).map((path, i) => {
-        const { target, rel } = getTeamsSenderLinkProps(path.url);
+      desktopMenuItems = USER_PATHS.filter((p) => p.isVisible).map(
+        (path, i) => {
+          const { target, rel } = getTeamsSenderLinkProps(path.url);
 
-        return (
-          <NavigationBar.Item key={i}>
-            <Link
-              href={path.url}
-              onClick={() => setOpen(false)}
-              className="flex items-center gap-8 py-16"
-              target={target}
-              rel={rel}
-            >
-              {pathIcons[path.url]}
-              <p className="pl-8">{path.title}</p>
-            </Link>
-          </NavigationBar.Item>
-        );
-      });
+          return (
+            <NavigationBar.Item key={i}>
+              <Link
+                href={path.url}
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-8 py-16"
+                target={target}
+                rel={rel}
+              >
+                {pathIcons[path.url]}
+                <p className="pl-8">{path.title}</p>
+              </Link>
+            </NavigationBar.Item>
+          );
+        },
+      );
     }
 
     desktopNavigation = (

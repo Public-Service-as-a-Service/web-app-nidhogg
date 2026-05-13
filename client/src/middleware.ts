@@ -1,18 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
-import { decodeJwt } from "jose";
 import {
   PAGE_ROUTES,
   PATHS,
   STORE,
 } from "./app/constants";
+import { resolveAuthenticatedUser } from "@/utils/session";
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const authToken = req.cookies.get(STORE.authToken)?.value;
   const { pathname } = req.nextUrl;
 
   if (pathname.startsWith("/api/teamssender") && !authToken) {
     if (pathname.startsWith("/api/teamssender/callback")) {
-    return NextResponse.next();
+      return NextResponse.next();
     }
     return NextResponse.redirect(new URL(PAGE_ROUTES.home, req.url));
   }
@@ -21,27 +21,26 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL(PAGE_ROUTES.home, req.url));
   }
 
-  if (pathname === PAGE_ROUTES.home && authToken) {
-    try {
-      const payload = decodeJwt(authToken) as { role?: string };
-      const isAdmin = payload.role === "ADMIN";
+  if (authToken) {
+    const session = await resolveAuthenticatedUser(authToken);
+
+    if (!session) {
+      if (pathname === PAGE_ROUTES.home) {
+        return NextResponse.next();
+      }
+
+      return NextResponse.redirect(new URL(PAGE_ROUTES.home, req.url));
+    }
+
+    const isAdmin = session.role === "ADMIN";
+
+    if (pathname === PAGE_ROUTES.home) {
       return NextResponse.redirect(
         new URL(isAdmin ? PAGE_ROUTES.dashboardAdmin : PAGE_ROUTES.dashboard, req.url),
       );
-    } catch {
-      return NextResponse.redirect(new URL(PAGE_ROUTES.dashboard, req.url));
     }
-  }
 
-  if (authToken) {
-    try {
-      const payload = decodeJwt(authToken) as { role?: string };
-      const isAdmin = payload.role === "ADMIN";
-
-      if (!isAdmin && pathname.startsWith(PAGE_ROUTES.dashboardAdmin)) {
-        return NextResponse.redirect(new URL(PAGE_ROUTES.dashboard, req.url));
-      }
-    } catch {
+    if (!isAdmin && pathname.startsWith(PAGE_ROUTES.dashboardAdmin)) {
       return NextResponse.redirect(new URL(PAGE_ROUTES.dashboard, req.url));
     }
   }

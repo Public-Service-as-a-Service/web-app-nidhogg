@@ -1,15 +1,9 @@
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
-import { SESSION_STORAGE } from "../constants";
+import { useCurrentUser } from "../services/useCurrentUser";
 
-const useIsAdmin = () => {
-  const [isAdmin, setIsAdmin] = useState(false);
-  const pathname = usePathname();
+const useIsAdmin = (enabled = true) => {
+  const { data: currentUser } = useCurrentUser({ enabled });
 
-  useEffect(() => {
-    const role = sessionStorage.getItem(SESSION_STORAGE.userRole);
-    setIsAdmin(role === "ADMIN");
-  }, [pathname]);
+  const isAdmin = currentUser?.role === "ADMIN";
 
   return isAdmin;
 };
