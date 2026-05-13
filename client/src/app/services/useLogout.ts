@@ -1,9 +1,11 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { SESSION_STORAGE } from "../constants";
 import { API_ENDPOINTS } from "../constants";
 
 export const useLogout = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: async () => {
       const response = await axios.post(
@@ -13,7 +15,7 @@ export const useLogout = () => {
       );
       if (response) {
         sessionStorage.removeItem(SESSION_STORAGE.sessionActive);
-        sessionStorage.removeItem(SESSION_STORAGE.userRole);
+        queryClient.removeQueries({ queryKey: ["currentUser"] });
       }
       return response;
     },

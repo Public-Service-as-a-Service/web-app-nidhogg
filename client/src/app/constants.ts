@@ -79,7 +79,6 @@ export const PATHS: NavPath[] = [...USER_PATHS, ...ADMIN_PATHS];
 
 export const SESSION_STORAGE = {
   sessionActive: "sessionActive",
-  userRole: "userRole",
 };
 
 export const tailwindBreakPoint = {

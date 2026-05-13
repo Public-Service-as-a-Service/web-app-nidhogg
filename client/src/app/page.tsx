@@ -7,7 +7,7 @@ import { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
 import { Button, Input } from "@sk-web-gui/react";
 import Loading from "./components/LoadingSpinner";
-import { PAGE_ROUTES, SESSION_STORAGE } from "./constants";
+import { PAGE_ROUTES } from "./constants";
 import { LogIn } from "lucide-react";
 
 export type Credentials = {
@@ -30,13 +30,19 @@ const Login = () => {
     setError(null);
 
     mutate(credentials, {
-      onSuccess: () => {
-        const role = sessionStorage.getItem(SESSION_STORAGE.userRole);
-        router.push(role === "ADMIN" ? PAGE_ROUTES.dashboardAdmin : PAGE_ROUTES.dashboard);
+      onSuccess: (currentUser) => {
+        router.push(
+          currentUser.role === "ADMIN"
+            ? PAGE_ROUTES.dashboardAdmin
+            : PAGE_ROUTES.dashboard,
+        );
       },
       onError: (error: AxiosError) => {
         console.log(error);
-        const data = error?.response?.data as { detail?: string } | string | undefined;
+        const data = error?.response?.data as
+          | { detail?: string }
+          | string
+          | undefined;
         const detail = typeof data === "object" ? data?.detail : data;
         if (detail === "Account suspended") {
           setError(t("errors.suspended"));
@@ -45,7 +51,9 @@ const Login = () => {
         } else if (detail === "Incorrect password") {
           setError(`Inloggningen misslyckades. ${t("errors.wrongPassword")}`);
         } else {
-          setError(`Inloggningen misslyckades. ${t("errors.wrongCredentials")}`);
+          setError(
+            `Inloggningen misslyckades. ${t("errors.wrongCredentials")}`,
+          );
         }
       },
     });
@@ -60,7 +68,9 @@ const Login = () => {
     >
       <div className="mx-auto flex min-h-full w-full max-w-[300px] lg:max-w-[500px] flex-col">
         <div className="mb-40">
-          <h1 className="text-h2-sm md:text-h2-lg lg:text-h1-lg">{t("welcomeHeading")}</h1>
+          <h1 className="text-h2-sm md:text-h2-lg lg:text-h1-lg">
+            {t("welcomeHeading")}
+          </h1>
           <p className="md:text-large lg:text-h3-sm">{t("welcomeMessage")}</p>
         </div>
         <form onSubmit={handleLogin} className="flex flex-1 flex-col gap-16">
