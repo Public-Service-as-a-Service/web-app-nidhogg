@@ -8,6 +8,7 @@ interface MenuListProps {
   checkedItems: Record<string, boolean>;
   onToggle: (item: TreeMenuItem) => Promise<void> | void;
   onNavigate: (item: TreeMenuItem) => Promise<void> | void;
+  isSearchActive: boolean;
 }
 
 const MenuList = ({
@@ -15,6 +16,7 @@ const MenuList = ({
   checkedItems,
   onToggle,
   onNavigate,
+  isSearchActive,
 }: MenuListProps) => {
   return (
     <List className="menu-list-container">
@@ -25,6 +27,7 @@ const MenuList = ({
           isChecked={!!checkedItems[item.id]}
           onToggle={onToggle}
           onNavigate={onNavigate}
+          isSearchActive={isSearchActive}
         />
       ))}
     </List>

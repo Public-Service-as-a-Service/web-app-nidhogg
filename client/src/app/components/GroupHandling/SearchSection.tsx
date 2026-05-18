@@ -49,7 +49,7 @@ const SearchSection = ({
           page: page,
         });
       }
-    }, 700);
+    }, 400);
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm, page, searchEmployees, reset]);
 

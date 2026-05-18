@@ -71,7 +71,11 @@
     "allEmployeesDesc": "Skicka till samtliga medarbetare",
     "goBackButton": "Gå tillbaka",
     "nextButton": "Gå vidare",
-    "navigateInto": "Navigera in i {org}"
+    "navigateInto": "Navigera in i {org}",
+    "searchPlaceholder": "Sök i organisationer",
+    "searchNoResults": "Vi hittade inga träffar på din sökning",
+    "searchError": "Något gick fel under sökningen",
+    "searchClear": "Rensa"
   },
   "MessageStep": {
     "sectionTitle": "Skriv meddelande",
